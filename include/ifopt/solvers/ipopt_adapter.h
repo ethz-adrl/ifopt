@@ -31,7 +31,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <IpIpoptApplication.hpp>
 #include <IpSolveStatistics.hpp>
 
-#include <opt_solve/problem.h>
+#include <ifopt/problem.h>
 
 namespace opt {
 

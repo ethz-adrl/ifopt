@@ -63,8 +63,8 @@ public:
   /**
    * @brief  Creates a optimization problem with no variables, costs or constraints.
    */
-  Problem ();
-  virtual ~Problem ();
+  Problem () = default;
+  virtual ~Problem () = default;
 
   /**
    * @brief Assigns a set of optimization variables to the optimization problem.

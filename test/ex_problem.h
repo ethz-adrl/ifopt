@@ -38,7 +38,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
-#include <opt_solve/leaves.h>
+#include <ifopt/leaves.h>
 
 namespace opt {
 using Eigen::Vector2d;

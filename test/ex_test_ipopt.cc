@@ -25,7 +25,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 #include <gtest/gtest.h>
-#include <opt_solve/solvers/ipopt_adapter.h>
+#include <ifopt/solvers/ipopt_adapter.h>
 #include "ex_problem.h"
 
 using namespace opt;

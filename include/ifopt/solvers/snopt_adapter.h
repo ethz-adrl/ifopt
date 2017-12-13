@@ -29,7 +29,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <snoptProblem.hpp>
 
-#include <opt_solve/problem.h>
+#include <ifopt/problem.h>
 
 namespace opt {
 

@@ -24,7 +24,7 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <opt_solve/solvers/ipopt_adapter.h>
+#include <ifopt/solvers/ipopt_adapter.h>
 
 namespace opt {
 

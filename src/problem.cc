@@ -24,14 +24,10 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <opt_solve/problem.h>
+#include <ifopt/problem.h>
 
 
 namespace opt {
-
-Problem::Problem ()
-{
-}
 
 void
 Problem::SetVariables (const Component::Ptr& opt_variables)
@@ -171,10 +167,6 @@ Problem::VectorXd
 Problem::ConvertToEigen(const double* x) const
 {
   return Eigen::Map<const VectorXd>(x,GetNumberOfOptimizationVariables());
-}
-
-Problem::~Problem ()
-{
 }
 
 } /* namespace opt */

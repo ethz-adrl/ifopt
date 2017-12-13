@@ -25,7 +25,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 #include <gtest/gtest.h>
-#include <opt_solve/composite.h>
+#include <ifopt/composite.h>
 
 
 namespace opt {

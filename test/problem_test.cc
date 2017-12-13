@@ -26,7 +26,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <gtest/gtest.h>
 
-#include <opt_solve/leaves.h>
+#include <ifopt/leaves.h>
 
 using namespace opt;
 

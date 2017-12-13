@@ -25,7 +25,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 #include <gtest/gtest.h>
-#include <opt_solve/solvers/snopt_adapter.h>
+#include <ifopt/solvers/snopt_adapter.h>
 #include "ex_problem.h"
 
 using namespace opt;
