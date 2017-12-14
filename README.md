@@ -6,32 +6,28 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 **Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)** 
 
-This code was developed at the [Agile and Dexterous Robotics Lab](http://www.adrl.ethz.ch/doku.php), ETH Zurich. It is currently maintained at the [Robotics Systems Lab](http://www.rsl.ethz.ch/), ETH Zurich.
-
 [<img src="https://i.imgur.com/uCvLs2j.png" height="60" />](http://www.adrl.ethz.ch/doku.php)  &nbsp; &nbsp; &nbsp; &nbsp;    [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html)
 
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Installation
 
-* First you have to install [Eigen]
+* Install [Eigen]
 
       $ sudo apt-get install libeigen3-dev
     
-* Now, depending on which solver you want to use, install either [Ipopt] or [Snopt]. Follow the instructions provided here:
+* Depending on which solver you want to use, install either [Ipopt] or [Snopt]. Follow the instructions provided here:
 
-  * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
-  * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
+     * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
+     * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
 
 * In order for ifopt to know for which solvers to build the code, set the environmental variable pointing to the libraries and headers of the solver. If you have IPOPT 3.12.8 installed, add these lines to your ~/.bashrc and re-source. Alternatively you can also supply the location of the shared libraries and 
-header files directly in the CMakeLists.txt.
+header files directly in the [CMakeLists.txt](CMakeLists.txt).
 
-      export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.4
+      export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.8
      
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
-
-Vanilla cmake
 
     $ git clone https://github.com/ethz-adrl/ifopt.git
     $ cd ifopt
@@ -55,7 +51,7 @@ Make sure everything installed correctly by running the unit tests through
 
     $ make test
      
-This should solve the example problem defined in test/ex_problem.h with your installed solver. You can also execute these manually by typing 
+This should solve the [example problem](test/ex_problem.h) with your installed solver. You can also execute these manually by typing 
 
     ./test/ex_ipopt 
     ./test/ex_snopt
@@ -69,13 +65,14 @@ of if you are using [catkin]
 
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
-Checkout test/ex_problem.h to see how to specify an optimization problem. 
+Example from [test/ex_problem.h](test/ex_problem.h).
+The optimization problem to solve is defined as:
+
+<img align="center" height="100" src="https://i.imgur.com/naxXK2i.png"/>
 
 ```c++
-#include "ex_problem.h"
+#include <ifopt/test/ex_problem.h>
 #include <ifopt/solvers/ipopt_adapter.h>
-
-using namespace opt;
 
 int main() {
   Problem nlp;
@@ -83,21 +80,27 @@ int main() {
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
   nlp.AddCostSet      (std::make_shared<ExCost>());
-
+  // also possible to add more variable sets and constraints 
+  // nlp.AddVariableSet  (std::make_shared<MoreVariables>());
+  // nlp.AddConstraintSet(std::make_shared<MoreConstraint>())
+  
   IpoptAdapter::Solve(nlp); // or SnoptAdapter::Solve(nlp);
   std::cout << nlp.GetOptVariables()->GetValues();
 }
 ```
+Output:
+```bash
+0 1
+```
 
-The actual variables, cost and constraints for this problem are defined as follows.
-Add image
+In this simple example we only have one set of variables, constraints and cost. However, most real world problems have multiple different constraints and also different variable sets representing different quantities. This framework allows to define each set of variables or constraints absolutly independently from another and correctly stitches them together to form the final optimization problem.
 
+The following shows how we transform this into a solver independent optimization problem.
 ```c++
 class ExVariables : public Variable {
 public:
   ExVariables() : Variable(2, "var_set1")
-  {
-    // initial values
+  { // initial values
     x0_ = 0.0;
     x1_ = 0.0;
   }
@@ -147,17 +150,23 @@ public:
     return b;
   }
 
+  // (can also be ommited and the NLP calculates through numeric differences)
   void FillJacobianBlock (std::string var_set, Jacobian& jac) const override
   {
+    // must fill only that submatrix of the overall Jacobian that relates
+    // to this constraint and "var_set1". even if more constraints or variables
+    // classes are added, this submatrix will always start at row 0 and column 0,
+    // thereby being independent from the overall problem.
     if (var_set == "var_set1") {
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
-
+      
       jac.coeffRef(0, 0) = 2.0*x(0); // derivative of first constraint w.r.t x0
       jac.coeffRef(0, 1) = 1.0;      // derivative of first constraint w.r.t x1
     }
   }
 };
 ```
+
 
 
 ```c++
