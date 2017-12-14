@@ -188,14 +188,14 @@ public:
   void AddConstraintSet(Constraint::Ptr constraint_set)
   {
     // link with opt_variables
-    constraint_set->LinkVariables(variables_);
+    constraint_set->LinkVariableAll(variables_);
     constraints_.AddComponent(constraint_set);
   }
 
   void AddCostSet(Cost::Ptr cost_set)
   {
     // link with opt_variables
-    cost_set->LinkVariables(variables_);
+    cost_set->LinkVariableAll(variables_);
     costs_.AddComponent(cost_set);
   }
 

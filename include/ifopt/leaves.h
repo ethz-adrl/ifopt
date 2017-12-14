@@ -82,10 +82,22 @@ public:
    * @param name  What these constraints represent.
    */
   Constraint(int n_constraints, const std::string& name);
-  virtual ~Constraint() {};
+  virtual ~Constraint() = default;
 
 
-  void LinkVariables(const VariablesPtr& x) { variables_ = x; };
+
+  virtual void LinkVariableAll(const VariablesPtr& x) final
+  {
+    variables_ = x;
+    LinkVariables(x);
+  };
+
+  // can override for shorthands with more value, but musn't
+  virtual void LinkVariables(const VariablesPtr& x)
+  {
+  };
+
+
 
   /**
    * @brief  The matrix of derivatives for these constraints and variables.
