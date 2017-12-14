@@ -28,6 +28,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define OPT_SOLVE_INCLUDE_OPT_PROBLEM_H_
 
 #include "composite.h"
+#include "leaves.h"
 
 namespace opt {
 
@@ -63,23 +64,23 @@ public:
   /**
    * @brief  Creates a optimization problem with no variables, costs or constraints.
    */
-  Problem () = default;
+  Problem ();
   virtual ~Problem () = default;
 
-  /**
-   * @brief Assigns a set of optimization variables to the optimization problem.
-   */
-  void SetVariables(const Component::Ptr& variables);
+//  /**
+//   * @brief Assigns a set of optimization variables to the optimization problem.
+//   */
+//  void SetVariables(const Component::Ptr& variables);
 
-  /**
-   * @brief Assigns a set of cost terms to the optimization problem.
-   */
-  void SetCosts(Component::PtrU);
+//  /**
+//   * @brief Assigns a set of cost terms to the optimization problem.
+//   */
+//  void SetCosts(Component::PtrU);
 
-  /**
-   * @brief Assigns a set of constraints to the optimization problem.
-   */
-  void SetConstraints(Component::PtrU);
+//  /**
+//   * @brief Assigns a set of constraints to the optimization problem.
+//   */
+//  void SetConstraints(Component::PtrU);
 
   /**
    * @brief  Updates the variables with the values of the raw pointer @c x.
@@ -176,10 +177,34 @@ public:
    */
   int GetIterationCount() const { return x_prev.size(); };
 
+
+
+  void AddVariableSet(Component::Ptr variable_set)
+  {
+    variables_->AddComponent(variable_set);
+  }
+
+
+  void AddConstraintSet(Constraint::Ptr constraint_set)
+  {
+    // link with opt_variables
+    constraint_set->LinkVariables(variables_);
+    constraints_.AddComponent(constraint_set);
+  }
+
+  void AddCostSet(Cost::Ptr cost_set)
+  {
+    // link with opt_variables
+    cost_set->LinkVariables(variables_);
+    costs_.AddComponent(cost_set);
+  }
+
+
+
 private:
-  Component::PtrU constraints_;
-  Component::PtrU costs_;
-  Component::Ptr opt_variables_;
+  Composite::Ptr variables_;
+  Composite constraints_;
+  Composite costs_;
 
   std::vector<VectorXd> x_prev; ///< the pure variables for every iteration.
 

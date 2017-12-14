@@ -79,7 +79,7 @@ private:
 
 class ExConstraint : public Constraint {
 public:
-  ExConstraint(const Composite::Ptr& variables) : Constraint(variables, 1, "constraint1"){}
+  ExConstraint() : Constraint(1, "constraint1"){}
 
   virtual VectorXd GetValues() const override
   {
@@ -111,7 +111,7 @@ public:
 
 class ExCost: public Cost {
 public:
-  ExCost(const Composite::Ptr& variables) : Cost(variables,  "cost_term1") {}
+  ExCost() : Cost("cost_term1") {}
 
   virtual double GetCost() const override
   {

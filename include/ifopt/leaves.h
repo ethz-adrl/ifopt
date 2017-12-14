@@ -73,16 +73,19 @@ public:
  */
 class Constraint : public Component {
 public:
+  using Ptr          = std::shared_ptr<Constraint>;
   using VariablesPtr = Composite::Ptr;
 
   /**
    * @brief Creates constraints on the variables @c x.
-   * @param x  The variables that define the constraint.
    * @param n_constraints  The number of constraints.
    * @param name  What these constraints represent.
    */
-  Constraint(const VariablesPtr& x, int n_constraints, const std::string& name);
+  Constraint(int n_constraints, const std::string& name);
   virtual ~Constraint() {};
+
+
+  void LinkVariables(const VariablesPtr& x) { variables_ = x; };
 
   /**
    * @brief  The matrix of derivatives for these constraints and variables.
@@ -139,7 +142,7 @@ private:
  */
 class Cost : public Constraint {
 public:
-  Cost(const VariablesPtr& variables, const std::string& name);
+  Cost(const std::string& name);
   virtual ~Cost() {};
 
 private:

@@ -29,35 +29,42 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace opt {
 
-void
-Problem::SetVariables (const Component::Ptr& opt_variables)
+Problem::Problem ()
+    :constraints_("all_constraints", false),
+     costs_("all_costs", true)
 {
-  opt_variables_ = opt_variables;
-  x_prev.clear();
+  variables_ = std::make_shared<Composite>("all_variables", false);
 }
+
+//void
+//Problem::SetVariables (const Component::Ptr& opt_variables)
+//{
+//  opt_variables_ = opt_variables;
+//  x_prev.clear();
+//}
 
 int
 Problem::GetNumberOfOptimizationVariables () const
 {
-  return opt_variables_->GetRows();
+  return variables_->GetRows();
 }
 
 Problem::VecBound
 Problem::GetBoundsOnOptimizationVariables () const
 {
-  return opt_variables_->GetBounds();
+  return variables_->GetBounds();
 }
 
 Problem::VectorXd
 Problem::GetVariableValues () const
 {
-  return opt_variables_->GetValues();
+  return variables_->GetValues();
 }
 
 void
 Problem::SetVariables (const double* x)
 {
-  opt_variables_->SetVariables(ConvertToEigen(x));
+  variables_->SetVariables(ConvertToEigen(x));
 }
 
 double
@@ -66,7 +73,7 @@ Problem::EvaluateCostFunction (const double* x)
   VectorXd g = VectorXd::Zero(1);
   if (HasCostTerms()) {
     SetVariables(x);
-    g = costs_->GetValues();
+    g = costs_.GetValues();
   }
   return g(0);
 }
@@ -77,7 +84,7 @@ Problem::EvaluateCostFunctionGradient (const double* x)
   Jacobian jac = Jacobian(1,GetNumberOfOptimizationVariables());
   if (HasCostTerms()) {
     SetVariables(x);
-    jac = costs_->GetJacobian();
+    jac = costs_.GetJacobian();
   }
 
   return jac.row(0).transpose();
@@ -86,7 +93,7 @@ Problem::EvaluateCostFunctionGradient (const double* x)
 Problem::VecBound
 Problem::GetBoundsOnConstraints () const
 {
-  return constraints_->GetBounds();
+  return constraints_.GetBounds();
 }
 
 int
@@ -99,13 +106,13 @@ Problem::VectorXd
 Problem::EvaluateConstraints (const double* x)
 {
   SetVariables(x);
-  return constraints_->GetValues();
+  return constraints_.GetValues();
 }
 
 bool
 Problem::HasCostTerms () const
 {
-  return costs_->GetRows()>0;
+  return costs_.GetRows()>0;
 }
 
 void
@@ -121,33 +128,33 @@ Problem::EvalNonzerosOfJacobian (const double* x, double* values)
 Problem::Jacobian
 Problem::GetJacobianOfConstraints () const
 {
-  return constraints_->GetJacobian();
+  return constraints_.GetJacobian();
 }
 
-void
-Problem::SetCosts (Component::PtrU cost)
-{
-  costs_ = std::move(cost);
-}
+//void
+//Problem::SetCosts (Component::PtrU cost)
+//{
+//  costs_ = std::move(cost);
+//}
 
-void
-Problem::SetConstraints (Component::PtrU constraint)
-{
-  constraints_ = std::move(constraint);
-}
+//void
+//Problem::SetConstraints (Component::PtrU constraint)
+//{
+//  constraints_ = std::move(constraint);
+//}
 
 void
 Problem::PrintCurrent() const
 {
-//  opt_variables_->Print();
-//  costs_->Print();
-  constraints_->Print();
+  variables_->Print();
+//  costs_.Print();
+//  constraints_.Print();
 };
 
 void
 Problem::SaveCurrent()
 {
-  x_prev.push_back(opt_variables_->GetValues());
+  x_prev.push_back(variables_->GetValues());
 }
 
 Component::Ptr
@@ -159,8 +166,8 @@ Problem::GetOptVariables ()
 Component::Ptr
 Problem::GetOptVariables (int iter)
 {
-  opt_variables_->SetVariables(x_prev.at(iter));
-  return opt_variables_;
+  variables_->SetVariables(x_prev.at(iter));
+  return variables_;
 }
 
 Problem::VectorXd

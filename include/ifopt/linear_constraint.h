@@ -41,13 +41,11 @@ public:
   /**
    * @brief Defines the elements of the linear constraint as g = Mx+v = 0.
    *
-   * @param x  The optimization variables x.
    * @param M  The matrix M defining the slope.
    * @param v  The vector v defining the constanct offset.
    * @param variable_set  The name of the variables x.
    */
-  LinearEqualityConstraint (const VariablesPtr& x,
-                            const MatrixXd& M,
+  LinearEqualityConstraint (const MatrixXd& M,
                             const VectorXd& v,
                             const std::string& variable_set);
   virtual ~LinearEqualityConstraint ();

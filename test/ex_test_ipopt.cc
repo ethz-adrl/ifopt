@@ -33,23 +33,15 @@ using namespace opt;
 
 int main() {
 
-  auto variables = std::make_shared<Composite>("all_variables", false);
-  variables->AddComponent(std::make_shared<ExVariables>());
-
-  auto constraints = std::make_unique<Composite>("all_constraints", false);
-  constraints->AddComponent(std::make_shared<ExConstraint>(variables));
-
-  auto costs = std::make_unique<Composite>("all_costs", true);
-  costs->AddComponent(std::make_shared<ExCost>(variables));
-
   Problem nlp;
-  nlp.SetVariables(variables);
-  nlp.SetConstraints(std::move(constraints));
-  nlp.SetCosts(std::move(costs));
+
+  nlp.AddVariableSet(std::make_shared<ExVariables>());
+  nlp.AddConstraintSet(std::make_shared<ExConstraint>());
+  nlp.AddCostSet(std::make_shared<ExCost>());
 
   IpoptAdapter::Solve(nlp);
 
-  nlp.PrintCurrent();
-
-  std::cout << "\n\nx: " << variables->GetValues().transpose() << std::endl;
+  std::cout << "\n\nx: "
+            << nlp.GetOptVariables()->GetValues().transpose()
+            << std::endl;
 }

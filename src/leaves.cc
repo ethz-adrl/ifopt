@@ -29,11 +29,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace opt {
 
-Constraint::Constraint (const VariablesPtr& variables,
-            int row_count,
-            const std::string& name) : Component(row_count, name)
+Constraint::Constraint (int row_count, const std::string& name)
+    : Component(row_count, name)
 {
-  variables_ = variables;
 }
 
 Constraint::Jacobian
@@ -62,8 +60,7 @@ Constraint::GetJacobian () const
 
 
 
-Cost::Cost (const VariablesPtr& variables, const std::string& name)
-   :Constraint(variables, 1, name)
+Cost::Cost (const std::string& name) :Constraint(1, name)
 {
 }
 
