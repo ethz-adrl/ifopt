@@ -33,13 +33,12 @@ SnoptAdapter::NLPPtr SnoptAdapter::nlp_;
 void
 SnoptAdapter::Solve (Problem& ref)
 {
-  int Cold = 0, Basis = 1, Warm = 2;
-
   SnoptAdapter snopt(ref);
   snopt.Init();
   SetOptions(snopt);
 
   // error codes as given in the manual.
+  int Cold = 0; // Basis = 1, Warm = 2;
   int INFO = snopt.solve(Cold);
   int EXIT = INFO - INFO%10; // change least significant digit to zero
 

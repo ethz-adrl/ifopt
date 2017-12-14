@@ -24,17 +24,14 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <gtest/gtest.h>
+#include <iostream>
+
 #include <ifopt/solvers/snopt_adapter.h>
 #include "ex_problem.h"
 
 using namespace opt;
 
-TEST(SnoptTest, SolveProblem)
-{
-  // mostly checking for segfaults here
-  EXPECT_FALSE(false);
-
+int main() {
 
   auto variables = std::make_shared<Composite>("all_variables", false);
   variables->AddComponent(std::make_shared<ExVariables>());
