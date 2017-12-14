@@ -48,7 +48,7 @@ public:
   LinearEqualityConstraint (const MatrixXd& M,
                             const VectorXd& v,
                             const std::string& variable_set);
-  virtual ~LinearEqualityConstraint ();
+  virtual ~LinearEqualityConstraint () = default;
 
   VectorXd GetValues() const override final;
   VecBound GetBounds() const override final;

@@ -53,14 +53,14 @@ public:
   using VectorXd = Problem::VectorXd;
   using Jacobian = Problem::Jacobian;
 
-	/** @brief  Creates an IpoptAdapter and solves the NLP.
-	  * @param [in/out]  nlp  The specific problem.
-	  *
-	  * This function creates the actual solver, sets the solver specific
-	  * options (see SetOptions()) and passes the IpoptAdapter problem to it
-	  * to be modified.
-	  */
-	static void Solve(Problem& nlp);
+  /** @brief  Creates an IpoptAdapter and solves the NLP.
+    * @param [in/out]  nlp  The specific problem.
+    *
+    * This function creates the actual solver, sets the solver specific
+    * options (see SetOptions()) and passes the IpoptAdapter problem to it
+    * to be modified.
+    */
+  static void Solve(Problem& nlp);
 
 private:
   /**
@@ -85,8 +85,8 @@ private:
    *
    * This constructor holds and modifies the passed nlp.
    */
-	IpoptAdapter(Problem& nlp);
-  virtual ~IpoptAdapter();
+  IpoptAdapter(Problem& nlp);
+  virtual ~IpoptAdapter() = default;
 
   /** Method to return some info about the nlp */
   virtual bool get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,

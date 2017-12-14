@@ -30,18 +30,31 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace opt {
 
 Problem::Problem ()
-    :constraints_("all_constraints", false),
-     costs_("all_costs", true)
+    :constraints_("constraints", false),
+     costs_("costs", true)
 {
-  variables_ = std::make_shared<Composite>("all_variables", false);
+  variables_ = std::make_shared<Composite>("variables", false);
 }
 
-//void
-//Problem::SetVariables (const Component::Ptr& opt_variables)
-//{
-//  opt_variables_ = opt_variables;
-//  x_prev.clear();
-//}
+void
+Problem::AddVariableSet(Component::Ptr variable_set)
+{
+  variables_->AddComponent(variable_set);
+}
+
+void
+Problem::AddConstraintSet(Constraint::Ptr constraint_set)
+{
+  constraint_set->LinkVariableAll(variables_);
+  constraints_.AddComponent(constraint_set);
+}
+
+void
+Problem::AddCostSet(Cost::Ptr cost_set)
+{
+  cost_set->LinkVariableAll(variables_);
+  costs_.AddComponent(cost_set);
+}
 
 int
 Problem::GetNumberOfOptimizationVariables () const
@@ -131,26 +144,6 @@ Problem::GetJacobianOfConstraints () const
   return constraints_.GetJacobian();
 }
 
-//void
-//Problem::SetCosts (Component::PtrU cost)
-//{
-//  costs_ = std::move(cost);
-//}
-
-//void
-//Problem::SetConstraints (Component::PtrU constraint)
-//{
-//  constraints_ = std::move(constraint);
-//}
-
-void
-Problem::PrintCurrent() const
-{
-  variables_->Print();
-//  costs_.Print();
-//  constraints_.Print();
-};
-
 void
 Problem::SaveCurrent()
 {
@@ -169,6 +162,14 @@ Problem::GetOptVariables (int iter)
   variables_->SetVariables(x_prev.at(iter));
   return variables_;
 }
+
+void
+Problem::PrintCurrent() const
+{
+  variables_->Print();
+  costs_.Print();
+  constraints_.Print();
+};
 
 Problem::VectorXd
 Problem::ConvertToEigen(const double* x) const

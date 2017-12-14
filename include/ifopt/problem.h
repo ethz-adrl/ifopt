@@ -67,20 +67,36 @@ public:
   Problem ();
   virtual ~Problem () = default;
 
-//  /**
-//   * @brief Assigns a set of optimization variables to the optimization problem.
-//   */
-//  void SetVariables(const Component::Ptr& variables);
+  /**
+   * @brief Add one individual set of variables to the optimization problem.
+   * @param variable_set  The selection of optimization variables.
+   *
+   * This function can be called multiple times, with multiple sets, e.g.
+   * one set that parameterizes a body trajectory, the other that resembles
+   * the optimal timing values. This function correctly appends the
+   * individual variables sets and ensures correct order of Jacobian columns.
+   */
+  void AddVariableSet(Component::Ptr variable_set);
 
-//  /**
-//   * @brief Assigns a set of cost terms to the optimization problem.
-//   */
-//  void SetCosts(Component::PtrU);
+  /**
+   * @brief Add a set of multiple constraints to the optimization problem.
+   * @param constraint_set  This can be 1 to infinity number of constraints.
+   *
+   * This function can be called multiple times for different sets of
+   * constraints. It makes sure the overall constraint and Jacobian correctly
+   * considers all individual constraint sets.
+   */
+  void AddConstraintSet(Constraint::Ptr constraint_set);
 
-//  /**
-//   * @brief Assigns a set of constraints to the optimization problem.
-//   */
-//  void SetConstraints(Component::PtrU);
+  /**
+   * @brief Add a cost term to the optimization problem.
+   * @param cost_set  The calculation of the cost from the variables.
+   *
+   * This function can be called multiple times if the cost function is
+   * composed of different cost terms. It makes sure the overall value and
+   * gradient is considering each individual cost.
+   */
+  void AddCostSet(Cost::Ptr cost_set);
 
   /**
    * @brief  Updates the variables with the values of the raw pointer @c x.
@@ -150,11 +166,6 @@ public:
   Jacobian GetJacobianOfConstraints() const;
 
   /**
-   * @brief Prints the variables, costs and constraints.
-   */
-  void PrintCurrent() const;
-
-  /**
    * @brief Saves the current values of the optimization variables in x_prev.
    *
    * This is used to keep a history of the values for each NLP iterations.
@@ -177,29 +188,10 @@ public:
    */
   int GetIterationCount() const { return x_prev.size(); };
 
-
-
-  void AddVariableSet(Component::Ptr variable_set)
-  {
-    variables_->AddComponent(variable_set);
-  }
-
-
-  void AddConstraintSet(Constraint::Ptr constraint_set)
-  {
-    // link with opt_variables
-    constraint_set->LinkVariableAll(variables_);
-    constraints_.AddComponent(constraint_set);
-  }
-
-  void AddCostSet(Cost::Ptr cost_set)
-  {
-    // link with opt_variables
-    cost_set->LinkVariableAll(variables_);
-    costs_.AddComponent(cost_set);
-  }
-
-
+  /**
+   * @brief Prints the variables, costs and constraints.
+   */
+  void PrintCurrent() const;
 
 private:
   Composite::Ptr variables_;

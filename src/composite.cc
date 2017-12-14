@@ -221,7 +221,6 @@ void Component::Print () const
 void
 Composite::Print () const
 {
-//  if (GetName()=="nlp_variables" || GetName()=="constraints")
   print_counter = 0;
 
   std::cout << GetName() << ":\n";

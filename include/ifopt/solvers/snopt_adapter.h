@@ -56,7 +56,7 @@ public:
    * Snopt interface.
    */
   SnoptAdapter (Problem& nlp);
-  virtual ~SnoptAdapter ();
+  virtual ~SnoptAdapter () = default;
 
   /**
    * @brief Creates a snoptProblemA from @a nlp and solves it.

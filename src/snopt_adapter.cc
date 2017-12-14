@@ -55,26 +55,16 @@ void SnoptAdapter::SetOptions(SnoptAdapter& solver)
   // A complete list of options can be found in the snopt user guide:
   // https://web.stanford.edu/group/SOL/guides/sndoc7.pdf
 
-  // solver.setSpecsFile( "snopt.spc" ); // to set options in config file
   solver.setProbName( "snopt" );
-
   solver.setIntParameter( "Major Print level", 1 );
   solver.setIntParameter( "Minor Print level", 1 );
   solver.setParameter( "Solution");
-
   solver.setIntParameter( "Derivative option", 1 ); // 1 = snopt will not calculate missing derivatives
   solver.setIntParameter( "Verify level ", 3 ); // full check on gradients, will throw error
-
   solver.setIntParameter("Iterations limit", 200000);
-  // solver.setIntParameter("Major iterations limit", 2);
-
   solver.setRealParameter( "Major feasibility tolerance",  1.0e-3); // target nonlinear constraint violation
   solver.setRealParameter( "Minor feasibility tolerance",  1.0e-3); // for satisfying the QP bounds
   solver.setRealParameter( "Major optimality tolerance",   1.0e-2); // target complementarity gap
-
-  // solver.setIntParameter( "Crash option", 3 );
-  // solver.setIntParameter( "Hessian updates", 5 );
-  // solver.setParameter("Nonderivative linesearch");
 }
 
 SnoptAdapter::SnoptAdapter (Problem& ref)
@@ -209,10 +199,5 @@ SnoptAdapter::SetVariables ()
 {
   nlp_->SetVariables(x);
 }
-
-SnoptAdapter::~SnoptAdapter ()
-{
-}
-
 
 } /* namespace opt */

@@ -7,7 +7,6 @@ set(CMAKE_BUILD_TYPE Release)
 find_package(Eigen3 REQUIRED)
 
 
-
 ## check for which solver the interface should be compiled. This is determined
 ## from whether the environmental variable is set in the ~/.bashrc, e.g.
 ## export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.4
@@ -35,19 +34,10 @@ endif()
 
 
 
-
-
+# In case this package is build/used with catkin, this enables other packages
+# to find the headers and libraries in this package.
 find_package(catkin QUIET)
 if(catkin_FOUND)
-##################################
-# catkin specific configuration ##
-##################################
-# The catkin_package macro generates cmake config files for your package
-# Declare things to be passed to dependent projects
-# INCLUDE_DIRS: uncomment this if your package contains header files
-# LIBRARIES: libraries you create in this project that dependent projects also need
-# CATKIN_DEPENDS: catkin_packages dependent projects also need
-# DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
                ${EIGEN3_INCLUDE_DIR} 
@@ -63,12 +53,6 @@ endif()
 
 
 
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
   include
   ${EIGEN3_INCLUDE_DIR}

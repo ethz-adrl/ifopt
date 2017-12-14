@@ -65,28 +65,16 @@ IpoptAdapter::SetOptions (Ipopt::SmartPtr<Ipopt::IpoptApplication> ipopt_app_)
   // see here for explanations of the solvers: http://www.hsl.rl.ac.uk/ipopt/
   ipopt_app_->Options()->SetStringValue("linear_solver", "ma57"); // 27, 57, 77, 86, 97
   ipopt_app_->Options()->SetStringValue("hessian_approximation", "limited-memory");
-  ipopt_app_->Options()->SetNumericValue("derivative_test_tol", 1e-3);
-//  ipopt_app_->Options()->SetStringValue("jacobian_approximation", "finite-difference-values");
-//   ipopt_app_->Options()->SetStringValue("derivative_test", "first-order");
-  // ipopt_app_->Options()->SetStringValue("derivative_test", "second-order");
-
   ipopt_app_->Options()->SetNumericValue("tol", 0.001);
-  // ipopt_app_->Options()->SetNumericValue("constr_viol_tol", 1e-3);
-  // ipopt_app_->Options()->SetNumericValue("dual_inf_tol", 1e10);
-  // ipopt_app_->Options()->SetNumericValue("compl_inf_tol", 1e10);
-
   ipopt_app_->Options()->SetNumericValue("max_cpu_time", 40.0);
-  // ipopt_app_->Options()->SetIntegerValue("max_iter", 0);
-  // ipopt_app_->Options()->SetNumericValue("bound_relax_factor", 0.01);
-  // ipopt_app_->Options()->SetNumericValue("bound_frac", 0.5);
-
   ipopt_app_->Options()->SetIntegerValue("print_level", 5);
   ipopt_app_->Options()->SetStringValue("print_user_options", "yes");
   ipopt_app_->Options()->SetStringValue("print_timing_statistics", "no");
-  // ipopt_app_->Options()->SetStringValue("output_file", "ipopt.out");
 
-  // ipopt_app_->Options()->SetNumericValue("obj_scaling_factor", 10);
-  // ipopt_app_->Options()->SetStringValue("nlp_scaling_method", "none");
+  // ipopt_app_->Options()->SetIntegerValue("max_iter", 0);
+  // ipopt_app_->Options()->SetNumericValue("derivative_test_tol", 1e-3);
+  // ipopt_app_->Options()->SetStringValue("jacobian_approximation", "finite-difference-values");
+  // ipopt_app_->Options()->SetStringValue("derivative_test", "first-order"); // "second-order"
 }
 
 IpoptAdapter::IpoptAdapter(Problem& nlp)
@@ -133,10 +121,10 @@ bool IpoptAdapter::get_starting_point(Index n, bool init_x, double* x,
                                Index m, bool init_lambda,
                                double* lambda)
 {
-	// Here, we assume we only have starting values for x
-	assert(init_x == true);
-	assert(init_z == false);
-	assert(init_lambda == false);
+  // Here, we assume we only have starting values for x
+  assert(init_x == true);
+  assert(init_z == false);
+  assert(init_lambda == false);
 
   VectorXd x_all = nlp_->GetVariableValues();
   Eigen::Map<VectorXd>(&x[0], x_all.rows()) = x_all;
@@ -154,7 +142,7 @@ bool IpoptAdapter::eval_grad_f(Index n, const double* x, bool new_x, double* gra
 {
   Eigen::VectorXd grad = nlp_->EvaluateCostFunctionGradient(x);
   Eigen::Map<Eigen::MatrixXd>(grad_f,n,1) = grad;
-	return true;
+  return true;
 }
 
 bool IpoptAdapter::eval_g(Index n, const double* x, bool new_x, Index m, double* g)
@@ -168,7 +156,7 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
                        Index m, Index nele_jac, Index* iRow, Index *jCol,
                        double* values)
 {
-	// defines the positions of the nonzero elements of the jacobian
+  // defines the positions of the nonzero elements of the jacobian
   if (values == NULL) {
 
     auto jac = nlp_->GetJacobianOfConstraints();
@@ -192,33 +180,28 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
 }
 
 bool IpoptAdapter::intermediate_callback(Ipopt::AlgorithmMode mode,
-                                   Index iter, double obj_value,
-                                   double inf_pr, double inf_du,
-                                   double mu, double d_norm,
-                                   double regularization_size,
-                                   double alpha_du, double alpha_pr,
-                                   Index ls_trials,
-                                   const Ipopt::IpoptData* ip_data,
-                                   Ipopt::IpoptCalculatedQuantities* ip_cq)
+                                         Index iter, double obj_value,
+                                         double inf_pr, double inf_du,
+                                         double mu, double d_norm,
+                                         double regularization_size,
+                                         double alpha_du, double alpha_pr,
+                                         Index ls_trials,
+                                         const Ipopt::IpoptData* ip_data,
+                                         Ipopt::IpoptCalculatedQuantities* ip_cq)
 {
   nlp_->SaveCurrent();
-	return true;
+  return true;
 }
 
 void IpoptAdapter::finalize_solution(Ipopt::SolverReturn status,
-                              Index n, const double* x, const double* z_L, const double* z_U,
-                              Index m, const double* g, const double* lambda,
-                              double obj_value,
-			                        const Ipopt::IpoptData* ip_data,
-			                        Ipopt::IpoptCalculatedQuantities* ip_cq)
+                                     Index n, const double* x, const double* z_L, const double* z_U,
+                                     Index m, const double* g, const double* lambda,
+                                     double obj_value,
+                                     const Ipopt::IpoptData* ip_data,
+                                     Ipopt::IpoptCalculatedQuantities* ip_cq)
 {
-
   nlp_->SetVariables(x);
   nlp_->SaveCurrent();
-}
-
-IpoptAdapter::~IpoptAdapter ()
-{
 }
 
 } // namespace opt

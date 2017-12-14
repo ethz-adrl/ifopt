@@ -69,10 +69,5 @@ LinearEqualityConstraint::FillJacobianBlock (std::string var_set, Jacobian& jac)
     jac = M_.sparseView();
 }
 
-LinearEqualityConstraint::~LinearEqualityConstraint ()
-{
-}
-
-
 } /* namespace opt */
 

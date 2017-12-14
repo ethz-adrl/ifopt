@@ -35,9 +35,9 @@ int main() {
 
   Problem nlp;
 
-  nlp.AddVariableSet(std::make_shared<ExVariables>());
+  nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
-  nlp.AddCostSet(std::make_shared<ExCost>());
+  nlp.AddCostSet      (std::make_shared<ExCost>());
 
   IpoptAdapter::Solve(nlp);
 

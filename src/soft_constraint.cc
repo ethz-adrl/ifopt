@@ -63,8 +63,4 @@ SoftConstraint::GetJacobian () const
   return grad.transpose().sparseView();
 }
 
-SoftConstraint::~SoftConstraint ()
-{
-}
-
 } /* namespace opt */

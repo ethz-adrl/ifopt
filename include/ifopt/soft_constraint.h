@@ -53,7 +53,7 @@ public:
    * equally to the cost.
    */
   SoftConstraint (const ConstraintPtr& constraint);
-  virtual ~SoftConstraint ();
+  virtual ~SoftConstraint () = default;
 
 private:
   ConstraintPtr constraint_;
