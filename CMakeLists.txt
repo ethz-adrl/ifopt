@@ -65,8 +65,6 @@ add_library(${PROJECT_NAME}
   src/problem.cc
   src/composite.cc
   src/leaves.cc
-  src/linear_constraint.cc
-  src/soft_constraint.cc
 )
 
 # compile adapter for IPOPT 
