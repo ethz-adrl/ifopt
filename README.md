@@ -11,7 +11,7 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 The code is currently maintained at the [Robotic Systems Lab](http://www.rsl.ethz.ch/).
 
 -------
-... also we only need __928 lines of code__ to allow the generation of (1) solver indenpendent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (4) implementation of interfaces to [Ipopt] and [Snopt]. 
+... also we only need __928 lines of code__ to allow the generation of (1) solver indenpendent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
 
 <img align="center" height="150" src="https://i.imgur.com/gzLoSVU.png"/>
 
