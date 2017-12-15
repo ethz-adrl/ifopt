@@ -30,8 +30,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * costs and constraints.
  */
 
-#ifndef OPT_SOLVE_INCLUDE_OPT_COMPOSITE_H_
-#define OPT_SOLVE_INCLUDE_OPT_COMPOSITE_H_
+#ifndef IFOPT_INCLUDE_OPT_COMPOSITE_H_
+#define IFOPT_INCLUDE_OPT_COMPOSITE_H_
 
 #include <memory>
 #include <string>
@@ -68,7 +68,6 @@ namespace opt {
 class Component {
 public:
   using Ptr  = std::shared_ptr<Component>;
-  using PtrU = std::unique_ptr<Component>;
 
   using Jacobian = Eigen::SparseMatrix<double, Eigen::RowMajor>;
   using VectorXd = Eigen::VectorXd;
@@ -85,7 +84,7 @@ public:
    * @li 1 if this component represents a Cost.
    */
   Component(int num_rows, const std::string& name);
-  virtual ~Component() {};
+  virtual ~Component() = default;
 
   /**
    * @brief  Returns the "values" of whatever this component represents.
@@ -177,7 +176,7 @@ public:
    * scalar value/a single Jacobian row.
    */
   Composite(const std::string& name, bool is_cost);
-  virtual ~Composite() {};
+  virtual ~Composite() = default;
 
   // see Component for documentation
   VectorXd GetValues   () const override;
@@ -240,4 +239,4 @@ std::shared_ptr<T> Composite::GetComponent(const std::string& name) const
 
 } /* namespace opt */
 
-#endif /* OPT_SOLVE_INCLUDE_OPT_COMPOSITE_H_ */
+#endif /* IFOPT_INCLUDE_OPT_COMPOSITE_H_ */

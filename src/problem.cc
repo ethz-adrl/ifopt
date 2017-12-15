@@ -45,14 +45,14 @@ Problem::AddVariableSet(VariableSet::Ptr variable_set)
 void
 Problem::AddConstraintSet(ConstraintSet::Ptr constraint_set)
 {
-  constraint_set->LinkVariableAll(variables_);
+  constraint_set->LinkWithVariables(variables_);
   constraints_.AddComponent(constraint_set);
 }
 
 void
 Problem::AddCostSet(CostTerm::Ptr cost_set)
 {
-  cost_set->LinkVariableAll(variables_);
+  cost_set->LinkWithVariables(variables_);
   costs_.AddComponent(cost_set);
 }
 

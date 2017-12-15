@@ -29,8 +29,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief  Declares the classes Variables, Cost and Constraint.
  */
 
-#ifndef OPT_SOLVE_INCLUDE_OPT_LEAVES_H_
-#define OPT_SOLVE_INCLUDE_OPT_LEAVES_H_
+#ifndef IFOPT_INCLUDE_OPT_LEAVES_H_
+#define IFOPT_INCLUDE_OPT_LEAVES_H_
 
 #include "composite.h"
 
@@ -52,8 +52,8 @@ public:
    * @param n_var  Number of variables.
    * @param name   What the variables represent to (e.g. "spline coefficients").
    */
-  VariableSet(int n_var, const std::string& name) : Component(n_var, name) {};
-  virtual ~VariableSet() {};
+  VariableSet(int n_var, const std::string& name);
+  virtual ~VariableSet() = default;
 
   // doesn't exist for variables, generated run-time error when used.
   virtual Jacobian GetJacobian() const override final { assert(false); };
@@ -84,20 +84,14 @@ public:
   ConstraintSet(int n_constraints, const std::string& name);
   virtual ~ConstraintSet() = default;
 
-
-
-  virtual void LinkVariableAll(const VariablesPtr& x) final
-  {
-    variables_ = x;
-    LinkVariables(x);
-  };
-
-  // can override for shorthands with more value, but musn't
-  virtual void LinkVariables(const VariablesPtr& x)
-  {
-  };
-
-
+  /**
+   * @brief Connects the constraint with the optimization variables.
+   * @param x  A pointer to the current values of the optimization variables.
+   *
+   * The optimization variable values are necessary for calculating constraint
+   * violations and Jacobians.
+   */
+  virtual void LinkWithVariables(const VariablesPtr& x) final;
 
   /**
    * @brief  The matrix of derivatives for these constraints and variables.
@@ -138,6 +132,16 @@ private:
   virtual void FillJacobianBlock(std::string var_set, Jacobian& jac_block) const = 0;
   VariablesPtr variables_;
 
+  /**
+   * @brief  Initialize quantities that depend on the optimization variables.
+   * @param x  A pointer to the initial values of the optimization variables.
+   *
+   * Sometimes the number of constraints depends on the variable representation,
+   * or shorthands to specific variable sets want to be saved for quicker
+   * access later. This function can be overwritten for that.
+   */
+  virtual void InitVariableDependedQuantities(const VariablesPtr& x_init) {};
+
   // doesn't exist for constraints, generated run-time error when used
   virtual void SetVariables(const VectorXd& x) override final { assert(false); };
 };
@@ -155,7 +159,7 @@ private:
 class CostTerm : public ConstraintSet {
 public:
   CostTerm(const std::string& name);
-  virtual ~CostTerm() {};
+  virtual ~CostTerm() = default;
 
 private:
   /**
@@ -177,4 +181,4 @@ public:
 
 } /* namespace opt */
 
-#endif /* OPT_SOLVE_INCLUDE_OPT_LEAVES_H_ */
+#endif /* IFOPT_INCLUDE_OPT_LEAVES_H_ */

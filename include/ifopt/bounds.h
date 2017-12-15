@@ -24,8 +24,8 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#ifndef OPT_SOLVE_INCLUDE_OPT_BOUNDS_H_
-#define OPT_SOLVE_INCLUDE_OPT_BOUNDS_H_
+#ifndef IFOPT_INCLUDE_OPT_BOUNDS_H_
+#define IFOPT_INCLUDE_OPT_BOUNDS_H_
 
 namespace opt {
 
@@ -69,4 +69,4 @@ static const Bounds BoundSmallerZero = Bounds(-inf,  0.0);
 
 } // namespace opt
 
-#endif /* OPT_SOLVE_INCLUDE_OPT_BOUNDS_H_ */
+#endif /* IFOPT_INCLUDE_OPT_BOUNDS_H_ */

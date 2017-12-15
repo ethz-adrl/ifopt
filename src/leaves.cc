@@ -29,6 +29,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace opt {
 
+VariableSet::VariableSet(int n_var, const std::string& name)
+    : Component(n_var, name)
+{
+}
+
 ConstraintSet::ConstraintSet (int row_count, const std::string& name)
     : Component(row_count, name)
 {
@@ -58,7 +63,12 @@ ConstraintSet::GetJacobian () const
   return jacobian;
 }
 
-
+void
+ConstraintSet::LinkWithVariables(const VariablesPtr& x)
+{
+  variables_ = x;
+  InitVariableDependedQuantities(x);
+}
 
 CostTerm::CostTerm (const std::string& name) :ConstraintSet(1, name)
 {
@@ -70,13 +80,13 @@ CostTerm::GetValues() const
   VectorXd cost(1);
   cost(0) = GetCost();
   return cost;
-};
+}
 
 CostTerm::VecBound
 CostTerm::GetBounds() const
 {
   return VecBound(GetRows(), NoBound);
-};
+}
 
 
 } /* namespace opt */

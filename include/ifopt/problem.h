@@ -24,8 +24,8 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#ifndef OPT_SOLVE_INCLUDE_OPT_PROBLEM_H_
-#define OPT_SOLVE_INCLUDE_OPT_PROBLEM_H_
+#ifndef IFOPT_INCLUDE_OPT_PROBLEM_H_
+#define IFOPT_INCLUDE_OPT_PROBLEM_H_
 
 #include "composite.h"
 #include "leaves.h"
@@ -215,4 +215,4 @@ private:
  *  @}
  */
 
-#endif /* OPT_SOLVE_INCLUDE_OPT_PROBLEM_H_ */
+#endif /* IFOPT_INCLUDE_OPT_PROBLEM_H_ */

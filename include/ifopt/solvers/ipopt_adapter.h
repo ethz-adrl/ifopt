@@ -24,8 +24,8 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#ifndef OPT_SOLVE_INCLUDE_OPT_IPOPT_ADAPTER_H_
-#define OPT_SOLVE_INCLUDE_OPT_IPOPT_ADAPTER_H_
+#ifndef IFOPT_INCLUDE_OPT_IPOPT_ADAPTER_H_
+#define IFOPT_INCLUDE_OPT_IPOPT_ADAPTER_H_
 
 #include <IpTNLP.hpp>
 #include <IpIpoptApplication.hpp>
@@ -143,4 +143,4 @@ private:
 
 } // namespace opt
 
-#endif /* OPT_SOLVE_INCLUDE_OPT_IPOPT_ADAPTER_H_ */
+#endif /* IFOPT_INCLUDE_OPT_IPOPT_ADAPTER_H_ */
