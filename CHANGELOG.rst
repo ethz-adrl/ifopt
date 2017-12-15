@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.1 (2017-12-15)
+------------------
 * Update README.md
 * Integrate build server from rsl legged robotics
 * Create jenkins-pipeline
