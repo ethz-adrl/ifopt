@@ -34,7 +34,7 @@ namespace opt {
 /**
  * @brief Calculates the constraint violations for linear constraints.
  */
-class LinearEqualityConstraint : public Constraint {
+class LinearEqualityConstraint : public ConstraintSet {
 public:
   using MatrixXd = Eigen::MatrixXd;
 

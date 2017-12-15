@@ -31,7 +31,8 @@ if(GTEST_FOUND)
   
   add_executable(${PROJECT_NAME}_test
                  gtest_main.cc 
-                 composite_test.cc)
+                 composite_test.cc
+                 problem_test.cc)
   
   target_link_libraries(${PROJECT_NAME}_test
                         ${PROJECT_NAME}

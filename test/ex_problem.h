@@ -44,24 +44,23 @@ namespace opt {
 using Eigen::Vector2d;
 
 
-class ExVariables : public Variable {
+class ExVariables : public VariableSet {
 public:
-  ExVariables() : Variable(2, "var_set1")
-  {
-    // initial values
-    x0_ = 0.0;
-    x1_ = 0.0;
+  ExVariables() : ExVariables("var_set1") {};
+  ExVariables(const std::string& name) : VariableSet(2, name)
+  { // initial values
+    x_(0) = 0.0;
+    x_(1) = 0.0;
   }
 
   virtual void SetVariables(const VectorXd& x)
   {
-    x0_ = x(0);
-    x1_ = x(1);
+    x_ = x;
   };
 
   virtual VectorXd GetValues() const
   {
-    return Vector2d(x0_, x1_);
+    return x_;
   };
 
   VecBound GetBounds() const override
@@ -73,13 +72,14 @@ public:
   }
 
 private:
-  double x0_, x1_;
+  Vector2d x_;
 };
 
 
-class ExConstraint : public Constraint {
+class ExConstraint : public ConstraintSet {
 public:
-  ExConstraint() : Constraint(1, "constraint1"){}
+  ExConstraint() : ExConstraint("constraint1") {}
+  ExConstraint(const std::string& name) : ConstraintSet(1, name) {}
 
   virtual VectorXd GetValues() const override
   {
@@ -109,9 +109,10 @@ public:
 };
 
 
-class ExCost: public Cost {
+class ExCost: public CostTerm {
 public:
-  ExCost() : Cost("cost_term1") {}
+  ExCost() : ExCost("cost_term1") {}
+  ExCost(const std::string& name) : CostTerm(name) {}
 
   virtual double GetCost() const override
   {

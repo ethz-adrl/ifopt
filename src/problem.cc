@@ -37,20 +37,20 @@ Problem::Problem ()
 }
 
 void
-Problem::AddVariableSet(Component::Ptr variable_set)
+Problem::AddVariableSet(VariableSet::Ptr variable_set)
 {
   variables_->AddComponent(variable_set);
 }
 
 void
-Problem::AddConstraintSet(Constraint::Ptr constraint_set)
+Problem::AddConstraintSet(ConstraintSet::Ptr constraint_set)
 {
   constraint_set->LinkVariableAll(variables_);
   constraints_.AddComponent(constraint_set);
 }
 
 void
-Problem::AddCostSet(Cost::Ptr cost_set)
+Problem::AddCostSet(CostTerm::Ptr cost_set)
 {
   cost_set->LinkVariableAll(variables_);
   costs_.AddComponent(cost_set);

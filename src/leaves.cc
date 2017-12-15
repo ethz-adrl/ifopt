@@ -29,13 +29,13 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace opt {
 
-Constraint::Constraint (int row_count, const std::string& name)
+ConstraintSet::ConstraintSet (int row_count, const std::string& name)
     : Component(row_count, name)
 {
 }
 
-Constraint::Jacobian
-Constraint::GetJacobian () const
+ConstraintSet::Jacobian
+ConstraintSet::GetJacobian () const
 {
   Jacobian jacobian(GetRows(), variables_->GetRows());
 
@@ -60,20 +60,20 @@ Constraint::GetJacobian () const
 
 
 
-Cost::Cost (const std::string& name) :Constraint(1, name)
+CostTerm::CostTerm (const std::string& name) :ConstraintSet(1, name)
 {
 }
 
-Cost::VectorXd
-Cost::GetValues() const
+CostTerm::VectorXd
+CostTerm::GetValues() const
 {
   VectorXd cost(1);
   cost(0) = GetCost();
   return cost;
 };
 
-Cost::VecBound
-Cost::GetBounds() const
+CostTerm::VecBound
+CostTerm::GetBounds() const
 {
   return VecBound(GetRows(), NoBound);
 };

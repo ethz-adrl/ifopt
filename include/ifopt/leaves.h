@@ -45,15 +45,15 @@ namespace opt {
  *
  * @sa Component
  */
-class Variable : public Component {
+class VariableSet : public Component {
 public:
   /**
    * @brief Creates a set of variables representing a single concept.
    * @param n_var  Number of variables.
    * @param name   What the variables represent to (e.g. "spline coefficients").
    */
-  Variable(int n_var, const std::string& name) : Component(n_var, name) {};
-  virtual ~Variable() {};
+  VariableSet(int n_var, const std::string& name) : Component(n_var, name) {};
+  virtual ~VariableSet() {};
 
   // doesn't exist for variables, generated run-time error when used.
   virtual Jacobian GetJacobian() const override final { assert(false); };
@@ -71,9 +71,9 @@ public:
  *
  * @sa Component
  */
-class Constraint : public Component {
+class ConstraintSet : public Component {
 public:
-  using Ptr          = std::shared_ptr<Constraint>;
+  using Ptr          = std::shared_ptr<ConstraintSet>;
   using VariablesPtr = Composite::Ptr;
 
   /**
@@ -81,8 +81,8 @@ public:
    * @param n_constraints  The number of constraints.
    * @param name  What these constraints represent.
    */
-  Constraint(int n_constraints, const std::string& name);
-  virtual ~Constraint() = default;
+  ConstraintSet(int n_constraints, const std::string& name);
+  virtual ~ConstraintSet() = default;
 
 
 
@@ -152,10 +152,10 @@ private:
  *
  * @sa Component
  */
-class Cost : public Constraint {
+class CostTerm : public ConstraintSet {
 public:
-  Cost(const std::string& name);
-  virtual ~Cost() {};
+  CostTerm(const std::string& name);
+  virtual ~CostTerm() {};
 
 private:
   /**

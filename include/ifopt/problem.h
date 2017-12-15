@@ -76,7 +76,7 @@ public:
    * the optimal timing values. This function correctly appends the
    * individual variables sets and ensures correct order of Jacobian columns.
    */
-  void AddVariableSet(Component::Ptr variable_set);
+  void AddVariableSet(VariableSet::Ptr variable_set);
 
   /**
    * @brief Add a set of multiple constraints to the optimization problem.
@@ -86,7 +86,7 @@ public:
    * constraints. It makes sure the overall constraint and Jacobian correctly
    * considers all individual constraint sets.
    */
-  void AddConstraintSet(Constraint::Ptr constraint_set);
+  void AddConstraintSet(ConstraintSet::Ptr constraint_set);
 
   /**
    * @brief Add a cost term to the optimization problem.
@@ -96,7 +96,7 @@ public:
    * composed of different cost terms. It makes sure the overall value and
    * gradient is considering each individual cost.
    */
-  void AddCostSet(Cost::Ptr cost_set);
+  void AddCostSet(CostTerm::Ptr cost_set);
 
   /**
    * @brief  Updates the variables with the values of the raw pointer @c x.
