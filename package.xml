@@ -1,18 +1,22 @@
 <?xml version="1.0"?>
+
 <package format="2">
   <name>ifopt</name>
-  <version>0.0.1</version>
+  <version>0.0.0</version>
   <description>
     Provides a unified 
     <a href="http://eigen.tuxfamily.org">Eigen-</a>
     based interface to use Nonlinear Programming solvers such as 
-    <a href="https://projects.coin-or.org/Ipopt">Ipopt</a> or
+    <a href="https://projects.coin-or.org/Ipopt">Ipopt</a> and
     <a href="http://ampl.com/products/solvers/solvers-we-sell/snopt/">Snopt</a>.
   </description>
 
   <author email="winklera@ethz.ch">Alexander W. Winkler</author>
   <maintainer email="winklera@ethz.ch">Alexander W. Winkler</maintainer>
   <license>BSD</license>
+  
+  <url type="website">https://github.com/ethz-adrl/ifopt</url>
+  <url type="bugtracker">https://github.com/ethz-adrl/ifopt/issues</url>
   
   <buildtool_depend>catkin</buildtool_depend>
   <depend>eigen</depend>
