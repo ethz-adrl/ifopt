@@ -6,9 +6,9 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 **Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)** 
 
-The code is currently maintained at the [Robotic Systems Lab](http://www.rsl.ethz.ch/).
-
 [<img src="https://i.imgur.com/uCvLs2j.png" height="60" />](http://www.adrl.ethz.ch/doku.php)  &nbsp; &nbsp; &nbsp; &nbsp;    [<img src="https://i.imgur.com/aGOnNTZ.png" height="60" />](https://www.ethz.ch/en.html)
+
+The code is currently maintained at the [Robotic Systems Lab](http://www.rsl.ethz.ch/).
 
 
 
@@ -23,13 +23,12 @@ The code is currently maintained at the [Robotic Systems Lab](http://www.rsl.eth
      * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
      * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
 
-* In order for ifopt to know for which solvers to build the code, set the environmental variable pointing to the libraries and headers of the solver. If you have IPOPT 3.12.8 installed, add these lines to your ~/.bashrc and re-source. Alternatively you can also supply the location of the shared libraries and 
+* In order for ifopt to know for which solvers to build the code, set the environmental variable pointing to the libraries and headers of the solver. If you have IPOPT 3.12.8 installed, add `export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.8` to your ~/.bashrc and re-source. Alternatively you can also supply the location of the shared libraries and 
 header files directly in the [CMakeLists.txt](CMakeLists.txt).
-
-      export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.8
      
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
+Vanilla cmake as
 
     $ git clone https://github.com/ethz-adrl/ifopt.git
     $ cd ifopt
@@ -38,7 +37,7 @@ header files directly in the [CMakeLists.txt](CMakeLists.txt).
     $ cmake ..
     $ make 
     
-If you are using [catkin], simply clone this repo into your catkin workspace
+or if you are using [catkin], simply clone this repo into your catkin workspace
 
     $ cd catkin_workspace/src
     $ git clone https://github.com/ethz-adrl/ifopt.git
@@ -82,9 +81,6 @@ int main() {
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
   nlp.AddCostSet      (std::make_shared<ExCost>());
-  // also possible to add more variable sets and constraints 
-  // nlp.AddVariableSet  (std::make_shared<MoreVariables>());
-  // nlp.AddConstraintSet(std::make_shared<MoreConstraint>())
   
   IpoptAdapter::Solve(nlp); // or SnoptAdapter::Solve(nlp);
   std::cout << nlp.GetOptVariables()->GetValues();
@@ -99,9 +95,9 @@ In this simple example we only have one set of variables, constraints and cost. 
 
 The following shows how we transform this into a solver independent optimization problem.
 ```c++
-class ExVariables : public Variable {
+class ExVariables : public VariableSet {
 public:
-  ExVariables() : Variable(2, "var_set1")
+  ExVariables() : VariableSet(2, "var_set1")
   { // initial values
     x0_ = 0.0;
     x1_ = 0.0;
@@ -133,9 +129,9 @@ private:
 
 
 ```c++
-class ExConstraint : public Constraint {
+class ExConstraint : public ConstraintSet {
 public:
-  ExConstraint() : Constraint(1, "constraint1"){}
+  ExConstraint() : ConstraintSet(1, "constraint1") {}
 
   virtual VectorXd GetValues() const override
   {
@@ -172,9 +168,9 @@ public:
 
 
 ```c++
-class ExCost: public Cost {
+class ExCost: public CostTerm {
 public:
-  ExCost() : Cost("cost_term1") {}
+  ExCost() : CostTerm("cost_term1") {}
 
   virtual double GetCost() const override
   {
