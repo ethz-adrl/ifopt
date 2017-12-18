@@ -33,6 +33,12 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *       0 = x0^2 + x1 - 1
  *       -1 <= x0 <= 1
  *
+ * In this simple example we only use one set of variables, constraints and
+ * cost. However, most real world problems have multiple different constraints
+ * and also different variable sets representing different quantities. This
+ * framework allows to define each set of variables or constraints absolutely
+ * independently from another and correctly stitches them together to form the
+ * final optimization problem.
  */
 
 #include <ifopt/leaves.h>
@@ -56,7 +62,7 @@ public:
   // Here is where you can transform the Eigen::Vector into whatever
   // internal representation of your variables you have (here two doubles, but
   // can also be complex classes such as splines, etc..
-  virtual void SetVariables(const VectorXd& x)
+  virtual void SetVariables(const VectorXd& x) override
   {
     x0_ = x(0);
     x1_ = x(1);
@@ -64,7 +70,7 @@ public:
 
   // Here is the reverse transformation from the internal representation to
   // to the Eigen::Vector
-  virtual VectorXd GetValues() const
+  virtual VectorXd GetValues() const override
   {
     return Vector2d(x0_, x1_);
   };

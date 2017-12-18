@@ -61,7 +61,7 @@ Make sure everything installed correctly by running the unit tests through
      
 This should solve the [example problem](test/ex_problem.h) with your installed solver. You can also execute these manually by running e.g. 
 
-    $ .ifopt/test/ipopt_test
+    $ ./ifopt/test/ipopt_test
 
 of if you are using [catkin] or 
 
@@ -72,10 +72,11 @@ of if you are using [catkin] or
      
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
-Example from [test/ex_problem.h](test/ex_problem.h).
+See [test/ex_problem.h](test/ex_problem.h) for detailed comments and explanation
+of the below code line by line.
 The optimization problem to solve is defined as:
 
-<img align="center" height="100" src="https://i.imgur.com/naxXK2i.png"/>
+<img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
 ```c++
 #include <ifopt/test/ex_problem.h>
@@ -98,9 +99,8 @@ Output:
 0 1
 ```
 
-In this simple example we only have one set of variables, constraints and cost. However, most real world problems have multiple different constraints and also different variable sets representing different quantities. This framework allows to define each set of variables or constraints absolutly independently from another and correctly stitches them together to form the final optimization problem.
-
-The following shows how we transform this into a solver independent optimization problem.
+The 3 classes representing variables, costs and constraints are defined as 
+follows:
 ```c++
 class ExVariables : public VariableSet {
 public:
@@ -155,13 +155,8 @@ public:
     return b;
   }
 
-  // (can also be ommited and the NLP calculates through numeric differences)
   void FillJacobianBlock (std::string var_set, Jacobian& jac) const override
   {
-    // must fill only that submatrix of the overall Jacobian that relates
-    // to this constraint and "var_set1". even if more constraints or variables
-    // classes are added, this submatrix will always start at row 0 and column 0,
-    // thereby being independent from the overall problem.
     if (var_set == "var_set1") {
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
       
