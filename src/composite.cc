@@ -84,7 +84,8 @@ Composite::GetComponent (std::string name) const
     if (c->GetName() == name)
       return c;
 
-  assert(false); // component with name doesn't exist
+  assert(false); // component with name doesn't exist, abort program
+  return Component::Ptr();
 }
 
 Composite::VectorXd
@@ -164,6 +165,18 @@ Composite::GetNonzeroComponents() const
 
 // some printouts for convenience
 static int print_counter = 0;
+void
+Composite::Print () const
+{
+  print_counter = 0;
+
+  std::cout << GetName() << ":\n";
+  for (auto c : GetNonzeroComponents()) {
+    std::cout << "   "; // indent components
+    c->Print();
+  }
+  std::cout << std::endl;
+}
 
 void Component::Print () const
 {
@@ -181,7 +194,7 @@ void Component::Print () const
 
   std::vector<int> viol_idx;
   double eps = 0.001; // from ipopt config file
-  for (int i=0; i<bounds.size(); ++i) {
+  for (uint i=0; i<bounds.size(); ++i) {
     double lower = bounds.at(i).lower_;
     double upper = bounds.at(i).upper_;
     double val = x(i);
@@ -199,7 +212,7 @@ void Component::Print () const
   std::cout << name_ << "\t(";
   std::cout << num_rows_ << ", " << print_counter << "-" << print_counter+num_rows_;
   std::cout << ", " << color << "nr_violated=" << viol_idx.size() << " ( ";
-  int i_print = 4;
+  uint i_print = 4;
   int nr_indices_print = viol_idx.size()<i_print? viol_idx.size() : i_print;
   for (int i=0; i<nr_indices_print; ++i)
     std::cout << viol_idx.at(i) << ", ";
@@ -216,19 +229,6 @@ void Component::Print () const
     std::cout << ",\t" << val(i);
 
   std::cout << end_string << std::endl;
-}
-
-void
-Composite::Print () const
-{
-  print_counter = 0;
-
-  std::cout << GetName() << ":\n";
-  for (auto c : GetNonzeroComponents()) {
-    std::cout << "   "; // indent components
-    c->Print();
-  }
-  std::cout << std::endl;
 }
 
 } /* namespace opt */

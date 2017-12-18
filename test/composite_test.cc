@@ -34,10 +34,10 @@ class ExComponent : public Component {
 public:
   ExComponent(int n_var, const std::string& name) : Component(n_var, name) {};
 
-  virtual VectorXd GetValues() const {};
-  virtual VecBound GetBounds() const {};
+  virtual VectorXd GetValues()   const { throw std::runtime_error("not implemented");};
+  virtual VecBound GetBounds()   const { throw std::runtime_error("not implemented");};
+  virtual Jacobian GetJacobian() const { throw std::runtime_error("not implemented");};
   virtual void SetVariables(const VectorXd& x) {};
-  virtual Jacobian GetJacobian() const {};
 };
 
 } // namespace opt
@@ -125,9 +125,6 @@ TEST(Composite, GetNonzeroComponents)
 
   EXPECT_EQ(0+1+2, comp.GetRows());
   EXPECT_EQ(2, comp.GetNonzeroComponents().size());
-
-  comp.ClearComponents();
-  EXPECT_EQ(0, comp.GetRows());
 }
 
 

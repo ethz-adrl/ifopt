@@ -32,7 +32,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace opt;
 
 int main() {
-
   Problem nlp;
 
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
@@ -41,7 +40,5 @@ int main() {
 
   IpoptAdapter::Solve(nlp);
 
-  std::cout << "\n\nx: "
-            << nlp.GetOptVariables()->GetValues().transpose()
-            << std::endl;
+  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
 }
