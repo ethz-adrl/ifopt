@@ -1,7 +1,7 @@
 ### <img src="https://i.imgur.com/Y4MsIIm.png" height="80" />
 
 [![Build Status](http://build.ros.org/buildStatus/icon?job=Ldev__ifopt__ubuntu_xenial_amd64)](http://build.ros.org/view/Ldev/job/Ldev__ifopt__ubuntu_xenial_amd64/)
-[![Build Status](https://img.shields.io/readthedocs/pip.svg)](http://docs.ros.org/api/ifopt/html/index.html)
+[<img align="center" height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/api/ifopt/html/index.html)
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
 
