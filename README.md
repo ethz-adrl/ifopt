@@ -59,18 +59,17 @@ Make sure everything installed correctly by running the unit tests through
 
     $ make test
      
-This should solve the [example problem](test/ex_problem.h) with your installed solver. You can also execute these manually by typing 
+This should solve the [example problem](test/ex_problem.h) with your installed solver. You can also execute these manually by running e.g. 
 
-    ./test/ex_ipopt 
-    ./test/ex_snopt
+    $ .ifopt/test/ipopt_test
 
-of if you are using [catkin]
+of if you are using [catkin] or 
 
-    rosrun ifopt ex_ipopt
-    rosrun ifopt ex_snopt
-    rosrun ifopt_test 
+    $ cd catkin_workspace
+    $ catkin_make run_tests
+    $ (catkin build ifopt --no-deps --verbose --catkin-make-args run_tests)
     
-
+     
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
 Example from [test/ex_problem.h](test/ex_problem.h).
@@ -82,7 +81,8 @@ The optimization problem to solve is defined as:
 #include <ifopt/test/ex_problem.h>
 #include <ifopt/solvers/ipopt_adapter.h>
 
-int main() {
+int main() 
+{
   Problem nlp;
 
   nlp.AddVariableSet  (std::make_shared<ExVariables>());

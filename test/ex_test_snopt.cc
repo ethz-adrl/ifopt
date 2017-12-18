@@ -41,7 +41,5 @@ int main() {
 
   SnoptAdapter::Solve(nlp);
 
-  std::cout << "\n\nx: "
-            << nlp.GetOptVariables()->GetValues().transpose()
-            << std::endl;
+  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
 }

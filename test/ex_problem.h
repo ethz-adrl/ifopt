@@ -25,13 +25,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 
-/** C++ Example NLP for interfacing a problem with IPOPT.
- *  MyNLP implements a C++ example showing how to interface with IPOPT
- *  through the TNLP interface. This example is designed to go along with
- *  the tutorial document (see Examples/CppTutorial/).
- *  This class implements the following NLP.
+/**
+ *  Example to generate a solver-independent formulation for the problem.
  *
- * min_x f(x) = -(x1-2)^2
+ *  min_x f(x) = -(x1-2)^2
  *  s.t.
  *       0 = x0^2 + x1 - 1
  *       -1 <= x0 <= 1
@@ -46,23 +43,33 @@ using Eigen::Vector2d;
 
 class ExVariables : public VariableSet {
 public:
+  // Every variable set has a name, here "var_set1". this allows the constraints
+  // and costs to define values and Jacobians specifically w.r.t this variable set.
   ExVariables() : ExVariables("var_set1") {};
   ExVariables(const std::string& name) : VariableSet(2, name)
-  { // initial values
-    x_(0) = 0.0;
-    x_(1) = 0.0;
+  {
+    // the initial values where the NLP starts iterating from
+    x0_ = 0.0;
+    x1_ = 0.0;
   }
 
+  // Here is where you can transform the Eigen::Vector into whatever
+  // internal representation of your variables you have (here two doubles, but
+  // can also be complex classes such as splines, etc..
   virtual void SetVariables(const VectorXd& x)
   {
-    x_ = x;
+    x0_ = x(0);
+    x1_ = x(1);
   };
 
+  // Here is the reverse transformation from the internal representation to
+  // to the Eigen::Vector
   virtual VectorXd GetValues() const
   {
-    return x_;
+    return Vector2d(x0_, x1_);
   };
 
+  // Each variable has an upper and lower bound set here
   VecBound GetBounds() const override
   {
     VecBound bounds(GetRows());
@@ -72,15 +79,19 @@ public:
   }
 
 private:
-  Vector2d x_;
+  double x0_, x1_;
 };
 
 
 class ExConstraint : public ConstraintSet {
 public:
   ExConstraint() : ExConstraint("constraint1") {}
+
+  // This constraint set just contains 1 constraint, however generally
+  // each set can contain multiple related constraints.
   ExConstraint(const std::string& name) : ConstraintSet(1, name) {}
 
+  // The constraint value minus the constant value "1", moved to bounds.
   virtual VectorXd GetValues() const override
   {
     VectorXd g(GetRows());
@@ -89,21 +100,27 @@ public:
     return g;
   };
 
+  // The only constraint in this set is bound between 1 and infinity.
+  // Constant values should always be put into GetBounds(), not GetValues().
   VecBound GetBounds() const override
   {
     VecBound b(GetRows());
-    b.at(0) = Bounds(1.0, +inf); // between 1 and inifinity
+    b.at(0) = Bounds(1.0, +inf);
     return b;
   }
 
-  void FillJacobianBlock (std::string var_set, Jacobian& jac) const override
+  void FillJacobianBlock (std::string var_set, Jacobian& jac_block) const override
   {
+    // must fill only that submatrix of the overall Jacobian that relates
+    // to this constraint and "var_set1". even if more constraints or variables
+    // classes are added, this submatrix will always start at row 0 and column 0,
+    // thereby being independent from the overall problem.
     if (var_set == "var_set1") {
 
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
 
-      jac.coeffRef(0, 0) = 2.0*x(0); // derivative of first constraint w.r.t x0
-      jac.coeffRef(0, 1) = 1.0;      // derivative of first constraint w.r.t x1
+      jac_block.coeffRef(0, 0) = 2.0*x(0); // derivative of first constraint w.r.t x0
+      jac_block.coeffRef(0, 1) = 1.0;      // derivative of first constraint w.r.t x1
     }
   }
 };
