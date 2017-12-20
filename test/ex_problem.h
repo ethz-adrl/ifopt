@@ -26,7 +26,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 /**
- *  Example to generate a solver-independent formulation for the problem.
+ *  Example to generate a solver-independent formulation for the problem, taken
+ *  from the IPOPT cpp_example.
  *
  *  min_x f(x) = -(x1-2)^2
  *  s.t.
@@ -55,8 +56,8 @@ public:
   ExVariables(const std::string& name) : VariableSet(2, name)
   {
     // the initial values where the NLP starts iterating from
-    x0_ = 0.0;
-    x1_ = 0.0;
+    x0_ = 0.5;
+    x1_ = 1.5;
   }
 
   // Here is where you can transform the Eigen::Vector into whatever
@@ -79,8 +80,8 @@ public:
   VecBound GetBounds() const override
   {
     VecBound bounds(GetRows());
-    bounds.at(0) = NoBound;
-    bounds.at(1) = Bounds(-1.0, 1.0);
+    bounds.at(0) = Bounds(-1.0, 1.0);
+    bounds.at(1) = NoBound;
     return bounds;
   }
 
@@ -121,6 +122,10 @@ public:
     // to this constraint and "var_set1". even if more constraints or variables
     // classes are added, this submatrix will always start at row 0 and column 0,
     // thereby being independent from the overall problem.
+    //
+    // can also tell the solvers to approximate the derivatives by finite
+    // differences and simply leave this function empty
+    // e.g. in ipopt_adapter.cc::SetOptions()
     if (var_set == "var_set1") {
 
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
