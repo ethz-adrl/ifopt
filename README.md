@@ -62,7 +62,8 @@ Make sure everything installed correctly by running the unit tests through
 
     $ make test
      
-This should solve the [example problem](test/ex_problem.h) with your installed solver. You can also execute these manually by running e.g. 
+This should solve the [example problem](test/ex_problem.h) with your installed solver. Assume you have [IPOPT] installed, you can also run this manually by 
+running the executable
 
     $ ./ifopt/test/ipopt_test
 
@@ -99,18 +100,19 @@ int main()
 ```
 Output:
 ```bash
-0 1
+1.0 0.0
 ```
 
 The 3 classes representing variables, costs and constraints are defined as 
-follows:
+in the following. The variables x0 and x1 with their bound -1 <= x0 <= 1 is
+formulated as follows:
 ```c++
 class ExVariables : public VariableSet {
 public:
   ExVariables() : VariableSet(2, "var_set1")
   { // initial values
-    x0_ = 0.0;
-    x1_ = 0.0;
+    x0_ = 0.5;
+    x1_ = 1.5;
   }
 
   virtual void SetVariables(const VectorXd& x)
@@ -127,8 +129,8 @@ public:
   VecBound GetBounds() const override
   {
     VecBound bounds(GetRows());
-    bounds.at(0) = NoBound;
-    bounds.at(1) = Bounds(-1.0, 1.0);
+    bounds.at(0) = Bounds(-1.0, 1.0);
+    bounds.at(1) = NoBound;
     return bounds;
   }
 
@@ -137,7 +139,7 @@ private:
 };
 ```
 
-
+The example constraint 0 = x0^2 + x1 - 1 is formulated as follows:
 ```c++
 class ExConstraint : public ConstraintSet {
 public:
@@ -171,7 +173,7 @@ public:
 ```
 
 
-
+The example cost f(x) = -(x1-2)^2 is formulated as follows:
 ```c++
 class ExCost: public CostTerm {
 public:

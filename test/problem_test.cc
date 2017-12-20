@@ -51,16 +51,16 @@ TEST(Problem, GetBoundsOnOptimizationVariables)
   EXPECT_EQ(2+2, bounds.size());
 
   // var_set0
-  EXPECT_DOUBLE_EQ(-inf, bounds.at(0).lower_);
-  EXPECT_DOUBLE_EQ(+inf, bounds.at(0).upper_);
-  EXPECT_DOUBLE_EQ(-1.0, bounds.at(1).lower_);
-  EXPECT_DOUBLE_EQ(+1.0, bounds.at(1).upper_);
+  EXPECT_DOUBLE_EQ(-1.0, bounds.at(0).lower_);
+  EXPECT_DOUBLE_EQ(+1.0, bounds.at(0).upper_);
+  EXPECT_DOUBLE_EQ(-inf, bounds.at(1).lower_);
+  EXPECT_DOUBLE_EQ(+inf, bounds.at(1).upper_);
 
   // var_set1
-  EXPECT_DOUBLE_EQ(-inf, bounds.at(2).lower_);
-  EXPECT_DOUBLE_EQ(+inf, bounds.at(2).upper_);
-  EXPECT_DOUBLE_EQ(-1.0, bounds.at(3).lower_);
-  EXPECT_DOUBLE_EQ(+1.0, bounds.at(3).upper_);
+  EXPECT_DOUBLE_EQ(-1.0, bounds.at(2).lower_);
+  EXPECT_DOUBLE_EQ(+1.0, bounds.at(2).upper_);
+  EXPECT_DOUBLE_EQ(-inf, bounds.at(3).lower_);
+  EXPECT_DOUBLE_EQ(+inf, bounds.at(3).upper_);
 }
 
 
