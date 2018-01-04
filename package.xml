@@ -2,7 +2,7 @@
 
 <package format="2">
   <name>ifopt</name>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <description>
     Provides a unified 
     <a href="http://eigen.tuxfamily.org">Eigen-</a>

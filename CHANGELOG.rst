@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.2 (2018-01-04)
+------------------
 * Devel (`#3 <https://github.com/ethz-adrl/ifopt/issues/3>`_)
   * added more explanatory message in package.xml
   * added documentations badge
