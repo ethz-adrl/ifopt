@@ -2,6 +2,22 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Devel (`#3 <https://github.com/ethz-adrl/ifopt/issues/3>`_)
+  * added more explanatory message in package.xml
+  * added documentations badge
+  * fixed bounds in example problem
+* Add documentation badge (`#2 <https://github.com/ethz-adrl/ifopt/issues/2>`_)
+  * added more explanatory message in package.xml
+  * added documentations badge
+* Merge pull request `#1 <https://github.com/ethz-adrl/ifopt/issues/1>`_ from ethz-adrl/devel
+  fix compiler warnings and build tests.
+* moved CI to ros buildfarm.
+* generate tests also with catkin if installed
+* Fixed compiler warnings.
+* Contributors: Alexander W Winkler
+
 0.0.1 (2017-12-15)
 ------------------
 * Update README.md
