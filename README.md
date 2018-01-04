@@ -2,9 +2,9 @@
 
 [![Build Status](http://build.ros.org/buildStatus/icon?job=Ldev__ifopt__ubuntu_xenial_amd64)](http://build.ros.org/view/Ldev/job/Ldev__ifopt__ubuntu_xenial_amd64/)
 [<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/api/ifopt/html/index.html)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 
 Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. This package can also be dropped in your [catkin] workspace.
 
