@@ -105,10 +105,11 @@ TEST(Problem, GetBoundsOnConstraints)
   nlp.AddConstraintSet(std::make_shared<ExConstraint>("constraint2"));
 
   auto bounds = nlp.GetBoundsOnConstraints();
-  EXPECT_DOUBLE_EQ( 1.0, bounds.at(0).lower_);
-  EXPECT_DOUBLE_EQ(+inf, bounds.at(0).upper_);
-  EXPECT_DOUBLE_EQ( 1.0, bounds.at(1).lower_);
-  EXPECT_DOUBLE_EQ(+inf, bounds.at(1).upper_);
+  // since it's an equality contraint, upper and lower bound are equal
+  EXPECT_DOUBLE_EQ(1.0, bounds.at(0).lower_);
+  EXPECT_DOUBLE_EQ(1.0, bounds.at(0).upper_);
+  EXPECT_DOUBLE_EQ(1.0, bounds.at(1).lower_);
+  EXPECT_DOUBLE_EQ(1.0, bounds.at(1).upper_);
 }
 
 

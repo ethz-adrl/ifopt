@@ -112,22 +112,6 @@ TEST(Composite, GetComponent)
 }
 
 
-TEST(Composite, GetNonzeroComponents)
-{
-  auto c1 = std::make_shared<ExComponent>(0, "component1");
-  auto c2 = std::make_shared<ExComponent>(1, "component2");
-  auto c3 = std::make_shared<ExComponent>(2, "component3");
-
-  Composite comp("composite", false);
-  comp.AddComponent(c1);
-  comp.AddComponent(c2);
-  comp.AddComponent(c3);
-
-  EXPECT_EQ(0+1+2, comp.GetRows());
-  EXPECT_EQ(2, comp.GetNonzeroComponents().size());
-}
-
-
 TEST(Composite, ClearComponents)
 {
   auto c1 = std::make_shared<ExComponent>(0, "component1");
