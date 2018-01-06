@@ -34,7 +34,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace opt {
 
 /**
- * @brief Converts an optimization problem into a SNOPT76 interface.
+ * @brief Solves the optimization problem with the new SNOPT 7.6 version.
+ *
+ * If you have an older of version of SNOPT installed, use snopt_adapter.h.
  *
  * @ingroup solvers
  *

@@ -36,7 +36,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace opt {
 
 /**
- * @brief Converts an optimization problem into an IPOPT interface.
+ * @brief Solves the optimization problem using the IPOPT solver.
  *
  * @ingroup solvers
  *
