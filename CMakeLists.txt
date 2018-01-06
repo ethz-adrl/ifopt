@@ -11,6 +11,8 @@ find_package(Eigen3 REQUIRED)
 ## from whether the environmental variable is set in the ~/.bashrc, e.g.
 ## export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.4
 ## export SNOPT_DIR=/home/path/to/snopt/snopt_lib
+## for compatibility with SNOPT 7.6. please make sure to set the variable
+## export SNOPT76 = true
 if(NOT DEFINED ENV{IPOPT_DIR})
   message(STATUS "IPOPT_DIR not set. Not compiling for IPOPT")
 else()
@@ -25,9 +27,13 @@ if(NOT DEFINED ENV{SNOPT_DIR})
   message(STATUS "SNOPT_DIR not set. Not compiling for SNOPT")
 else()
   message(STATUS "SNOPT_DIR set. Compiling with SNOPT.")
+  if($ENV{SNOPT76})
+    message(STATUS "SNOPT76 version detected")
+  endif()
   set(SNOPT_INCLUDE_DIRS $ENV{SNOPT_DIR}/include)
-  set(SNOPT_LIBRARIES $ENV{SNOPT_DIR}/lib/libsnopt7_cpp.so 
-                      $ENV{SNOPT_DIR}/lib/libsnopt7.so)
+  find_library(SNOPT_LIB1 snopt7_cpp $ENV{SNOPT_DIR}/lib)
+  find_library(SNOPT_LIB2 snopt7 $ENV{SNOPT_DIR}/lib)
+  set(SNOPT_LIBRARIES ${SNOPT_LIB1} ${SNOPT_LIB2})
   set(SNOPT_ADAPTER_LIB ifopt_snopt)
   option(SNOPT_FOUND "Build SNOPT." ON)
 endif()
@@ -74,9 +80,12 @@ endif()
 
 # compile adapter for SNOPT 
 if(SNOPT_FOUND)
+ if($ENV{SNOPT76})
+  add_library(${SNOPT_ADAPTER_LIB} src/snopt76_adapter.cc)
+ else()
   add_library(${SNOPT_ADAPTER_LIB} src/snopt_adapter.cc)
+ endif()
 endif()
-
 
 #############
 ## Testing ##
