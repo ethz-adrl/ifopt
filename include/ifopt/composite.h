@@ -146,7 +146,7 @@ public:
   static const int kSpecifyLater = -1;
 
 private:
-  int num_rows_ = 0;
+  int num_rows_ = kSpecifyLater;
   std::string name_;
 };
 
@@ -212,19 +212,13 @@ public:
   void ClearComponents();
 
   /**
-   * @brief  Builds a vector of only those components that don't have zero rows.
-   *
-   * This way components can be added to the composite just for easy access,
-   * but don't affect the computation of values, Jacobians or costs.
+   * @brief Returns read access to the components.
    */
-  ComponentVec GetNonzeroComponents() const;
+  const ComponentVec GetComponents() const;
 
 private:
-  bool is_cost_;
   ComponentVec components_;
-
-  // either deep copy or shallow copy of components_ must be chosen
-  Composite(const Composite& that) = delete;
+  bool is_cost_;
 };
 
 

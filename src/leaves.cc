@@ -45,7 +45,7 @@ ConstraintSet::GetJacobian () const
   Jacobian jacobian(GetRows(), variables_->GetRows());
 
   int col = 0;
-  for (const auto& vars : variables_->GetNonzeroComponents()) {
+  for (const auto& vars : variables_->GetComponents()) {
 
     int n = vars->GetRows();
     Jacobian jac = Jacobian(GetRows(), n);

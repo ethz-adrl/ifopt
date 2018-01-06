@@ -150,13 +150,13 @@ Problem::SaveCurrent()
   x_prev.push_back(variables_->GetValues());
 }
 
-Component::Ptr
+Composite::Ptr
 Problem::GetOptVariables ()
 {
   return GetOptVariables(GetIterationCount()-1);
 }
 
-Component::Ptr
+Composite::Ptr
 Problem::GetOptVariables (int iter)
 {
   variables_->SetVariables(x_prev.at(iter));

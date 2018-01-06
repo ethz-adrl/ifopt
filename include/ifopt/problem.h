@@ -175,13 +175,13 @@ public:
   /**
    * @brief Read/write access to the current optimization variables.
    */
-  Component::Ptr GetOptVariables();
+  Composite::Ptr GetOptVariables();
 
   /**
    * @brief Read/write access to the optimization variables at a specific
    * NLP iteration during the solving process.
    */
-  Component::Ptr GetOptVariables(int iter);
+  Composite::Ptr GetOptVariables(int iter);
 
   /**
    * @brief The number of iterations it took to solve the problem.

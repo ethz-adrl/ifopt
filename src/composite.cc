@@ -62,6 +62,9 @@ Composite::Composite (const std::string& name, bool is_cost) :Component(0, name)
 void
 Composite::AddComponent (const Component::Ptr& c)
 {
+  // at this point the number of rows must be specified.
+  assert(c->GetRows() != kSpecifyLater);
+
   components_.push_back(c);
 
   if (is_cost_)
@@ -94,7 +97,7 @@ Composite::GetValues () const
   VectorXd g_all = VectorXd::Zero(GetRows());
 
   int row = 0;
-  for (const auto& c : GetNonzeroComponents()) {
+  for (const auto& c : components_) {
 
     int n_rows = c->GetRows();
     VectorXd g = c->GetValues();
@@ -110,7 +113,7 @@ void
 Composite::SetVariables (const VectorXd& x)
 {
   int row = 0;
-  for (auto& c : GetNonzeroComponents()) {
+  for (auto& c : components_) {
 
     int n_rows = c->GetRows();
     c->SetVariables(x.middleRows(row,n_rows));
@@ -121,11 +124,11 @@ Composite::SetVariables (const VectorXd& x)
 Composite::Jacobian
 Composite::GetJacobian () const
 {
-  int n_var = GetNonzeroComponents().front()->GetJacobian().cols();
+  int n_var = components_.front()->GetJacobian().cols();
   Jacobian jacobian(GetRows(), n_var);
 
   int row = 0;
-  for (const auto& c : GetNonzeroComponents()) {
+  for (const auto& c : components_) {
 
     const Jacobian& jac = c->GetJacobian();
     for (int k=0; k<jac.outerSize(); ++k)
@@ -143,7 +146,7 @@ Composite::VecBound
 Composite::GetBounds () const
 {
   VecBound bounds_;
-  for (const auto& c : GetNonzeroComponents()) {
+  for (const auto& c : components_) {
     VecBound b = c->GetBounds();
     bounds_.insert(bounds_.end(), b.begin(), b.end());
   }
@@ -151,17 +154,11 @@ Composite::GetBounds () const
   return bounds_;
 }
 
-Composite::ComponentVec
-Composite::GetNonzeroComponents() const
+const Composite::ComponentVec
+Composite::GetComponents () const
 {
-  ComponentVec components;
-  for (const auto& c : components_)
-    if (c->GetRows() != 0 )
-      components.push_back(c);
-
-  return components;
+  return components_;
 }
-
 
 // some printouts for convenience
 static int print_counter = 0;
@@ -171,7 +168,7 @@ Composite::Print () const
   print_counter = 0;
 
   std::cout << GetName() << ":\n";
-  for (auto c : GetNonzeroComponents()) {
+  for (auto c : components_) {
     std::cout << "   "; // indent components
     c->Print();
   }
