@@ -107,25 +107,27 @@ public:
     return g;
   };
 
-  // The only constraint in this set is bound between 1 and infinity.
+  // The only constraint in this set is an equality constraint to 1.
   // Constant values should always be put into GetBounds(), not GetValues().
+  // For inequality constraints (<,>), use Bounds(x, inf) or Bounds(-inf, x).
   VecBound GetBounds() const override
   {
     VecBound b(GetRows());
-    b.at(0) = Bounds(1.0, +inf);
+    b.at(0) = Bounds(1.0, 1.0);
     return b;
   }
 
+  // This function should provides the derivative of the constraint set.
+  // can also tell the solvers to approximate the derivatives by finite
+  // differences and simply leave this function empty by setting the solver
+  // option in e.g. ipopt_adapter.cc::SetOptions():
+  // SetStringValue("jacobian_approximation", "finite-difference-values");
   void FillJacobianBlock (std::string var_set, Jacobian& jac_block) const override
   {
     // must fill only that submatrix of the overall Jacobian that relates
     // to this constraint and "var_set1". even if more constraints or variables
     // classes are added, this submatrix will always start at row 0 and column 0,
     // thereby being independent from the overall problem.
-    //
-    // can also tell the solvers to approximate the derivatives by finite
-    // differences and simply leave this function empty
-    // e.g. in ipopt_adapter.cc::SetOptions()
     if (var_set == "var_set1") {
 
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();

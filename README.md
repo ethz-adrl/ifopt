@@ -157,7 +157,7 @@ public:
   VecBound GetBounds() const override
   {
     VecBound b(GetRows());
-    b.at(0) = Bounds(1.0, +inf); // between 1 and inifinity
+    b.at(0) = Bounds(1.0, 1.0);
     return b;
   }
 
