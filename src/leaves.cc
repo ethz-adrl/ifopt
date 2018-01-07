@@ -27,7 +27,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/leaves.h>
 
 
-namespace opt {
+namespace ifopt {
 
 VariableSet::VariableSet(int n_var, const std::string& name)
     : Component(n_var, name)

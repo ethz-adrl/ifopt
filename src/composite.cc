@@ -28,7 +28,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 
-namespace opt {
+namespace ifopt {
 
 Component::Component (int num_rows, const std::string& name)
 {

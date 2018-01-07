@@ -27,7 +27,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef IFOPT_INCLUDE_OPT_BOUNDS_H_
 #define IFOPT_INCLUDE_OPT_BOUNDS_H_
 
-namespace opt {
+namespace ifopt {
 
 /**
  * @brief Upper and lower bound for optimization variables and constraints.

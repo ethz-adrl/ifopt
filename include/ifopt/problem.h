@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "composite.h"
 #include "leaves.h"
 
-namespace opt {
+namespace ifopt {
 
 /**
  * @brief A generic optimization problem with variables, costs and constraints.

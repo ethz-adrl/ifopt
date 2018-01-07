@@ -26,7 +26,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ifopt/solvers/ipopt_adapter.h>
 
-namespace opt {
+namespace ifopt {
 
 void
 IpoptAdapter::Solve (Problem& nlp)

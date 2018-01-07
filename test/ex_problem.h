@@ -44,7 +44,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ifopt/leaves.h>
 
-namespace opt {
+namespace ifopt {
 using Eigen::Vector2d;
 
 

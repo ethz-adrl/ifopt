@@ -33,7 +33,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ifopt/problem.h>
 
-namespace opt {
+namespace ifopt {
 
 /**
  * @brief Solves the optimization problem using the IPOPT solver.

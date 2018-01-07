@@ -27,7 +27,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/problem.h>
 
 
-namespace opt {
+namespace ifopt {
 
 Problem::Problem ()
     :constraints_("constraints", false),

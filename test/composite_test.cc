@@ -28,7 +28,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/composite.h>
 
 
-namespace opt {
+namespace ifopt {
 
 class ExComponent : public Component {
 public:
@@ -43,7 +43,7 @@ public:
 } // namespace opt
 
 
-using namespace opt;
+using namespace ifopt;
 
 TEST(Component, GetRows)
 {

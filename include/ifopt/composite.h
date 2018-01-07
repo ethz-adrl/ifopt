@@ -42,7 +42,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "bounds.h"
 
-namespace opt {
+namespace ifopt {
 
 /**
  * @brief Interface representing either Variable, Cost or Constraint.

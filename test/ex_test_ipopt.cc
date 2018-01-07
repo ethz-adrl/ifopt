@@ -29,7 +29,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/solvers/ipopt_adapter.h>
 #include "ex_problem.h"
 
-using namespace opt;
+using namespace ifopt;
 
 int main() {
   Problem nlp;

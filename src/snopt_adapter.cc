@@ -26,7 +26,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ifopt/solvers/snopt_adapter.h>
 
-namespace opt {
+namespace ifopt {
 
 SnoptAdapter::NLPPtr SnoptAdapter::nlp_;
 

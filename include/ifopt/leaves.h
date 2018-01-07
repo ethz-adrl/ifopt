@@ -35,7 +35,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "composite.h"
 
 
-namespace opt {
+namespace ifopt {
 
 /**
  * @brief  A container holding a set of related optimization variables.
