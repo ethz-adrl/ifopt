@@ -42,7 +42,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * final optimization problem.
  */
 
-#include <ifopt/leaves.h>
+#include <ifopt/variable_set.h>
 
 namespace ifopt {
 using Eigen::Vector2d;

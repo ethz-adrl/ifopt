@@ -24,71 +24,46 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <ifopt/variable_set.h>
-#include <ifopt/constraint_set.h>
-#include <ifopt/cost_term.h>
+#ifndef IFOPT_INCLUDE_IFOPT_COST_TERM_H_
+#define IFOPT_INCLUDE_IFOPT_COST_TERM_H_
 
+#include "constraint_set.h"
 
 namespace ifopt {
 
-VariableSet::VariableSet(int n_var, const std::string& name)
-    : Component(n_var, name)
-{
-}
+/**
+ * @brief A container holding a single cost term.
+ *
+ * This container builds a scalar cost term from the values of the variables.
+ * This can be seen as a constraint with only one row and no bounds.
+ *
+ * @sa Component
+ */
+class CostTerm : public ConstraintSet {
+public:
+  CostTerm(const std::string& name);
+  virtual ~CostTerm() = default;
 
-ConstraintSet::ConstraintSet (int row_count, const std::string& name)
-    : Component(row_count, name)
-{
-}
+private:
+  /**
+   * @brief  Returns the scalar cost term calculated from the @c variables.
+   */
+  virtual double GetCost() const = 0;
 
-ConstraintSet::Jacobian
-ConstraintSet::GetJacobian () const
-{
-  Jacobian jacobian(GetRows(), variables_->GetRows());
+public:
+  /**
+   * @brief  Wrapper function that converts double to Eigen::VectorXd.
+   */
+  virtual VectorXd GetValues() const override final;
 
-  int col = 0;
-  for (const auto& vars : variables_->GetComponents()) {
+  /**
+   * @brief  Returns infinite bounds (e.g. no bounds).
+   */
+  virtual VecBound GetBounds() const override final;
+};
 
-    int n = vars->GetRows();
-    Jacobian jac = Jacobian(GetRows(), n);
-
-    FillJacobianBlock(vars->GetName(), jac);
-
-    // insert the derivative in the correct position in the overall Jacobian
-    for (int k=0; k<jac.outerSize(); ++k)
-      for (Jacobian::InnerIterator it(jac,k); it; ++it)
-        jacobian.coeffRef(it.row(), col+it.col()) = it.value();
-
-    col += n;
-  }
-
-  return jacobian;
-}
-
-void
-ConstraintSet::LinkWithVariables(const VariablesPtr& x)
-{
-  variables_ = x;
-  InitVariableDependedQuantities(x);
-}
-
-CostTerm::CostTerm (const std::string& name) :ConstraintSet(1, name)
-{
-}
-
-CostTerm::VectorXd
-CostTerm::GetValues() const
-{
-  VectorXd cost(1);
-  cost(0) = GetCost();
-  return cost;
-}
-
-CostTerm::VecBound
-CostTerm::GetBounds() const
-{
-  return VecBound(GetRows(), NoBound);
 }
 
 
-} /* namespace opt */
+
+#endif /* IFOPT_INCLUDE_IFOPT_COST_TERM_H_ */

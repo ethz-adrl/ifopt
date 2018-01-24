@@ -151,16 +151,21 @@ Problem::SaveCurrent()
 }
 
 Composite::Ptr
-Problem::GetOptVariables ()
+Problem::GetOptVariables () const
 {
-  return GetOptVariables(GetIterationCount()-1);
+  return variables_;
 }
 
-Composite::Ptr
-Problem::GetOptVariables (int iter)
+void
+Problem::SetOptVariables (int iter)
 {
   variables_->SetVariables(x_prev.at(iter));
-  return variables_;
+}
+
+void
+Problem::SetOptVariablesFinal ()
+{
+  variables_->SetVariables(x_prev.at(GetIterationCount()-1));
 }
 
 void

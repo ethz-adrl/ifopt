@@ -71,10 +71,10 @@ IpoptAdapter::SetOptions (Ipopt::SmartPtr<Ipopt::IpoptApplication> ipopt_app_)
   ipopt_app_->Options()->SetStringValue("print_user_options", "yes");
   ipopt_app_->Options()->SetStringValue("print_timing_statistics", "no");
 
-  // ipopt_app_->Options()->SetIntegerValue("max_iter", 0);
+//   ipopt_app_->Options()->SetIntegerValue("max_iter", 1);
   // ipopt_app_->Options()->SetNumericValue("derivative_test_tol", 1e-3);
-  // ipopt_app_->Options()->SetStringValue("jacobian_approximation", "finite-difference-values");
-  // ipopt_app_->Options()->SetStringValue("derivative_test", "first-order"); // "second-order"
+//   ipopt_app_->Options()->SetStringValue("jacobian_approximation", "finite-difference-values");
+//   ipopt_app_->Options()->SetStringValue("derivative_test", "first-order"); // "second-order"
 }
 
 IpoptAdapter::IpoptAdapter(Problem& nlp)

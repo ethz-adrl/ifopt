@@ -24,45 +24,12 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-/**
- * @file   leaves.h
- * @brief  Declares the classes Variables, Cost and Constraint.
- */
-
-#ifndef IFOPT_INCLUDE_OPT_LEAVES_H_
-#define IFOPT_INCLUDE_OPT_LEAVES_H_
+#ifndef IFOPT_INCLUDE_IFOPT_CONSTRAINT_SET_H_
+#define IFOPT_INCLUDE_IFOPT_CONSTRAINT_SET_H_
 
 #include "composite.h"
 
-
 namespace ifopt {
-
-/**
- * @brief  A container holding a set of related optimization variables.
- *
- * This is a single set of variables representing a single concept, e.g
- * "spline coefficients" or "step durations".
- *
- * @sa Component
- */
-class VariableSet : public Component {
-public:
-  /**
-   * @brief Creates a set of variables representing a single concept.
-   * @param n_var  Number of variables.
-   * @param name   What the variables represent to (e.g. "spline coefficients").
-   */
-  VariableSet(int n_var, const std::string& name);
-  virtual ~VariableSet() = default;
-
-  // doesn't exist for variables, generated run-time error when used.
-  virtual Jacobian GetJacobian() const override final
-  {
-    throw std::runtime_error("not implemented for variables");
-  };
-};
-
-
 
 /**
  * @brief A container holding a set of related constraints.
@@ -150,38 +117,7 @@ private:
 };
 
 
+} // namespace ifopt
 
-/**
- * @brief A container holding a single cost term.
- *
- * This container builds a scalar cost term from the values of the variables.
- * This can be seen as a constraint with only one row and no bounds.
- *
- * @sa Component
- */
-class CostTerm : public ConstraintSet {
-public:
-  CostTerm(const std::string& name);
-  virtual ~CostTerm() = default;
 
-private:
-  /**
-   * @brief  Returns the scalar cost term calculated from the @c variables.
-   */
-  virtual double GetCost() const = 0;
-
-public:
-  /**
-   * @brief  Wrapper function that converts double to Eigen::VectorXd.
-   */
-  virtual VectorXd GetValues() const override final;
-
-  /**
-   * @brief  Returns infinite bounds (e.g. no bounds).
-   */
-  virtual VecBound GetBounds() const override final;
-};
-
-} /* namespace opt */
-
-#endif /* IFOPT_INCLUDE_OPT_LEAVES_H_ */
+#endif /* IFOPT_INCLUDE_IFOPT_CONSTRAINT_SET_H_ */

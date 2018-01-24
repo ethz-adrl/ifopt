@@ -37,8 +37,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string>
 #include <vector>
 
-#include <Eigen/Dense>
-#include <Eigen/Sparse>
+#include <Eigen/Eigen>
 
 #include "bounds.h"
 

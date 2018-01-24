@@ -27,8 +27,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef IFOPT_INCLUDE_OPT_PROBLEM_H_
 #define IFOPT_INCLUDE_OPT_PROBLEM_H_
 
-#include "composite.h"
-#include "leaves.h"
+#include "variable_set.h"
+#include "constraint_set.h"
+#include "cost_term.h"
 
 namespace ifopt {
 
@@ -175,13 +176,17 @@ public:
   /**
    * @brief Read/write access to the current optimization variables.
    */
-  Composite::Ptr GetOptVariables();
+  Composite::Ptr GetOptVariables() const;
 
   /**
-   * @brief Read/write access to the optimization variables at a specific
-   * NLP iteration during the solving process.
+   * @brief Sets the optimization variables to those at iteration iter.
    */
-  Composite::Ptr GetOptVariables(int iter);
+  void SetOptVariables(int iter);
+
+  /**
+   * @brief Sets the optimization variables to those of the final iteration.
+   */
+  void SetOptVariablesFinal();
 
   /**
    * @brief The number of iterations it took to solve the problem.
