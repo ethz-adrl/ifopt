@@ -1,35 +1,26 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ifopt_ipopt)
 
-## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  ifopt
-)
+find_package(catkin REQUIRED COMPONENTS ifopt)
 
-
-## environmental variable is set in the ~/.bashrc, e.g.
-## export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.4
-message(STATUS "IPOPT_DIR not set. Not compiling for IPOPT")
-
-message(STATUS "IPOPT_DIR set to " $ENV{IPOPT_DIR})
-set(IPOPT_INCLUDE_DIRS $ENV{IPOPT_DIR}/build/include/coin)
-set(IPOPT_LIBRARIES    $ENV{IPOPT_DIR}/build/lib/libipopt.so)
+# adapt this to point to your installed IPOPT folder
+set(IPOPT_DIR "/home/winklera/3rd_party_software/Ipopt-3.12.8")
+message(STATUS "IPOPT_DIR set to " ${IPOPT_DIR})
+set(IPOPT_INCLUDE_DIRS ${IPOPT_DIR}/build/include/coin)
+set(IPOPT_LIBRARIES    ${IPOPT_DIR}/build/lib/libipopt.so)
 
 
 ###################################
 ## catkin specific configuration ##
 ###################################
 catkin_package(
-  INCLUDE_DIRS   include
-                 ${IPOPT_INCLUDE_DIRS}
+  INCLUDE_DIRS   include ${IPOPT_INCLUDE_DIRS}
   LIBRARIES      ${PROJECT_NAME}
   CATKIN_DEPENDS ifopt
 )
+
 
 ###########
 ## Build ##
@@ -41,9 +32,7 @@ include_directories(
 )
 
 # The IPOPT solver interface
-add_library(${PROJECT_NAME}
-  src/ipopt_adapter.cc
-)
+add_library(${PROJECT_NAME} src/ipopt_adapter.cc)
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${IPOPT_LIBRARIES}
@@ -59,4 +48,3 @@ if(TARGET ${PROJECT_NAME}-test)
     ${PROJECT_NAME}
   )
 endif()
-
