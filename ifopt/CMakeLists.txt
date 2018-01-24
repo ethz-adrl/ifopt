@@ -15,16 +15,6 @@ find_package(Eigen3 REQUIRED)
 ## export SNOPT_DIR=/home/path/to/snopt/snopt_lib
 ## for compatibility with SNOPT 7.6. please make sure to set the variable
 ## export SNOPT76 = true
-if(NOT DEFINED ENV{IPOPT_DIR})
-  message(STATUS "IPOPT_DIR not set. Not compiling for IPOPT")
-else()
-  message(STATUS "IPOPT_DIR set. Compiling with IPOPT.")
-  set(IPOPT_INCLUDE_DIRS $ENV{IPOPT_DIR}/build/include/coin)
-  set(IPOPT_LIBRARIES    $ENV{IPOPT_DIR}/build/lib/libipopt.so)
-  set(IPOPT_ADAPTER_LIB ifopt_ipopt)
-  option(IPOPT_FOUND "Build IPOPT." ON)
-endif()
-
 if(NOT DEFINED ENV{SNOPT_DIR})
   message(STATUS "SNOPT_DIR not set. Not compiling for SNOPT")
 else()
@@ -49,12 +39,9 @@ if(catkin_FOUND)
 catkin_package(
   INCLUDE_DIRS include
                ${EIGEN3_INCLUDE_DIR} 
-               ${IPOPT_INCLUDE_DIRS} 
                ${SNOPT_INCLUDE_DIRS}
   LIBRARIES    ${PROJECT_NAME}
-               ${IPOPT_ADAPTER_LIB}
                ${SNOPT_ADAPTER_LIB}
-               ${IPOPT_LIBRARIES} 
                ${SNOPT_LIBRARIES}
 )
 endif()
@@ -64,7 +51,6 @@ endif()
 include_directories(
   include
   ${EIGEN3_INCLUDE_DIR}
-  ${IPOPT_INCLUDE_DIRS}
   ${SNOPT_INCLUDE_DIRS}
 )
 
@@ -75,10 +61,6 @@ add_library(${PROJECT_NAME}
   src/leaves.cc
 )
 
-# compile adapter for IPOPT 
-if(IPOPT_FOUND)
-  add_library(${IPOPT_ADAPTER_LIB} src/ipopt_adapter.cc)
-endif()
 
 # compile adapter for SNOPT 
 if(SNOPT_FOUND)

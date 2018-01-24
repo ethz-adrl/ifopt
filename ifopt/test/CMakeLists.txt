@@ -34,18 +34,6 @@ elseif(GTEST_FOUND)
 endif()                 
 
 
-# Solve example problem with IPOPT if installed
-if(IPOPT_FOUND)
-  add_executable(ipopt_test ex_test_ipopt.cc)
-  target_link_libraries(ipopt_test
-                        ${PROJECT_NAME}
-                        ${IPOPT_ADAPTER_LIB}
-                        ${IPOPT_LIBRARIES})
-  add_test(ipopt_test ipopt_test)
-endif()
-
-
-
 # Solve example problem with SNOPT if installed
 if(SNOPT_FOUND)
   add_executable(snopt_test ex_test_snopt.cc)

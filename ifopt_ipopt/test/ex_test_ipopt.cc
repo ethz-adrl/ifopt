@@ -26,25 +26,19 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 
-#ifdef SNOPT76
-  #include <ifopt/solvers/snopt76_adapter.h>
-#else
-  #include <ifopt/solvers/snopt_adapter.h>
-#endif
-
-#include "ex_problem.h"
+#include <ifopt_ipopt/ipopt_adapter.h>
+#include <ifopt/ex_problem.h>
 
 using namespace ifopt;
 
 int main() {
-
   Problem nlp;
 
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
   nlp.AddCostSet      (std::make_shared<ExCost>());
 
-  SnoptAdapter::Solve(nlp);
+  IpoptAdapter::Solve(nlp);
 
   std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
 }

@@ -26,7 +26,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <gtest/gtest.h>
 #include <ifopt/problem.h>
-#include "ex_problem.h"
+#include <ifopt/ex_problem.h>
 
 
 using namespace ifopt;
