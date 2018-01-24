@@ -21,7 +21,9 @@ set(IPOPT_INCLUDE_DIRS $ENV{IPOPT_DIR}/build/include/coin)
 set(IPOPT_LIBRARIES    $ENV{IPOPT_DIR}/build/lib/libipopt.so)
 
 
-
+###################################
+## catkin specific configuration ##
+###################################
 catkin_package(
   INCLUDE_DIRS   include
                  ${IPOPT_INCLUDE_DIRS}
@@ -32,8 +34,6 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
   include
   ${IPOPT_INCLUDE_DIRS}

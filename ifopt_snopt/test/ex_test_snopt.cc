@@ -27,9 +27,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #ifdef SNOPT76
-  #include <ifopt/solvers/snopt76_adapter.h>
+  #include <ifopt_snopt/snopt76_adapter.h>
 #else
-  #include <ifopt/solvers/snopt_adapter.h>
+  #include <ifopt_snopt/snopt_adapter.h>
 #endif
 
 #include <ifopt/ex_problem.h>

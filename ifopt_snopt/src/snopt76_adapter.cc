@@ -24,7 +24,7 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <ifopt/solvers/snopt_adapter.h>
+#include <ifopt_snopt/snopt76_adapter.h>
 
 namespace ifopt {
 
@@ -39,7 +39,21 @@ SnoptAdapter::Solve (Problem& ref)
 
   // error codes as given in the manual.
   int Cold = 0; // Basis = 1, Warm = 2;
-  int INFO = snopt.solve(Cold);
+
+  // new interface for 'Solve' using SNOPT76
+  int nS = 0; // number of super-basic variables (not relevant for cold start)
+  int nInf;   // nInf : number of constraints outside of the bounds
+  double sInf;// sInf : sum of infeasibilities
+
+   int INFO  = snopt.solve(Cold, snopt.neF, snopt.n, snopt.ObjAdd,
+                     snopt.ObjRow, &SnoptAdapter::ObjectiveAndConstraintFct,
+                     snopt.iAfun, snopt.jAvar, snopt.A, snopt.neA,
+                     snopt.iGfun, snopt.jGvar, snopt.neG,
+                     snopt.xlow, snopt.xupp, snopt.Flow, snopt.Fupp,
+                     snopt.x, snopt.xstate, snopt.xmul,
+                     snopt.F, snopt.Fstate, snopt.Fmul,
+                     nS, nInf, sInf);
+
   int EXIT = INFO - INFO%10; // change least significant digit to zero
 
   if (EXIT != 0) {
@@ -155,7 +169,12 @@ SnoptAdapter::Init ()
     }
   }
 
-  setUserFun(&SnoptAdapter::ObjectiveAndConstraintFct);
+  // Snopt76 requires initialization
+  this->initialize("", 1); // no print_file and summary ON
+
+  // Snopt76 needs to setup the workspace
+  this->setWorkspace(neF,n,neA,neG);
+
 }
 
 void

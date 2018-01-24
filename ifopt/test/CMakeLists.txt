@@ -34,16 +34,3 @@ elseif(GTEST_FOUND)
 endif()                 
 
 
-# Solve example problem with SNOPT if installed
-if(SNOPT_FOUND)
-  add_executable(snopt_test ex_test_snopt.cc)
-  if($ENV{SNOPT76})
-  	target_compile_definitions(snopt_test PRIVATE SNOPT76_ON=1)
-  endif()
-  
-  target_link_libraries(snopt_test
-                        ${PROJECT_NAME}
-                        ${SNOPT_ADAPTER_LIB}
-                        ${SNOPT_LIBRARIES})
-  add_test(snopt_test snopt_test)
-endif()
