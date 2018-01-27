@@ -2,7 +2,7 @@
 
 <package format="2">
   <name>ifopt_snopt</name>
-  <version>0.0.2</version>
+  <version>1.0.0</version>
   <description>
     The interface to solve an problem defined with ifopt using 
     <a href="http://ampl.com/products/solvers/solvers-we-sell/snopt/">Snopt</a>.

@@ -44,7 +44,7 @@ install(
 
 # Mark header files for installation
 install(
-  DIRECTORY include/${PROJECT_NAME}/
+  DIRECTORY include/ifopt/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.h"
 )
