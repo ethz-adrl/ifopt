@@ -16,6 +16,6 @@
   <url type="bugtracker">https://github.com/ethz-adrl/ifopt/issues</url>
   
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>ifopt</depend>
+  <depend>ifopt_core</depend>
 
 </package>

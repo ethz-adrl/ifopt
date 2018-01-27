@@ -4,7 +4,7 @@ project(ifopt_snopt)
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED)
-find_package(ifopt REQUIRED)
+find_package(ifopt_core REQUIRED)
 
 
 ################
@@ -35,9 +35,8 @@ endif()
 #################################
 # These can then be used to "find_package(ifopt_snopt)"
 catkin_package(
-  INCLUDE_DIRS   include ${SNOPT_INCLUDE_DIRS}
-  LIBRARIES      ${PROJECT_NAME}
-  CATKIN_DEPENDS ifopt
+  INCLUDE_DIRS include ${SNOPT_INCLUDE_DIRS} ${ifopt_core_INCLUDE_DIRS}
+  LIBRARIES    ${PROJECT_NAME}
 )
 
 
@@ -47,7 +46,7 @@ catkin_package(
 include_directories(
   include
   ${SNOPT_INCLUDE_DIRS}
-  ${ifopt_INCLUDE_DIRS}
+  ${ifopt_core_INCLUDE_DIRS}
 )
 
 if(${SNOPT76})
@@ -57,7 +56,7 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-  ${ifopt_LIBRARIES}
+  ${ifopt_core_LIBRARIES}
   ${SNOPT_LIB1}
   ${SNOPT_LIB2}
 )

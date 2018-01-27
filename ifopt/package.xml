@@ -13,7 +13,7 @@
     classes resembling variables, cost and constraints. Subsequently, the 
     problem can be efficently solved with either solver.
   </description>
-
+  
   <author email="winklera@ethz.ch">Alexander W. Winkler</author>
   <maintainer email="winklera@ethz.ch">Alexander W. Winkler</maintainer>
   <license>BSD</license>
@@ -22,6 +22,11 @@
   <url type="bugtracker">https://github.com/ethz-adrl/ifopt/issues</url>
   
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>eigen</depend>
+  <exec_depend>ifopt_core</exec_depend>
+  <exec_depend>ifopt_ipopt</exec_depend>
+  <exec_depend>ifopt_snopt</exec_depend>
 
+  <export>
+    <metapackage />
+  </export>
 </package>

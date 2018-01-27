@@ -4,7 +4,7 @@ project(ifopt_ipopt)
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED)
-find_package(ifopt  REQUIRED)
+find_package(ifopt_core  REQUIRED)
 
 
 ################
@@ -29,9 +29,8 @@ endif()
 #################################
 # These can then be used to "find_package(ifopt_ipopt)"
 catkin_package(
-  INCLUDE_DIRS   include ${IPOPT_INCLUDE_DIRS}
-  LIBRARIES      ${PROJECT_NAME}
-  CATKIN_DEPENDS ifopt
+  INCLUDE_DIRS include ${IPOPT_INCLUDE_DIRS} ${ifopt_core_INCLUDE_DIRS}
+  LIBRARIES    ${PROJECT_NAME}
 )
 
 
@@ -41,13 +40,13 @@ catkin_package(
 include_directories(
   include
   ${IPOPT_INCLUDE_DIRS}
-  ${ifopt_INCLUDE_DIRS}
+  ${ifopt_core_INCLUDE_DIRS}
 )
 
 # The IPOPT solver interface
 add_library(${PROJECT_NAME} src/ipopt_adapter.cc)
 target_link_libraries(${PROJECT_NAME}
-  ${ifopt_LIBRARIES}
+  ${ifopt_core_LIBRARIES}
   ${IPOPT_LIBRARIES}
 )
 
