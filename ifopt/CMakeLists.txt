@@ -3,7 +3,7 @@ project(ifopt)
 
 add_compile_options(-std=c++11)
 
-find_package(catkin REQUIRED COMPONENTS)
+find_package(catkin REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 
@@ -11,7 +11,7 @@ find_package(Eigen3 REQUIRED)
 ## catkin specific configuration ##
 ###################################
 catkin_package(
-  INCLUDE_DIRS include ${EIGEN3_INCLUDE_DIR} 
+  INCLUDE_DIRS include ${EIGEN3_INCLUDE_DIR}
   LIBRARIES    ${PROJECT_NAME}
 )
 
@@ -41,6 +41,7 @@ catkin_add_gtest(${PROJECT_NAME}-test
 if(TARGET ${PROJECT_NAME}-test)
   target_link_libraries(${PROJECT_NAME}-test 
     ${PROJECT_NAME}
+    pthread
   )
 endif()
 
