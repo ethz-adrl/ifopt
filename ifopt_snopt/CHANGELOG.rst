@@ -2,8 +2,8 @@
 Changelog for package ifopt_snopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2018-01-27)
+------------------
 * add ifopt metapackage for documentation
 * improve finding of ipopt/snopt installation
 * remove dependency on environmental variables

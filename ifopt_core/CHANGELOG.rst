@@ -2,8 +2,8 @@
 Changelog for package ifopt_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2018-01-27)
+------------------
 * move IPOPT and SNOPT interfaces to separate package
 * add ifopt metapackage for documentation
 * Contributors: Alexander Winkler

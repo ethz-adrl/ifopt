@@ -6,13 +6,11 @@
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
 
-Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. This package can also be dropped in your [catkin] workspace.
+Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. This package can be dropped in your [catkin] workspace.
 
-**Author/Maintainer [Alexander W. Winkler](https://awinkler.github.io/)** and [contributors :+1:](https://github.com/ethz-adrl/ifopt/graphs/contributors) 
+**Author/Maintainer [Alexander W. Winkler](https://awinkler.github.io/)**
 
-[<img src="https://i.imgur.com/uCvLs2j.png" height="60" />](http://www.adrl.ethz.ch/doku.php)  &nbsp; &nbsp; &nbsp; &nbsp;    [<img src="https://i.imgur.com/aGOnNTZ.png" height="60" />](https://www.ethz.ch/en.html)
-
-The code is currently maintained at the [Robotic Systems Lab](http://www.rsl.ethz.ch/).
+[<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 -------
 ... also we only need __928 lines of code__ to allow the generation of (1) solver indenpendent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
@@ -34,8 +32,9 @@ The code is currently maintained at the [Robotic Systems Lab](http://www.rsl.eth
      * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
      * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
 
-* In order for ifopt to know for which solvers to build the code, set the environmental variable pointing to the libraries and headers of the solver. If you have IPOPT 3.12.8 installed, add `export IPOPT_DIR=/home/path/to/ipopt/Ipopt-3.12.8` to your ~/.bashrc and re-source. Alternatively you can also supply the location of the shared libraries and 
-header files directly in the [CMakeLists.txt](CMakeLists.txt).
+* To build [ifopt_snopt] or [ifopt_ipopt] set the location of the shared 
+libraries and header files directly in the [CMakeLists.txt](ifopt_ipopt/CMakeLists.txt) 
+of the corresponding solver.
      
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
