@@ -178,7 +178,7 @@ public:
 };
 ```
 
-## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Citation
+## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Publications
 
 If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE).
 
