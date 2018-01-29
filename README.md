@@ -57,7 +57,7 @@ binary [ifopt_ipopt-test](ifopt_ipopt/test/ex_test_ipopt.cc).
      
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
-See [test/ex_problem.h](ifopt_core/test/ex_problem.h) for detailed comments and explanation
+See [test/ex_problem.h](ifopt_core/include/ifopt/ex_problem.h) for detailed comments and explanation
 of the below code line by line.
 The optimization problem to solve is defined as:
 
