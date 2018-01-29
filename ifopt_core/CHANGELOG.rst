@@ -2,6 +2,12 @@
 Changelog for package ifopt_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* update package xml
+* make eigen 3.2 compatible (remove header Eigen/Eigen)
+* Contributors: Alexander Winkler
+
 1.0.0 (2018-01-27)
 ------------------
 * move IPOPT and SNOPT interfaces to separate package

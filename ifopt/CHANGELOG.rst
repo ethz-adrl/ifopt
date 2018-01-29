@@ -2,13 +2,14 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* update package xml
+* Contributors: Alexander Winkler
+
 1.0.0 (2018-01-27)
 ------------------
-* add ifopt metapackage for documentation
-* improve finding of ipopt/snopt installation
-* remove dependency on environmental variables
-* add separate repo for snopt solver
-* separate ipopt into new repository
+* add ifopt metapackage for documentation on ROS wiki
 * Contributors: Alexander Winkler
 
 0.0.2 (2018-01-04)
