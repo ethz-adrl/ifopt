@@ -23,11 +23,9 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
 
-* Install the cmake build tool [catkin]
+* Install the cmake build tool [catkin]: ``$ sudo apt-get install ros-kinetic-catkin``
 
-* Install [Eigen]
-
-      $ sudo apt-get install libeigen3-dev
+* Install [Eigen]: ``$ sudo apt-get install libeigen3-dev``
     
 * Depending on which solver you want to use, install either [Ipopt] or [Snopt]. Follow the instructions provided here:
 
