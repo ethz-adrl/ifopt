@@ -1,6 +1,6 @@
 ### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
 
-[![Build Status](http://build.ros.org/buildStatus/icon?job=Ldev__ifopt_core__ubuntu_xenial_amd64)](http://build.ros.org/view/Ldev/job/Ldev__ifopt_core__ubuntu_xenial_amd64/)
+[![Build Status](http://build.ros.org/buildStatus/icon?job=Ldev__ifopt__ubuntu_xenial_amd64)](http://build.ros.org/view/Ldev/job/Ldev__ifopt__ubuntu_xenial_amd64/)
 [<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/api/ifopt/html/index.html)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->
