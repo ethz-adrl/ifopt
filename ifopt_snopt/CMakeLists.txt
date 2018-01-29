@@ -65,6 +65,7 @@ target_link_libraries(${PROJECT_NAME}
 #############
 ## Testing ##
 #############
+if (CATKIN_ENABLE_TESTING)
 catkin_add_gtest(${PROJECT_NAME}-test test/ex_test_snopt.cc)
 
 if(${SNOPT76})
@@ -76,4 +77,5 @@ if(TARGET ${PROJECT_NAME}-test)
     ${PROJECT_NAME}
     pthread
   )
+endif()
 endif()

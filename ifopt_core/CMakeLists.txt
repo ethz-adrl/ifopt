@@ -53,6 +53,7 @@ install(
 #############
 ## Testing ##
 #############
+if (CATKIN_ENABLE_TESTING)
 catkin_add_gtest(${PROJECT_NAME}-test
                  test/gtest_main.cc
                  test/composite_test.cc
@@ -62,5 +63,6 @@ if(TARGET ${PROJECT_NAME}-test)
     ${PROJECT_NAME}
     pthread
   )
+endif()
 endif()
 

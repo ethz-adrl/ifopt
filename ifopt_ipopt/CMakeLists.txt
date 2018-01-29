@@ -23,7 +23,6 @@ else()
 endif()
 
 
-
 #################################
 ## Generate cmake config files ##
 #################################
@@ -54,10 +53,12 @@ target_link_libraries(${PROJECT_NAME}
 #############
 ## Testing ##
 #############
+if (CATKIN_ENABLE_TESTING)
 catkin_add_gtest(${PROJECT_NAME}-test test/ex_test_ipopt.cc)
 if(TARGET ${PROJECT_NAME}-test)
   target_link_libraries(${PROJECT_NAME}-test 
     ${PROJECT_NAME}
     pthread
   )
+endif()
 endif()
