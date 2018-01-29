@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.1 (2018-01-29)
+------------------
 * update package xml
 * Contributors: Alexander Winkler
 

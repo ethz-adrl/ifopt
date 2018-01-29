@@ -2,7 +2,7 @@
 
 <package format="2">
   <name>ifopt_ipopt</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
     <description>
     The interface to solve a problem defined with 
     <a href="http://wiki.ros.org/ifopt">Ifopt</a>
