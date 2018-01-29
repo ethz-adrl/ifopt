@@ -1,6 +1,6 @@
 ### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
 
-[![Build Status](http://build.ros.org/buildStatus/icon?job=Ldev__ifopt__ubuntu_xenial_amd64)](http://build.ros.org/view/Ldev/job/Ldev__ifopt__ubuntu_xenial_amd64/)
+[![Build Status](http://build.ros.org/buildStatus/icon?job=Ldev__ifopt_core__ubuntu_xenial_amd64)](http://build.ros.org/view/Ldev/job/Ldev__ifopt_core__ubuntu_xenial_amd64/)
 [<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/api/ifopt/html/index.html)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->
@@ -21,7 +21,9 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 
 
-## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Installation
+## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
+
+* Install the cmake build tool [catkin]
 
 * Install [Eigen]
 
@@ -32,51 +34,32 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
      * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
      * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
 
-* To build [ifopt_snopt] or [ifopt_ipopt] set the location of the shared 
+* To build [ifopt_snopt](ifopt_snopt) or [ifopt_ipopt](ifopt_ipopt) set the location of the shared 
 libraries and header files directly in the [CMakeLists.txt](ifopt_ipopt/CMakeLists.txt) 
 of the corresponding solver.
      
+* Clone this repo into your [catkin] workspace and build
 
-## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
-Vanilla cmake as
-
-    $ git clone https://github.com/ethz-adrl/ifopt.git
-    $ cd ifopt
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make 
+      $ cd catkin_workspace/src
+      $ git clone https://github.com/ethz-adrl/ifopt.git
+      $ cd ..
+      $ catkin_make
     
-or if you are using [catkin], simply clone this repo into your catkin workspace
-
-    $ cd catkin_workspace/src
-    $ git clone https://github.com/ethz-adrl/ifopt.git
-    $ cd ..
-    $ catkin_make
-    
-
 
 ## <img align="center" height="20" src="https://i.imgur.com/026nVBV.png"/> Unit Tests
 
 Make sure everything installed correctly by running the unit tests through
 
-    $ make test
+    $ catkin run_tests
      
-This should solve the [example problem](test/ex_problem.h) with your installed solver. Assume you have [IPOPT] installed, you can also run this manually by 
-running the executable
-
-    $ ./ifopt/test/ipopt_test
-
-of if you are using [catkin] or 
-
-    $ cd catkin_workspace
-    $ catkin_make run_tests
-    $ (catkin build ifopt --no-deps --verbose --catkin-make-args run_tests)
+This should also solve the [example problem](ifopt_core/test/ex_problem.h) with your installed solvers. 
+If you have [IPOPT] installed and linked correctly, this should also execute the 
+binary [ifopt_ipopt-test](ifopt_ipopt/test/ex_test_ipopt.cc). 
     
      
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
-See [test/ex_problem.h](test/ex_problem.h) for detailed comments and explanation
+See [test/ex_problem.h](ifopt_core/test/ex_problem.h) for detailed comments and explanation
 of the below code line by line.
 The optimization problem to solve is defined as:
 
@@ -84,7 +67,7 @@ The optimization problem to solve is defined as:
 
 ```c++
 #include <ifopt/test/ex_problem.h>
-#include <ifopt/solvers/ipopt_adapter.h>
+#include <ifopt_ipopt/ipopt_adapter.h>
 
 int main() 
 {
@@ -199,7 +182,7 @@ public:
 
 ## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Citation
 
-If you use this work in an academic context, please cite the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE).
+If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE).
 
 
 ##  <img align="center" height="20" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
