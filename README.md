@@ -8,75 +8,56 @@
 
 Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. This package can be dropped in your [catkin] workspace.
 
-**Author/Maintainer [Alexander W. Winkler](https://awinkler.github.io/)**
+**Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)**
 
 [<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 -------
-... also we only need __928 lines of code__ to allow the generation of (1) solver indenpendent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
+... also we only need __981 lines of code__ to allow the generation of (1) solver indenpendent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
 
-<img align="center" height="150" src="https://i.imgur.com/gzLoSVU.png"/>
+<img align="center" height="150" src="https://i.imgur.com/NCPJsSw.png"/>
 
 [Why this matters](https://work.qz.com/1154701/a-short-equation-explains-why-simplicity-is-the-best-policy/)
 
 
 
-## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Installation
+## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
 
-* Install [Eigen]
+* Install the cmake build tool [catkin]: ``$ sudo apt-get install ros-kinetic-catkin``
 
-      $ sudo apt-get install libeigen3-dev
+* Install [Eigen]: ``$ sudo apt-get install libeigen3-dev``
     
 * Depending on which solver you want to use, install either [Ipopt] or [Snopt]. Follow the instructions provided here:
 
      * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
      * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
 
-* To build [ifopt_snopt] or [ifopt_ipopt] set the location of the shared 
+* To build [ifopt_snopt](ifopt_snopt) or [ifopt_ipopt](ifopt_ipopt) set the location of the shared 
 libraries and header files directly in the [CMakeLists.txt](ifopt_ipopt/CMakeLists.txt) 
 of the corresponding solver.
      
+* Clone this repo into your [catkin] workspace and build
 
-## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
-Vanilla cmake as
-
-    $ git clone https://github.com/ethz-adrl/ifopt.git
-    $ cd ifopt
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make 
+      $ cd catkin_workspace/src
+      $ git clone https://github.com/ethz-adrl/ifopt.git
+      $ cd ..
+      $ catkin_make
     
-or if you are using [catkin], simply clone this repo into your catkin workspace
-
-    $ cd catkin_workspace/src
-    $ git clone https://github.com/ethz-adrl/ifopt.git
-    $ cd ..
-    $ catkin_make
-    
-
 
 ## <img align="center" height="20" src="https://i.imgur.com/026nVBV.png"/> Unit Tests
 
 Make sure everything installed correctly by running the unit tests through
 
-    $ make test
+    $ catkin run_tests
      
-This should solve the [example problem](test/ex_problem.h) with your installed solver. Assume you have [IPOPT] installed, you can also run this manually by 
-running the executable
-
-    $ ./ifopt/test/ipopt_test
-
-of if you are using [catkin] or 
-
-    $ cd catkin_workspace
-    $ catkin_make run_tests
-    $ (catkin build ifopt --no-deps --verbose --catkin-make-args run_tests)
+This should also solve the [example problem](ifopt_core/test/ex_problem.h) with your installed solvers. 
+If you have [IPOPT] installed and linked correctly, this should also execute the 
+binary [ifopt_ipopt-test](ifopt_ipopt/test/ex_test_ipopt.cc). 
     
      
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
-See [test/ex_problem.h](test/ex_problem.h) for detailed comments and explanation
+See [test/ex_problem.h](ifopt_core/test/ex_problem.h) for detailed comments and explanation
 of the below code line by line.
 The optimization problem to solve is defined as:
 
@@ -84,7 +65,7 @@ The optimization problem to solve is defined as:
 
 ```c++
 #include <ifopt/test/ex_problem.h>
-#include <ifopt/solvers/ipopt_adapter.h>
+#include <ifopt_ipopt/ipopt_adapter.h>
 
 int main() 
 {
@@ -197,9 +178,9 @@ public:
 };
 ```
 
-## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Citation
+## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Publications
 
-If you use this work in an academic context, please cite the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE).
+If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE).
 
 
 ##  <img align="center" height="20" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
