@@ -4,11 +4,13 @@
   <name>ifopt_ipopt</name>
   <version>1.0.0</version>
     <description>
-    The interface to solve an problem defined with ifopt using 
+    The interface to solve a problem defined with 
+    <a href="http://wiki.ros.org/ifopt">Ifopt</a>
+    using
     <a href="https://projects.coin-or.org/Ipopt">Ipopt</a>.
   </description>
 
-  <author email="winklera@ethz.ch">Alexander W. Winkler</author>
+  <author>Alexander W. Winkler</author>
   <maintainer email="winklera@ethz.ch">Alexander W. Winkler</maintainer>
   <license>BSD</license>
   
