@@ -63,6 +63,27 @@ target_link_libraries(${PROJECT_NAME}
 
 
 #############
+## Install ##
+#############
+# For this to work, first make sure IPOPT headers and library are installed
+# somewhere in the default search paths.
+# Mark library for installation
+install(
+  TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+# Mark header files for installation
+install(
+  DIRECTORY include/ifopt_snopt/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+)
+
+
+#############
 ## Testing ##
 #############
 if (CATKIN_ENABLE_TESTING)
