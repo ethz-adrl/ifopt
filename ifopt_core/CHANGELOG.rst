@@ -2,6 +2,11 @@
 Changelog for package ifopt_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add correct catkin install folder for ifopt_core
+* Contributors: Alexander Winkler
+
 1.0.1 (2018-01-29)
 ------------------
 * update package xml
