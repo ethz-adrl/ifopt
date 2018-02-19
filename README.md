@@ -48,7 +48,7 @@ of the corresponding solver.
 
 Make sure everything installed correctly by running the unit tests through
 
-    $ catkin run_tests
+    $ catkin_make run_tests
      
 This should also solve the [example problem](ifopt_core/test/ex_problem.h) with your installed solvers. 
 If you have [IPOPT] installed and linked correctly, this should also execute the 
