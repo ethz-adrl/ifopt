@@ -41,7 +41,8 @@ of the corresponding solver.
       $ cd catkin_workspace/src
       $ git clone https://github.com/ethz-adrl/ifopt.git
       $ cd ..
-      $ catkin_make
+      $ catkin_make -DCMAKE_BUILD_TYPE=Release
+      $ source ./devel/setup.bash
     
 
 ## <img align="center" height="20" src="https://i.imgur.com/026nVBV.png"/> Unit Tests
@@ -57,8 +58,9 @@ binary [ifopt_ipopt-test](ifopt_ipopt/test/ex_test_ipopt.cc).
      
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
-See [test/ex_problem.h](ifopt_core/include/ifopt/ex_problem.h) for detailed comments and explanation
-of the below code line by line.
+For an example of how to use this to efficiently generate dynamic motions for legged robots, check-out [towr].
+See [test/ex_problem.h](ifopt_core/include/ifopt/ex_problem.h) for a minimal example with detailed comments and explanation
+of the below code line by line. 
 The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
@@ -191,6 +193,7 @@ Please report bugs and request features using the [Issue Tracker](https://github
 [Ipopt]: https://projects.coin-or.org/Ipopt
 [Snopt]: http://ampl.com/products/solvers/solvers-we-sell/snopt/
 [catkin]: http://wiki.ros.org/catkin
+[towr]: https://github.com/ethz-adrl/towr
 [catkin tools]: http://catkin-tools.readthedocs.org/
 [ROS]: http://www.ros.org
 [rviz]: http://wiki.ros.org/rviz
