@@ -32,7 +32,7 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
      * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
 
 * To build [ifopt_snopt](ifopt_snopt) or [ifopt_ipopt](ifopt_ipopt) set the location of the shared 
-libraries and header files directly in the [CMakeLists.txt](ifopt_ipopt/CMakeLists.txt) 
+libraries and header files directly in the [CMakeLists.txt](https://github.com/ethz-adrl/ifopt/blob/fbf7acda4e3e42711031f65e015f6c9f84c87fbd/ifopt_ipopt/CMakeLists.txt#L16-L17) 
 of the corresponding solver.
      
 * Clone this repo into your [catkin] workspace and build
