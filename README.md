@@ -12,11 +12,7 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 [<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 -------
-... also we only need __981 lines of code__ to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
-
-<img align="center" height="150" src="https://i.imgur.com/NCPJsSw.png"/>
-
-[Why this matters](https://work.qz.com/1154701/a-short-equation-explains-why-simplicity-is-the-best-policy/)
+... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
 
 
 
@@ -50,7 +46,7 @@ Make sure everything installed correctly by running the unit tests through
 
     $ catkin_make run_tests
      
-This should also solve the [example problem](ifopt_core/test/ex_problem.h) with your installed solvers. 
+This should also solve the [example problem](ifopt_core/include/ifopt/ex_problem.h) with your installed solvers. 
 If you have [IPOPT] installed and linked correctly, this should also execute the 
 binary [ifopt_ipopt-test](ifopt_ipopt/test/ex_test_ipopt.cc). 
     
