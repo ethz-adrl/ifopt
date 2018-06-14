@@ -3,10 +3,6 @@ project(ifopt_snopt)
 
 add_compile_options(-std=c++11)
 
-find_package(catkin REQUIRED)
-find_package(ifopt_core REQUIRED)
-
-
 ################
 ## Find SNOPT ##
 ################
@@ -29,16 +25,18 @@ if(${SNOPT76})
   message("SNOPT76 version >= SNOPT 7.6 detected")
 endif()
 
-
-#################################
-## Generate cmake config files ##
-#################################
-# These can then be used to "find_package(ifopt_snopt)"
-catkin_package(
-  INCLUDE_DIRS include ${SNOPT_INCLUDE_DIRS} ${ifopt_core_INCLUDE_DIRS}
-  LIBRARIES    ${PROJECT_NAME}
-)
-
+if(${CATKIN_BUILD})
+    find_package(catkin REQUIRED)
+    find_package(ifopt_core REQUIRED)
+    #################################
+    ## Generate cmake config files ##
+    #################################
+    # These can then be used to "find_package(ifopt_snopt)"
+    catkin_package(
+      INCLUDE_DIRS include ${SNOPT_INCLUDE_DIRS} ${ifopt_core_INCLUDE_DIRS}
+      LIBRARIES    ${PROJECT_NAME}
+    )
+endif()
 
 ###########
 ## Build ##
@@ -61,42 +59,69 @@ target_link_libraries(${PROJECT_NAME}
   ${SNOPT_LIB2}
 )
 
-
 #############
 ## Install ##
 #############
 # For this to work, first make sure IPOPT headers and library are installed
 # somewhere in the default search paths.
-# Mark library for installation
-install(
-  TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+if(${CATKIN_BUILD})
+    # Mark library for installation
+    install(
+      TARGETS ${PROJECT_NAME}
+      ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+      LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+      RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    )
 
-# Mark header files for installation
-install(
-  DIRECTORY include/ifopt_snopt/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
-)
+    # Mark header files for installation
+    install(
+      DIRECTORY include/ifopt_snopt/
+      DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+      FILES_MATCHING PATTERN "*.h"
+    )
 
 
-#############
-## Testing ##
-#############
-if (CATKIN_ENABLE_TESTING)
-catkin_add_gtest(${PROJECT_NAME}-test test/ex_test_snopt.cc)
+    #############
+    ## Testing ##
+    #############
+    if (CATKIN_ENABLE_TESTING)
+    catkin_add_gtest(${PROJECT_NAME}-test test/ex_test_snopt.cc)
 
-if(${SNOPT76})
-  target_compile_definitions(${PROJECT_NAME}-test PRIVATE SNOPT76_ON=1)
-endif()
+    if(${SNOPT76})
+      target_compile_definitions(${PROJECT_NAME}-test PRIVATE SNOPT76_ON=1)
+    endif()
 
-if(TARGET ${PROJECT_NAME}-test)
-  target_link_libraries(${PROJECT_NAME}-test 
-    ${PROJECT_NAME}
-    pthread
-  )
-endif()
+    if(TARGET ${PROJECT_NAME}-test)
+      target_link_libraries(${PROJECT_NAME}-test 
+        ${PROJECT_NAME}
+        pthread
+      )
+    endif()
+    endif()
+else()
+    # cmake native build
+    file(GLOB SNOPT_HFILES include/ifopt_snopt/*.h)
+    install(FILES ${SNOPT_HFILES} DESTINATION include)
+    install(TARGETS ${PROJECT_NAME} lib)
+    
+    #############
+    ## Testing ##
+    #############
+    file(GLOB SNOPT_TEST test/*.cc)
+    add_executable(${PROJECT_NAME}-test ${SNOPT_TEST})
+    
+    if(${SNOPT76})
+      target_compile_definitions(${PROJECT_NAME}-test PRIVATE SNOPT76_ON=1)
+    endif()
+    
+    target_link_libraries(${PROJECT_NAME}-test
+        ${PROJECT_NAME}
+        libgtest
+        libgmock
+        )
+    
+    add_test(
+        NAME ${PROJECT_NAME}-test
+        COMMAND ${PROJECT_NAME}-test
+        )
 endif()
