@@ -18,10 +18,11 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
 
-* Install the cmake build tool [catkin]: ``$ sudo apt-get install ros-kinetic-catkin``
+This package can be built using either [catkin] or [CMake].
 
-* Install [Eigen]: ``$ sudo apt-get install libeigen3-dev``
-    
+### Generic
+* Install [CMake]: ``$ sudo apt-get install cmake``
+* Install [Eigen]: ``$ sudo apt-get install libeigen3-dev``   
 * Depending on which solver you want to use, install either [Ipopt] or [Snopt]. Follow the instructions provided here:
 
      * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
@@ -30,7 +31,8 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 * To build [ifopt_snopt](ifopt_snopt) or [ifopt_ipopt](ifopt_ipopt) set the location of the shared 
 libraries and header files directly in the [CMakeLists.txt](https://github.com/ethz-adrl/ifopt/blob/fbf7acda4e3e42711031f65e015f6c9f84c87fbd/ifopt_ipopt/CMakeLists.txt#L16-L17) 
 of the corresponding solver.
-     
+### Catkin
+* Install the cmake build tool [catkin]: ``$ sudo apt-get install ros-kinetic-catkin``.  _     
 * Clone this repo into your [catkin] workspace and build
 
       $ cd catkin_workspace/src
@@ -40,7 +42,7 @@ of the corresponding solver.
       $ source ./devel/setup.bash
     
 
-## <img align="center" height="20" src="https://i.imgur.com/026nVBV.png"/> Unit Tests
+#### <img align="center" height="20" src="https://i.imgur.com/026nVBV.png"/> Unit Tests
 
 Make sure everything installed correctly by running the unit tests through
 
@@ -49,8 +51,28 @@ Make sure everything installed correctly by running the unit tests through
 This should also solve the [example problem](ifopt_core/include/ifopt/ex_problem.h) with your installed solvers. 
 If you have [IPOPT] installed and linked correctly, this should also execute the 
 binary [ifopt_ipopt-test](ifopt_ipopt/test/ex_test_ipopt.cc). 
-    
-     
+
+### CMake
+* Clone this repo and configure (``cd`` to desired directory before doing the following)
+
+      $ git clone https://github.com/ethz-adrl/ifopt.git
+      $ mkdir build ; cd build
+      $ cmake -DCATKIN_BUILD=OFF -DCMAKE_INSTALL_PREFIX=path_to_build_dir ..
+      
+Set ``path_to_build_dir`` to your desired installation target.
+
+* Build
+
+      $ make
+
+* Run unit tests
+
+      $ make test
+      
+* Install
+
+      $ make install
+      
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
 
 For an example of how to use this to efficiently generate dynamic motions for legged robots, check-out [towr].
@@ -193,5 +215,6 @@ Please report bugs and request features using the [Issue Tracker](https://github
 [ROS]: http://www.ros.org
 [rviz]: http://wiki.ros.org/rviz
 [Fa2png]: http://fa2png.io/r/font-awesome/link/
+[CMake]: https://cmake.org/
 
 
