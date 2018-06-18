@@ -1,10 +1,8 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(ifopt_snopt)
 
-add_compile_options(-std=c++11)
-
-find_package(catkin REQUIRED)
-find_package(ifopt_core REQUIRED)
+#find_package(catkin REQUIRED)
+#find_package(ifopt_core REQUIRED)
 
 
 ################
@@ -34,29 +32,29 @@ endif()
 ## Generate cmake config files ##
 #################################
 # These can then be used to "find_package(ifopt_snopt)"
-catkin_package(
-  INCLUDE_DIRS include ${SNOPT_INCLUDE_DIRS} ${ifopt_core_INCLUDE_DIRS}
-  LIBRARIES    ${PROJECT_NAME}
-)
+#catkin_package(
+#  INCLUDE_DIRS include ${SNOPT_INCLUDE_DIRS} ${ifopt_core_INCLUDE_DIRS}
+#  LIBRARIES    ${PROJECT_NAME}
+#)
 
 
 ###########
 ## Build ##
 ###########
-include_directories(
+if(${SNOPT76})
+ add_library(${PROJECT_NAME} STATIC src/snopt76_adapter.cc)
+else()
+ add_library(${PROJECT_NAME} STATIC src/snopt_adapter.cc)
+endif()
+
+target_include_directories(${PROJECT_NAME} PUBLIC 
   include
   ${SNOPT_INCLUDE_DIRS}
   ${ifopt_core_INCLUDE_DIRS}
 )
 
-if(${SNOPT76})
- add_library(${PROJECT_NAME} src/snopt76_adapter.cc)
-else()
- add_library(${PROJECT_NAME} src/snopt_adapter.cc)
-endif()
-
-target_link_libraries(${PROJECT_NAME}
-  ${ifopt_core_LIBRARIES}
+target_link_libraries(${PROJECT_NAME} PUBLIC
+  ifopt_core
   ${SNOPT_LIB1}
   ${SNOPT_LIB2}
 )
@@ -68,35 +66,28 @@ target_link_libraries(${PROJECT_NAME}
 # For this to work, first make sure IPOPT headers and library are installed
 # somewhere in the default search paths.
 # Mark library for installation
-install(
-  TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-# Mark header files for installation
-install(
-  DIRECTORY include/ifopt_snopt/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
-)
+#install(
+#  TARGETS ${PROJECT_NAME}
+#  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#)
+#
+## Mark header files for installation
+#install(
+#  DIRECTORY include/ifopt_snopt/
+#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#  FILES_MATCHING PATTERN "*.h"
+#)
 
 
 #############
 ## Testing ##
 #############
-if (CATKIN_ENABLE_TESTING)
-catkin_add_gtest(${PROJECT_NAME}-test test/ex_test_snopt.cc)
-
-if(${SNOPT76})
-  target_compile_definitions(${PROJECT_NAME}-test PRIVATE SNOPT76_ON=1)
-endif()
-
-if(TARGET ${PROJECT_NAME}-test)
-  target_link_libraries(${PROJECT_NAME}-test 
-    ${PROJECT_NAME}
-    pthread
-  )
-endif()
+find_package(GTest QUIET)
+if (GTEST_FOUND)
+  message(STATUS "GTest found -> Building SNOPT test executable \"testsnopt\"")
+  add_executable(testsnopt test/ex_test_snopt.cc)
+    
+  target_link_libraries(testsnopt PRIVATE ${PROJECT_NAME} GTest::GTest GTest::Main)
 endif()

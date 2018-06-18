@@ -78,7 +78,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 #############
 find_package(GTest QUIET)
 if (GTEST_FOUND)
-  message(STATUS "GTest found: Building IPOPT test executable \"testipopt\"")
+  message(STATUS "GTest found -> Building IPOPT test executable \"testipopt\"")
   add_executable(testipopt test/ex_test_ipopt.cc)
     
   target_link_libraries(testipopt PRIVATE ${PROJECT_NAME} GTest::GTest GTest::Main)

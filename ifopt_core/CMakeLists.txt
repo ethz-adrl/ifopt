@@ -66,7 +66,7 @@ target_compile_options(${PROJECT_NAME} PUBLIC -std=c++11)
 
 find_package(GTest QUIET)
 if (GTEST_FOUND)
-  message(STATUS "GTest found: Building IFOPT test executable \"testifopt\"")
+  message(STATUS "GTest found -> Building IFOPT test executable \"testifopt\"")
   add_executable(testifopt test/composite_test.cc
                                      test/problem_test.cc)
     
