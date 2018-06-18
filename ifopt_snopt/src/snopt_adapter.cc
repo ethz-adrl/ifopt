@@ -58,7 +58,6 @@ void SnoptAdapter::SetOptions(SnoptAdapter& solver)
   solver.setProbName( "snopt" );
   solver.setIntParameter( "Major Print level", 1 );
   solver.setIntParameter( "Minor Print level", 1 );
-  solver.setParameter( "Solution");
   solver.setIntParameter( "Derivative option", 1 ); // 1 = snopt will not calculate missing derivatives
   solver.setIntParameter( "Verify level ", 3 ); // full check on gradients, will throw error
   solver.setIntParameter("Iterations limit", 200000);
