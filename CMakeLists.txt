@@ -6,4 +6,4 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 enable_testing()
 add_subdirectory(ifopt_core)
-#add_subdirectory(ifopt_ipopt)
+add_subdirectory(ifopt_ipopt)
