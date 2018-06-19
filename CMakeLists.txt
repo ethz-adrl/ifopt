@@ -1,15 +1,32 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(ifopt)
 
+
+# To install libraries into correct locations on all platforms.
+include(GNUInstallDirs)
+
+# Default to Release build
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'Release' as none was specified.")
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+find_package(catkin QUIET) # optional: allows to be found in catkin workspace
+
+
+# build an interface library from headers for more easy/modern cmake linking
 find_package(Eigen3 REQUIRED)
-find_package(catkin QUIET) # optional: allows to be found in catkin workspace  
-find_package(GTest  QUIET) # optional: enables/disables testing
-
-
+add_library(Eigen INTERFACE IMPORTED)
+set_property(TARGET Eigen PROPERTY
+    INTERFACE_INCLUDE_DIRECTORIES ${EIGEN3_INCLUDE_DIR})
+    
+    
 ################
 ## Find IPOPT ##
-################
+################ 
 # adapt this to point to your installed IPOPT folder
 set(IPOPT_DIR "/home/winklera/3rd_party_software/Ipopt-3.12.8")
 if(IS_DIRECTORY ${IPOPT_DIR}/build/include/coin)
@@ -51,16 +68,16 @@ endif()
 # This can then be used to "find_package(ifopt)" if built with catkin
 if (catkin_FOUND)
 catkin_package(
-  INCLUDE_DIRS ifopt_core/include
-               ifopt_ipopt/include ${IPOPT_INCLUDE_DIRS}
-               ifopt_snopt/include ${SNOPT_INCLUDE_DIRS}
+  INCLUDE_DIRS src/ifopt_core/include
+               src/ifopt_ipopt/include ${IPOPT_INCLUDE_DIRS}
+               src/ifopt_snopt/include ${SNOPT_INCLUDE_DIRS}
                ${EIGEN3_INCLUDE_DIR}
                                          
   LIBRARIES    ifopt_core
                ${IFOPT_IPOPT_LIB} ${IPOPT_LIB}
                ${IFOPT_SNOPT_LIB} ${SNOPT_LIB1} ${SNOPT_LIB2}
                 
-  DEPENDS      eigen  
+  DEPENDS      eigen
 )
 endif()
 
@@ -68,24 +85,13 @@ endif()
 ###########
 ## Build ##
 ###########
-# Default to Release build
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to 'Release' as none was specified.")
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
-    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
-
-add_subdirectory(ifopt_core)
+add_subdirectory(src/ifopt_core)
 
 if (IFOPT_IPOPT_LIB)
-  add_subdirectory(ifopt_ipopt)
+  add_subdirectory(src/ifopt_ipopt)
 endif()
 
 if (IFOPT_SNOPT_LIB)
-  add_subdirectory(ifopt_snopt)
+  add_subdirectory(src/ifopt_snopt)
 endif()
-
-
-
 
