@@ -46,6 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <ifopt/variable_set.h>
+#include <ifopt/constraint_set.h>
+#include <ifopt/cost_term.h>
 
 namespace ifopt {
 using Eigen::Vector2d;
