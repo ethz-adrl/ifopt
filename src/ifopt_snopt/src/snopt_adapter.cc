@@ -43,7 +43,7 @@ SnoptAdapter::Solve (Problem& ref)
   int EXIT = INFO - INFO%10; // change least significant digit to zero
 
   if (EXIT != 0) {
-    std::string msg = "Snopt failed to find a solution. EXIT:" + std::to_string(EXIT) + ", INFO:" + std::to_string(INFO);
+    std::string msg = "ERROR: Snopt failed to find a solution. EXIT:" + std::to_string(EXIT) + ", INFO:" + std::to_string(INFO) + "\n";
     throw std::runtime_error(msg);
   }
 
