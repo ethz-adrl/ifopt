@@ -27,6 +27,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include <ifopt/ex_problem.h>
+#include <ifopt/problem.h>
 #include <ifopt/ipopt_adapter.h>
 
 using namespace ifopt;

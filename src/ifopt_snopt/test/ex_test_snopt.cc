@@ -26,13 +26,14 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 
+#include <ifopt/ex_problem.h>
+#include <ifopt/problem.h>
+
 #ifdef SNOPT76
   #include <ifopt/snopt76_adapter.h>
 #else
   #include <ifopt/snopt_adapter.h>
 #endif
-
-#include <ifopt/ex_problem.h>
 
 using namespace ifopt;
 
