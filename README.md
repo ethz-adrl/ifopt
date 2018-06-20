@@ -15,30 +15,83 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 ... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
 
 
+## Requirements
+
+* [CMake] 3.1.0 or greater
+* [Eigen] 3.2.0 (older might work as well): ```$ sudo apt-get install libeigen3-dev```
+* [Ipopt](https://www.coin-or.org/Ipopt/documentation/node10.html) and/or 
+  [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm)
+
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
 
-* Install the cmake build tool [catkin]: ``$ sudo apt-get install ros-kinetic-catkin``
 
-* Install [Eigen]: ``$ sudo apt-get install libeigen3-dev``
+Point CMake to the location of your NLP solvers by modifying the root [CMakeLists.txt](CMakeLists.txt)
+```bash
+# if folder doesn't exist cmake just ignores that solver
+set(IPOPT_DIR "/home/your_name/path_to_ipopt_dir") 
+set(SNOPT_DIR "/home/your_name/path_to_snopt_dir")
+```
+
+
+### with CMake
+Install:
+```bash
+git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
+mkdir build && cd build
+cmake ..
+make
+# copy files in this folder to
+# /usr/local/include/ifopt: headers
+# /usr/local/lib: libraries
+# /usr/local/shared/ifopt/cmake: find-scripts (.cmake)
+sudo make install
+xargs rm < install_manifest.txt # uninstall the above
+```
+ 
+ Usage: 
+ ifopt can be used in your cmake project. 
+ See this minimal CMakeLists.txt:
+ ```cmake
+ find_package(ifopt)
+ 
+ # your function formulating and solving an optimization problem
+ add_executable(main main.cpp)
+ 
+ # only command required to pull in include directories, libraries, ... 
+ # if only formulating the problem, use ifopt:ifopt_core
+ # if solving with IPOPT, use ifopt::ifopt_ipopt
+ # if solving with SNOPT, use ifopt::ifopt_snopt
+ target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
+ ```
+        
     
-* Depending on which solver you want to use, install either [Ipopt] or [Snopt]. Follow the instructions provided here:
+### with catkin
+Install [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``)
 
-     * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
-     * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
+Clone this repo into your catkin workspace and build
+```bash
+cd catkin_workspace/src
+git clone https://github.com/ethz-adrl/ifopt.git
+cd ..
+catkin_make # `catkin build` if you are using catkin command-line tools 
+source ./devel/setup.bash
+ ```
+ 
+Ifopt can be included in your catkin project by adding to your CMakeLists.txt 
+```cmake
+find_package(catkin COMPONENTS ifopt) 
+include_directories(${catkin_INCLUDE_DIRS})
+target_link_libraries(foo ${catkin_LIBRARIES})
+ ```
 
-* To build [ifopt_snopt](ifopt_snopt) or [ifopt_ipopt](ifopt_ipopt) set the location of the shared 
-libraries and header files directly in the [CMakeLists.txt](https://github.com/ethz-adrl/ifopt/blob/fbf7acda4e3e42711031f65e015f6c9f84c87fbd/ifopt_ipopt/CMakeLists.txt#L16-L17) 
-of the corresponding solver.
-     
-* Clone this repo into your [catkin] workspace and build
+And to your *package.xml*:
+```xml
+<package>
+  <depend>ifopt</depend>
+</package>
+```
 
-      $ cd catkin_workspace/src
-      $ git clone https://github.com/ethz-adrl/ifopt.git
-      $ cd ..
-      $ catkin_make -DCMAKE_BUILD_TYPE=Release
-      $ source ./devel/setup.bash
-    
 
 ## <img align="center" height="20" src="https://i.imgur.com/026nVBV.png"/> Unit Tests
 
@@ -184,10 +237,12 @@ If you use this work in an academic context, please consider citing the currentl
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues).
 
+[CMake]: https://cmake.org/cmake/help/v3.0/
 [Eigen]: http://eigen.tuxfamily.org
 [Ipopt]: https://projects.coin-or.org/Ipopt
 [Snopt]: http://ampl.com/products/solvers/solvers-we-sell/snopt/
 [catkin]: http://wiki.ros.org/catkin
+[catkin command line tools]: http://catkin-tools.readthedocs.io/en/latest/installing.html
 [towr]: https://github.com/ethz-adrl/towr
 [catkin tools]: http://catkin-tools.readthedocs.org/
 [ROS]: http://www.ros.org
