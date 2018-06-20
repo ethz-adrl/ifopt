@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(ifopt_core)
 
 ###########
@@ -59,4 +58,6 @@ if (GTEST_FOUND)
     PRIVATE 
       ${PROJECT_NAME} 
       GTest::GTest GTest::Main)
+      
+  add_test(testifopt testifopt)
 endif()

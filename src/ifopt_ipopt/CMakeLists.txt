@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(ifopt_ipopt)
 
 ###########
@@ -51,3 +50,4 @@ target_link_libraries(testipopt
   PRIVATE 
     ${PROJECT_NAME}
 )
+add_test(testipopt testipopt)

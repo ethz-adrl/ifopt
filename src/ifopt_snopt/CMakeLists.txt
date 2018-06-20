@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(ifopt_snopt)
 
 ###########
@@ -54,3 +53,4 @@ target_link_libraries(testsnopt
   PRIVATE 
     ${PROJECT_NAME}
 )
+add_test(testsnopt testsnopt)
