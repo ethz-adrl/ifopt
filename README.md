@@ -45,7 +45,7 @@ make
 sudo make install
   
 # in case you want to uninstall the above
-xargs rm < install_manifest.txt 
+sudo xargs rm < install_manifest.txt 
 ```
 
 *Test*: Make sure everything installed correctly by running
