@@ -32,72 +32,72 @@ set(SNOPT_DIR "/home/your_name/path_to_snopt_dir")
 ```
 
 ### with CMake
-* **Install**:
-  ```bash
-  git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
-  mkdir build && cd build
-  cmake ..
-  make
-  # copy files in this folder to
-  # /usr/local/include/ifopt: headers
-  # /usr/local/lib: libraries
-  # /usr/local/shared/ifopt/cmake: find-scripts (.cmake)
-  sudo make install
+**Install**:
+```bash
+git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
+mkdir build && cd build
+cmake ..
+make
+# copy files in this folder to
+# /usr/local/include/ifopt: headers
+# /usr/local/lib: libraries
+# /usr/local/shared/ifopt/cmake: find-scripts (.cmake)
+sudo make install
   
-  # in case you want to uninstall the above
-  xargs rm < install_manifest.txt 
-  ```
+# in case you want to uninstall the above
+xargs rm < install_manifest.txt 
+```
 
-* **Test**: Make sure everything installed correctly by running
-  ```bash
-  make test
-  ```
-  You should see `#1 test-ifopt....Passed` as well as one test for each installed solver.
-  In case you want to see the actual iterations of the solver, run ``ctest -V``. 
+**Test**: Make sure everything installed correctly by running
+```bash
+make test
+```
+You should see `#1 test-ifopt....Passed` as well as one test for each installed solver.
+In case you want to see the actual iterations of the solver, run ``ctest -V``. 
 
  
-* **Use**: To use in your cmake project, see this minimal *CMakeLists.txt*:
-  ```cmake
-  find_package(ifopt)
+**Use**: To use in your cmake project, see this minimal *CMakeLists.txt*:
+```cmake
+find_package(ifopt)
  
-  # your function formulating and solving an optimization problem
-  add_executable(main main.cpp)
+# your function formulating and solving an optimization problem
+add_executable(main main.cpp)
  
-  # only command required to pull in include directories, libraries, ... 
-  # if only formulating the problem, use ifopt:ifopt_core
-  # if solving with IPOPT, use ifopt::ifopt_ipopt
-  # if solving with SNOPT, use ifopt::ifopt_snopt
-  target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
-  ```
+# only command required to pull in include directories, libraries, ... 
+# if only formulating the problem, use ifopt:ifopt_core
+# if solving with IPOPT, use ifopt::ifopt_ipopt
+# if solving with SNOPT, use ifopt::ifopt_snopt
+target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
+```
         
 ### with catkin
-* **Install**:
-  Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build:
-  ```bash
-  cd catkin_workspace/src
-  git clone https://github.com/ethz-adrl/ifopt.git
-  cd ..
-  catkin_make # `catkin build` if you are using catkin command-line tools 
-  source ./devel/setup.bash
-   ```
+**Install**:
+Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build:
+```bash
+cd catkin_workspace/src
+git clone https://github.com/ethz-adrl/ifopt.git
+cd ..
+catkin_make # `catkin build` if you are using catkin command-line tools 
+source ./devel/setup.bash
+```
    
-* **Test**: test if solvers where correctly linked through
-  ```bash
-  rosrun ifopt testifopt # or testipopt, testsnopt
-   ```
+**Test**: test if solvers where correctly linked through
+```bash
+rosrun ifopt testifopt # or testipopt, testsnopt
+```
 
-* **Use**: Included in your catkin project by adding to your *CMakeLists.txt* 
-  ```cmake
-  find_package(catkin COMPONENTS ifopt) 
-  include_directories(${catkin_INCLUDE_DIRS})
-  target_link_libraries(foo ${catkin_LIBRARIES})
-  ```
-  Add the following to your *package.xml*:
-  ```xml
-  <package>
-    <depend>ifopt</depend>
-  </package>
-  ```
+**Use**: Included in your catkin project by adding to your *CMakeLists.txt* 
+```cmake
+find_package(catkin COMPONENTS ifopt) 
+include_directories(${catkin_INCLUDE_DIRS})
+target_link_libraries(foo ${catkin_LIBRARIES})
+```
+Add the following to your *package.xml*:
+```xml
+<package>
+  <depend>ifopt</depend>
+</package>
+```
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Example
@@ -135,10 +135,10 @@ The 3 classes representing variables, costs and constraints are defined as
 in the following. The entire following code is independent from any specific solver
 and is based purely on Eigen.
 
+[src/ifopt_core/include/ifopt/ex_problem.h](src/ifopt_core/include/ifopt/ex_problem.h):
+
 The variables x0 and x1 with their bound -1 <= x0 <= 1 is
 formulated as follows:
-
-[src/ifopt_core/include/ifopt/ex_problem.h](src/ifopt_core/include/ifopt/ex_problem.h):
 ```c++
 class ExVariables : public VariableSet {
 public:
