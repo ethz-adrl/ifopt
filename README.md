@@ -1,65 +1,115 @@
-### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
+### <img src="https://i.imgur.com/ZOfGZwB.png" height="50" />
 
 [![Build Status](https://ci.leggedrobotics.com/buildStatus/icon?job=github_ethz-adrl/ifopt/master)](https://ci.leggedrobotics.com/job/github_ethz-adrl/job/ifopt/job/master/) [<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/api/ifopt_core/html/index.html)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
 
-Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. This package can be dropped in your [catkin] workspace.
+Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. An example of how this interface can be used to optimize complex motions for legged robots can be seen in [towr].
 
 **Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)**
 
-[<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
+[<img src="https://i.imgur.com/uCvLs2j.png" height="40" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="40" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="40" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 -------
-... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) [Eigen] sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to [Ipopt] and [Snopt]. 
+... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) Eigen sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to Ipopt and Snopt. 
 
+
+## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
+
+* [CMake] 3.1.0 or greater
+* [Eigen] 3.2.0 (older might work as well): ```$ sudo apt-get install libeigen3-dev```
+* ([Ipopt](https://www.coin-or.org/Ipopt/documentation/node10.html) and/or 
+  [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm))
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
+Point CMake to the location of your NLP solvers by modifying the root [CMakeLists.txt](CMakeLists.txt)
+```bash
+# if folder doesn't exist cmake just ignores that solver
+set(IPOPT_DIR "/home/your_name/path_to_ipopt_dir") 
+set(SNOPT_DIR "/home/your_name/path_to_snopt_dir")
+```
 
-* Install the cmake build tool [catkin]: ``$ sudo apt-get install ros-kinetic-catkin``
+### ... with CMake
+*Install*:
+```bash
+git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
+mkdir build && cd build
+cmake ..
+make
+# copy files in this folder to
+# /usr/local/include/ifopt: headers
+# /usr/local/lib: libraries
+# /usr/local/shared/ifopt/cmake: find-scripts (.cmake)
+sudo make install
+  
+# in case you want to uninstall the above
+xargs rm < install_manifest.txt 
+```
 
-* Install [Eigen]: ``$ sudo apt-get install libeigen3-dev``
-    
-* Depending on which solver you want to use, install either [Ipopt] or [Snopt]. Follow the instructions provided here:
+*Test*: Make sure everything installed correctly by running
+```bash
+make test
+```
+You should see `#1 test-ifopt....Passed` as well as one test for each installed solver.
+In case you want to see the actual iterations of the solver, run ``ctest -V``. 
 
-     * https://www.coin-or.org/Ipopt/documentation/node10.html (open source)
-     * http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm
+ 
+*Use*: To use in your cmake project, see this minimal *CMakeLists.txt*:
+```cmake
+find_package(ifopt)
+ 
+# your function formulating and solving an optimization problem
+add_executable(main main.cpp)
+ 
+# only command required to pull in include directories, libraries, ... 
+# if only formulating the problem, use ifopt:ifopt_core
+# if solving with IPOPT, use ifopt::ifopt_ipopt
+# if solving with SNOPT, use ifopt::ifopt_snopt
+target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
+```
+        
+### ... with catkin
+*Install*:
+Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build:
+```bash
+cd catkin_workspace/src
+git clone https://github.com/ethz-adrl/ifopt.git
+cd ..
+catkin_make # `catkin build` if you are using catkin command-line tools 
+source ./devel/setup.bash
+```
+   
+*Test*: test if solvers where correctly linked through
+```bash
+rosrun ifopt testifopt # or testipopt, testsnopt
+```
 
-* To build [ifopt_snopt](ifopt_snopt) or [ifopt_ipopt](ifopt_ipopt) set the location of the shared 
-libraries and header files directly in the [CMakeLists.txt](https://github.com/ethz-adrl/ifopt/blob/fbf7acda4e3e42711031f65e015f6c9f84c87fbd/ifopt_ipopt/CMakeLists.txt#L16-L17) 
-of the corresponding solver.
-     
-* Clone this repo into your [catkin] workspace and build
+*Use*: Included in your catkin project by adding to your *CMakeLists.txt* 
+```cmake
+find_package(catkin COMPONENTS ifopt) 
+include_directories(${catkin_INCLUDE_DIRS})
+target_link_libraries(foo ${catkin_LIBRARIES})
+```
+Add the following to your *package.xml*:
+```xml
+<package>
+  <depend>ifopt</depend>
+</package>
+```
 
-      $ cd catkin_workspace/src
-      $ git clone https://github.com/ethz-adrl/ifopt.git
-      $ cd ..
-      $ catkin_make -DCMAKE_BUILD_TYPE=Release
-      $ source ./devel/setup.bash
-    
 
-## <img align="center" height="20" src="https://i.imgur.com/026nVBV.png"/> Unit Tests
-
-Make sure everything installed correctly by running the unit tests through
-
-    $ catkin_make run_tests
-     
-This should also solve the [example problem](ifopt_core/include/ifopt/ex_problem.h) with your installed solvers. 
-If you have [IPOPT] installed and linked correctly, this should also execute the 
-binary [ifopt_ipopt-test](ifopt_ipopt/test/ex_test_ipopt.cc). 
-    
-     
-## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Usage
-
-For an example of how to use this to efficiently generate dynamic motions for legged robots, check-out [towr].
-See [test/ex_problem.h](ifopt_core/include/ifopt/ex_problem.h) for a minimal example with detailed comments and explanation
-of the below code line by line. 
+## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Example
 The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
+If you have IPOPT installed and linked correctly, you can run this binary example through
+```bash
+./build/src/ifopt_ipopt/testipopt # or `rosrun ifopt testipopt` if built with catkin
+```
+[src/ifopt_ipopt/src/ipopt_adapter.cc](src/ifopt_ipopt/src/ipopt_adapter.cc):
 ```c++
 #include <ifopt/test/ex_problem.h>
 #include <ifopt_ipopt/ipopt_adapter.h>
@@ -82,7 +132,12 @@ Output:
 ```
 
 The 3 classes representing variables, costs and constraints are defined as 
-in the following. The variables x0 and x1 with their bound -1 <= x0 <= 1 is
+in the following. The entire following code is independent from any specific solver
+and is based purely on Eigen.
+
+[src/ifopt_core/include/ifopt/ex_problem.h](src/ifopt_core/include/ifopt/ex_problem.h):
+
+The variables x0 and x1 with their bound -1 <= x0 <= 1 is
 formulated as follows:
 ```c++
 class ExVariables : public VariableSet {
@@ -182,12 +237,14 @@ If you use this work in an academic context, please consider citing the currentl
 
 ##  <img align="center" height="20" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
 
-Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues).
+Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues). This can include a desired interface to another solver, build issues on your machine, or general usage questions.  
 
+[CMake]: https://cmake.org/cmake/help/v3.0/
 [Eigen]: http://eigen.tuxfamily.org
 [Ipopt]: https://projects.coin-or.org/Ipopt
 [Snopt]: http://ampl.com/products/solvers/solvers-we-sell/snopt/
 [catkin]: http://wiki.ros.org/catkin
+[catkin command line tools]: http://catkin-tools.readthedocs.io/en/latest/installing.html
 [towr]: https://github.com/ethz-adrl/towr
 [catkin tools]: http://catkin-tools.readthedocs.org/
 [ROS]: http://www.ros.org

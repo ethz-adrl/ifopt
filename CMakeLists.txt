@@ -130,6 +130,5 @@ install(
   FILES 
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/ifopt-config.cmake"   # self-written
     "${CMAKE_CURRENT_BINARY_DIR}/ifopt-config-version.cmake" # generated
-  DESTINATION 
-    ${config_package_location}
+  DESTINATION ${config_package_location}
 )
