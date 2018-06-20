@@ -1,4 +1,4 @@
-### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
+### <img src="https://i.imgur.com/ZOfGZwB.png" height="50" />
 
 [![Build Status](https://ci.leggedrobotics.com/buildStatus/icon?job=github_ethz-adrl/ifopt/master)](https://ci.leggedrobotics.com/job/github_ethz-adrl/job/ifopt/job/master/) [<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/api/ifopt_core/html/index.html)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
@@ -9,13 +9,13 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 **Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)**
 
-[<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
+[<img src="https://i.imgur.com/uCvLs2j.png" height="40" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="40" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="40" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 -------
 ... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) Eigen sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to Ipopt and Snopt. 
 
 
-## Requirements
+## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
 
 * [CMake] 3.1.0 or greater
 * [Eigen] 3.2.0 (older might work as well): ```$ sudo apt-get install libeigen3-dev```
@@ -31,8 +31,8 @@ set(IPOPT_DIR "/home/your_name/path_to_ipopt_dir")
 set(SNOPT_DIR "/home/your_name/path_to_snopt_dir")
 ```
 
-### with CMake
-**Install**:
+### ... with CMake
+*Install*:
 ```bash
 git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
 mkdir build && cd build
@@ -48,7 +48,7 @@ sudo make install
 xargs rm < install_manifest.txt 
 ```
 
-**Test**: Make sure everything installed correctly by running
+*Test*: Make sure everything installed correctly by running
 ```bash
 make test
 ```
@@ -56,7 +56,7 @@ You should see `#1 test-ifopt....Passed` as well as one test for each installed 
 In case you want to see the actual iterations of the solver, run ``ctest -V``. 
 
  
-**Use**: To use in your cmake project, see this minimal *CMakeLists.txt*:
+*Use*: To use in your cmake project, see this minimal *CMakeLists.txt*:
 ```cmake
 find_package(ifopt)
  
@@ -70,8 +70,8 @@ add_executable(main main.cpp)
 target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
 ```
         
-### with catkin
-**Install**:
+### ... with catkin
+*Install*:
 Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build:
 ```bash
 cd catkin_workspace/src
@@ -81,12 +81,12 @@ catkin_make # `catkin build` if you are using catkin command-line tools
 source ./devel/setup.bash
 ```
    
-**Test**: test if solvers where correctly linked through
+*Test*: test if solvers where correctly linked through
 ```bash
 rosrun ifopt testifopt # or testipopt, testsnopt
 ```
 
-**Use**: Included in your catkin project by adding to your *CMakeLists.txt* 
+*Use*: Included in your catkin project by adding to your *CMakeLists.txt* 
 ```cmake
 find_package(catkin COMPONENTS ifopt) 
 include_directories(${catkin_INCLUDE_DIRS})
