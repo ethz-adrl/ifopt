@@ -24,23 +24,53 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <iostream>
+#ifndef IFOPT_SRC_IFOPT_IPOPT_INCLUDE_IFOPT_IPOPT_H_
+#define IFOPT_SRC_IFOPT_IPOPT_INCLUDE_IFOPT_IPOPT_H_
 
 #include <ifopt/problem.h>
-#include <ifopt/ipopt.h>
-#include <test_vars_constr_cost.h>
+#include <ifopt/solver.h>
 
-using namespace ifopt;
+namespace ifopt {
 
-int main() {
-  Problem nlp;
+// this is the only class users should interact with
+class Ipopt : public Solver {
+public:
+  /** @brief  Creates an IpoptAdapter and solves the NLP.
+    * @param [in/out]  nlp  The specific problem.
+    *
+    * This function creates the actual solver, sets the solver specific
+    * options (see SetOptions()) and passes the IpoptAdapter problem to it
+    * to be modified.
+    */
+  void Solve(Problem& nlp);
 
-  nlp.AddVariableSet  (std::make_shared<ExVariables>());
-  nlp.AddConstraintSet(std::make_shared<ExConstraint>());
-  nlp.AddCostSet      (std::make_shared<ExCost>());
+  /**
+  * These settings include which QP solver to use, if gradients should
+  * be approximated or the provided analytical ones used, when the iterations
+  * should be terminated,...
+  *
+  * A complete list of options can be found at:
+  * https://www.coin-or.org/Ipopt/documentation/node40.html
+  */
 
-  Ipopt ipopt;
-  ipopt.Solve(nlp);
+  // these are the options
+  // Download and use additional solvers here: http://www.hsl.rl.ac.uk/ipopt/
+  std::string linear_solver_ = "ma27"; ///< ma27, ma57, ma77, ma86, ma97
+  std::string hessian_approximation_ = "limited-memory";
+  double tol_ = 0.001;
+  double max_cpu_time_ = 40.0; //s
+  int print_level_ = 5;
+  std::string print_user_options_ = "yes";
+  std::string print_timing_statistics_ = "no";
 
-  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
-}
+  // whether to use provided analytical derivatives or approximate by
+  // finite differences.
+  bool use_jacobian_approximation_ = false;
+
+
+
+};
+
+} /* namespace ifopt */
+
+#endif /* IFOPT_SRC_IFOPT_IPOPT_INCLUDE_IFOPT_IPOPT_H_ */

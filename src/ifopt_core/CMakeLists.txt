@@ -1,33 +1,31 @@
-project(ifopt_core)
-
 ###########
 ## Build ##
 ###########
-add_library(${PROJECT_NAME} 
+add_library(${LIB_CORE} 
   SHARED
     src/problem.cc
     src/composite.cc
     src/leaves.cc
 )
-target_include_directories(${PROJECT_NAME} 
+target_include_directories(${LIB_CORE} 
   PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/test>
     $<INSTALL_INTERFACE:include>
     ${EIGEN3_INCLUDE_DIR}
 )
 # better specify features you need, not c++ version
-target_compile_features(${PROJECT_NAME} 
+target_compile_features(${LIB_CORE} 
   PUBLIC 
     cxx_range_for 
     cxx_auto_type
 )
 
-
 #############
 ## Install ##
 #############
 # store in export-set for find-script generation
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets
+install(TARGETS ${LIB_CORE} EXPORT ${LIB_CORE}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -37,8 +35,8 @@ install(DIRECTORY include/ifopt/
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ifopt
 )
 # Generate the find scripts
-install(EXPORT ${PROJECT_NAME}-targets
-  FILE ${PROJECT_NAME}-targets.cmake
+install(EXPORT ${LIB_CORE}-targets
+  FILE ${LIB_CORE}-targets.cmake
   NAMESPACE ifopt::
   DESTINATION ${config_package_location}
 )
@@ -47,16 +45,15 @@ install(EXPORT ${PROJECT_NAME}-targets
 #############
 ## Testing ##
 #############
-find_package(GTest  QUIET)
-if (GTEST_FOUND)
-  message(STATUS "GTest found -> Building IFOPT test executable \"testifopt\"")
+find_package(GTest QUIET)
+if (TARGET GTest::GTest) # only build when modern target exists
   add_executable(testifopt 
     test/composite_test.cc
     test/problem_test.cc)
     
   target_link_libraries(testifopt 
     PRIVATE 
-      ${PROJECT_NAME} 
+      ${LIB_CORE} 
       GTest::GTest GTest::Main)
       
   add_test(testifopt testifopt)

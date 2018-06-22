@@ -1,26 +1,27 @@
-project(ifopt_snopt)
-
 ###########
 ## Build ##
 ###########
-if(${SNOPT76})
- add_library(${PROJECT_NAME} SHARED src/snopt76_adapter.cc)
-else()
- add_library(${PROJECT_NAME} SHARED src/snopt_adapter.cc)
-endif()
-
-target_include_directories(${PROJECT_NAME} 
+add_library(${LIB_SNOPT} SHARED
+  src/snopt.cc
+  src/snopt_adapter.cc
+)
+target_include_directories(${LIB_SNOPT} 
   PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-    ${SNOPT_INCLUDE_DIRS}
+  PRIVATE
+    ${SNOPT_DIR}/include
 )
-
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${LIB_SNOPT} 
   PUBLIC
     ifopt_core
-    ${SNOPT_LIB1}
-    ${SNOPT_LIB2}
+  PRIVATE  
+    ${SNOPT_DIR}/lib/libsnopt7_cpp.so
+    ${SNOPT_DIR}/lib/libsnopt7.so
+)
+target_compile_definitions(${LIB_SNOPT} 
+  PRIVATE  
+    #-DSNOPT76 # uncomment this if snopt version >= v7.6 
 )
 
 
@@ -28,7 +29,7 @@ target_link_libraries(${PROJECT_NAME}
 ## Install ##
 #############
  # Copy library files to usr/local/lib/libifopt_snopt.so
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets
+install(TARGETS ${LIB_SNOPT} EXPORT ${LIB_SNOPT}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -38,8 +39,8 @@ install(DIRECTORY include/ifopt/
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ifopt
 )
 # Generate the find scripts
-install(EXPORT ${PROJECT_NAME}-targets
-  FILE ${PROJECT_NAME}-targets.cmake
+install(EXPORT ${LIB_SNOPT}-targets
+  FILE ${LIB_SNOPT}-targets.cmake
   NAMESPACE ifopt::
   DESTINATION ${config_package_location}
 )
@@ -51,6 +52,6 @@ install(EXPORT ${PROJECT_NAME}-targets
 add_executable(testsnopt test/ex_test_snopt.cc)
 target_link_libraries(testsnopt 
   PRIVATE 
-    ${PROJECT_NAME}
+    ${LIB_SNOPT}
 )
 add_test(testsnopt testsnopt)

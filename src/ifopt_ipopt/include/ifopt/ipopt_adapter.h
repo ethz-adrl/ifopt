@@ -33,7 +33,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ifopt/problem.h>
 
-namespace ifopt {
+namespace Ipopt {
 
 /**
  * @brief Solves the optimization problem using the IPOPT solver.
@@ -47,38 +47,12 @@ namespace ifopt {
  * This implements the Adapter pattern. This class should not add any
  * functionality, but merely delegate it to the Adaptee (the Problem object).
  */
-class IpoptAdapter : public Ipopt::TNLP {
+class IpoptAdapter : public TNLP {
 public:
-  using Index    = Ipopt::Index;
+  using Problem  = ifopt::Problem;
   using VectorXd = Problem::VectorXd;
   using Jacobian = Problem::Jacobian;
 
-  /** @brief  Creates an IpoptAdapter and solves the NLP.
-    * @param [in/out]  nlp  The specific problem.
-    *
-    * This function creates the actual solver, sets the solver specific
-    * options (see SetOptions()) and passes the IpoptAdapter problem to it
-    * to be modified.
-    */
-  static void Solve(Problem& nlp);
-
-private:
-  /**
-   * @brief  Defines settings for the Ipopt solver @a app.
-   * @param app  The actual Ipopt solver.
-   *
-   * These settings include which QP solver to use, if gradients should
-   * be approximated or the provided analytical ones used, when the iterations
-   * should be terminated,...
-   *
-   * A complete list of options can be found at:
-   * https://www.coin-or.org/Ipopt/documentation/node40.html
-   */
-  static void SetOptions(Ipopt::SmartPtr<Ipopt::IpoptApplication> app);
-
-  Problem* nlp_; ///< The solver independent problem definition
-
-private:
   /**
    * @brief  Creates an IpoptAdapter wrapping the @a nlp.
    * @param  nlp  The specific nonlinear programming problem.
@@ -87,6 +61,9 @@ private:
    */
   IpoptAdapter(Problem& nlp);
   virtual ~IpoptAdapter() = default;
+
+private:
+  Problem* nlp_; ///< The solver independent problem definition
 
   /** Method to return some info about the nlp */
   virtual bool get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
@@ -141,6 +118,6 @@ private:
                                  Ipopt::IpoptCalculatedQuantities* ip_cq);
 };
 
-} // namespace opt
+} // namespace Ipopt
 
 #endif /* IFOPT_INCLUDE_OPT_IPOPT_ADAPTER_H_ */

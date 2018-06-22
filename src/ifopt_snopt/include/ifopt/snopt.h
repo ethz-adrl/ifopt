@@ -24,23 +24,24 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <iostream>
+#ifndef IFOPT_SRC_IFOPT_SNOPT_INCLUDE_IFOPT_SNOPT_H_
+#define IFOPT_SRC_IFOPT_SNOPT_INCLUDE_IFOPT_SNOPT_H_
 
 #include <ifopt/problem.h>
-#include <ifopt/ipopt.h>
-#include <test_vars_constr_cost.h>
+#include <ifopt/solver.h>
 
-using namespace ifopt;
+namespace ifopt {
 
-int main() {
-  Problem nlp;
+class Snopt : public Solver {
+public:
 
-  nlp.AddVariableSet  (std::make_shared<ExVariables>());
-  nlp.AddConstraintSet(std::make_shared<ExConstraint>());
-  nlp.AddCostSet      (std::make_shared<ExCost>());
+  /**
+   * @brief Creates a snoptProblemA from @a nlp and solves it.
+   * @param [in/out]  nlp  The specific problem to be used and modified.
+   */
+  void Solve(Problem& nlp) override ;
+};
 
-  Ipopt ipopt;
-  ipopt.Solve(nlp);
+} /* namespace ifopt */
 
-  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
-}
+#endif /* IFOPT_SRC_IFOPT_SNOPT_INCLUDE_IFOPT_SNOPT_H_ */

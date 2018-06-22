@@ -26,57 +26,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ifopt/ipopt_adapter.h>
 
-namespace ifopt {
-
-void
-IpoptAdapter::Solve (Problem& nlp)
-{
-  using namespace Ipopt;
-  using IpoptPtr            = SmartPtr<TNLP>;
-  using IpoptApplicationPtr = SmartPtr<IpoptApplication>;
-
-  // initialize the Ipopt solver
-  IpoptApplicationPtr ipopt_app_ = new IpoptApplication();
-  ipopt_app_->RethrowNonIpoptException(true);
-  SetOptions(ipopt_app_);
-
-  ApplicationReturnStatus status_ = ipopt_app_->Initialize();
-  if (status_ != Solve_Succeeded) {
-    std::cout << std::endl << std::endl << "*** Error during initialization!" << std::endl;
-    throw std::length_error("Ipopt could not initialize correctly");
-  }
-
-  // convert the NLP problem to Ipopt
-  IpoptPtr nlp_ptr = new IpoptAdapter(nlp);
-  status_ = ipopt_app_->OptimizeTNLP(nlp_ptr);
-
-  if (status_ != Solve_Succeeded) {
-    std::string msg = "ERROR: Ipopt failed to find a solution. ReturnCode: " + std::to_string(status_) + "\n";
-    std::cerr << msg;
-  }
-}
-
-void
-IpoptAdapter::SetOptions (Ipopt::SmartPtr<Ipopt::IpoptApplication> ipopt_app_)
-{
-  // A complete list of options can be found here
-  // https://www.coin-or.org/Ipopt/documentation/node40.html
-
-  // Download and use additional solvers here: http://www.hsl.rl.ac.uk/ipopt/
-  ipopt_app_->Options()->SetStringValue("linear_solver", "ma27"); // 27, 57, 77, 86, 97
-
-  ipopt_app_->Options()->SetStringValue("hessian_approximation", "limited-memory");
-  ipopt_app_->Options()->SetNumericValue("tol", 0.001);
-  ipopt_app_->Options()->SetNumericValue("max_cpu_time", 40.0);
-  ipopt_app_->Options()->SetIntegerValue("print_level", 5);
-  ipopt_app_->Options()->SetStringValue("print_user_options", "yes");
-  ipopt_app_->Options()->SetStringValue("print_timing_statistics", "no");
-
-  //  ipopt_app_->Options()->SetIntegerValue("max_iter", 1);
-  //  ipopt_app_->Options()->SetNumericValue("derivative_test_tol", 1e-3);
-  //  ipopt_app_->Options()->SetStringValue("jacobian_approximation", "finite-difference-values");
-  //  ipopt_app_->Options()->SetStringValue("derivative_test", "first-order"); // "second-order"
-}
+namespace Ipopt {
 
 IpoptAdapter::IpoptAdapter(Problem& nlp)
 {
@@ -194,15 +144,15 @@ bool IpoptAdapter::intermediate_callback(Ipopt::AlgorithmMode mode,
   return true;
 }
 
-void IpoptAdapter::finalize_solution(Ipopt::SolverReturn status,
+void IpoptAdapter::finalize_solution(SolverReturn status,
                                      Index n, const double* x, const double* z_L, const double* z_U,
                                      Index m, const double* g, const double* lambda,
                                      double obj_value,
-                                     const Ipopt::IpoptData* ip_data,
-                                     Ipopt::IpoptCalculatedQuantities* ip_cq)
+                                     const IpoptData* ip_data,
+                                     IpoptCalculatedQuantities* ip_cq)
 {
   nlp_->SetVariables(x);
   nlp_->SaveCurrent();
 }
 
-} // namespace opt
+} // namespace Ipopt

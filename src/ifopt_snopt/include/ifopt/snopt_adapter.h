@@ -60,38 +60,37 @@ public:
   SnoptAdapter (Problem& nlp);
   virtual ~SnoptAdapter () = default;
 
-  /**
-   * @brief Creates a snoptProblemA from @a nlp and solves it.
-   * @param [in/out]  nlp  The specific problem to be used and modified.
-   */
-  static void Solve(Problem& nlp);
-
-private:
-  /**
-   * @brief  Sets solver settings for Snopt.
-   *
-   * These settings include which QP solver to use, if gradients should
-   * be approximated or the provided analytical ones used, when the iterations
-   * should be terminated,...
-   *
-   * A complete list of options can be found at:
-   * https://web.stanford.edu/group/SOL/guides/sndoc7.pdf
-   */
-  static void SetOptions(SnoptAdapter&);
-
-private:
   void Init();
+  void SetVariables();
+
   static void ObjectiveAndConstraintFct(int   *Status, int *n,    double x[],
                                         int   *needF,  int *neF,  double F[],
                                         int   *needG,  int *neG,  double G[],
                                         char     *cu,  int *lencu,
                                         int     iu[],  int *leniu,
                                         double  ru[],  int *lenru);
-
-  void SetVariables();
-
+private:
   static NLPPtr nlp_; // use raw pointer as SnoptAdapter doesn't own the nlp.
 
+// additional variables as Snopt76 base class doesn't have them, not really
+// necessary but to keep the same structure of the original SnoptAdapter
+#ifdef SNOPT76
+public:
+  int     jacComputed = 0;
+  int     n = 0;
+  int     neF = 0;
+  int     ObjRow;
+  double  ObjAdd;
+
+  double *x, *xlow, *xupp, *xmul;
+  double *F, *Flow, *Fupp, *Fmul;
+
+  int    *xstate, *Fstate;
+
+  int     lenA, lenG, neA, neG;
+  int    *iAfun, *jAvar, *iGfun, *jGvar;
+  double *A;
+#endif
 };
 
 } /* namespace opt */

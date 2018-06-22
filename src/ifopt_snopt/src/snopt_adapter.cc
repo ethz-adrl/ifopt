@@ -30,42 +30,6 @@ namespace ifopt {
 
 SnoptAdapter::NLPPtr SnoptAdapter::nlp_;
 
-void
-SnoptAdapter::Solve (Problem& ref)
-{
-  SnoptAdapter snopt(ref);
-  snopt.Init();
-  SetOptions(snopt);
-
-  // error codes as given in the manual.
-  int Cold = 0; // Basis = 1, Warm = 2;
-  int INFO = snopt.solve(Cold);
-  int EXIT = INFO - INFO%10; // change least significant digit to zero
-
-  if (EXIT != 0) {
-    std::string msg = "ERROR: Snopt failed to find a solution. EXIT:" + std::to_string(EXIT) + ", INFO:" + std::to_string(INFO) + "\n";
-    throw std::runtime_error(msg);
-  }
-
-  snopt.SetVariables();
-}
-
-void SnoptAdapter::SetOptions(SnoptAdapter& solver)
-{
-  // A complete list of options can be found in the snopt user guide:
-  // https://web.stanford.edu/group/SOL/guides/sndoc7.pdf
-
-  solver.setProbName( "snopt" );
-  solver.setIntParameter( "Major Print level", 1 );
-  solver.setIntParameter( "Minor Print level", 1 );
-  solver.setIntParameter( "Derivative option", 1 ); // 1 = snopt will not calculate missing derivatives
-  solver.setIntParameter( "Verify level ", 3 ); // full check on gradients, will throw error
-  solver.setIntParameter("Iterations limit", 200000);
-  solver.setRealParameter( "Major feasibility tolerance",  1.0e-3); // target nonlinear constraint violation
-  solver.setRealParameter( "Minor feasibility tolerance",  1.0e-3); // for satisfying the QP bounds
-  solver.setRealParameter( "Major optimality tolerance",   1.0e-2); // target complementarity gap
-}
-
 SnoptAdapter::SnoptAdapter (Problem& ref)
 {
   nlp_ = &ref;

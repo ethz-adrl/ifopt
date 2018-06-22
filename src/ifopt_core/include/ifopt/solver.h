@@ -24,23 +24,36 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <iostream>
+#ifndef IFOPT_SRC_IFOPT_CORE_INCLUDE_IFOPT_SOLVER_H_
+#define IFOPT_SRC_IFOPT_CORE_INCLUDE_IFOPT_SOLVER_H_
+
+#include <memory>
 
 #include <ifopt/problem.h>
-#include <ifopt/ipopt.h>
-#include <test_vars_constr_cost.h>
 
-using namespace ifopt;
+namespace ifopt {
 
-int main() {
-  Problem nlp;
+/** @defgroup solvers NLP solvers
+ *  @brief Interfaces to specific solvers
+ *
+ *  These are specific solvers for which the interface to the Problem class
+ *  has been implemented.
+ *  @{
+ *  @}
+ */
 
-  nlp.AddVariableSet  (std::make_shared<ExVariables>());
-  nlp.AddConstraintSet(std::make_shared<ExConstraint>());
-  nlp.AddCostSet      (std::make_shared<ExCost>());
+class Solver {
+public:
+  using Ptr = std::shared_ptr<Solver>;
 
-  Ipopt ipopt;
-  ipopt.Solve(nlp);
+  virtual ~Solver () = default;
 
-  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
-}
+  /** @brief  Uses a specific solver (IPOPT, SNOPT) to solve the NLP.
+    * @param [in/out]  nlp  The nonlinear programming problem.
+    */
+  virtual void Solve(Problem& nlp) = 0;
+};
+
+} /* namespace ifopt */
+
+#endif /* IFOPT_SRC_IFOPT_CORE_INCLUDE_IFOPT_SOLVER_H_ */
