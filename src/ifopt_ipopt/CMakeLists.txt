@@ -2,8 +2,7 @@
 ## Build ##
 ###########
 # The IPOPT solver interface
-add_library(${LIB_IPOPT} 
-  SHARED 
+add_library(${LIB_IPOPT} SHARED 
     src/ipopt.cc
     src/ipopt_adapter.cc
 )

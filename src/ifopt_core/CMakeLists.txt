@@ -1,8 +1,7 @@
 ###########
 ## Build ##
 ###########
-add_library(${LIB_CORE} 
-  SHARED
+add_library(${LIB_CORE} SHARED
     src/problem.cc
     src/composite.cc
     src/leaves.cc

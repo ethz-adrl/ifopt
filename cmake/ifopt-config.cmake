@@ -17,7 +17,7 @@
 # Example usage
 # ^^^^^^^^^^^^^
 #
-#   find_package(ifopt)
+#   find_package(ifopt REQUIRED)
 #   add_executable(foo my_problem_solved_with_IPOPT.cc)
 #   target_link_libraries(foo PUBLIC ifopt::ifopt_ipopt)
 #
@@ -27,17 +27,12 @@
 #
 # This module will set the following variables in your project. 
 # These can be neccessary when building with catkin and not modern cmake
-#   ifopt_FOUND - TRUE if this project is found
-#   ifopt_INCLUDE_DIRS - path to public include (.h) files
-#   ifopt_ifopt_LIBRARIES - path to each of the libraries
-#
-#
-# Additional information
-# ^^^^^^^^^^^^^^^^
-#
-#   - Modern cmake: https://youtu.be/bsXLMQ6WgIk?t=2357
-#   - How to auto-generated find scripts: 
-#       https://cmake.org/cmake/help/v3.0/manual/cmake-packages.7.html
+#   ifopt_FOUND           - TRUE if this project is found
+#   ifopt_INCLUDE_DIRS    - path to public include (.h) files
+#   ifopt_ifopt_LIBRARIES - path to all libraries
+#   ifopt_LIB_CORE        - path to ifopt_core library
+#   ifopt_LIB_IPOPT       - path to ifopt_ipopt library
+#   ifopt_LIB_SNOPT       - path to ifopt_snopt library
 #
 #=============================================================================
 
@@ -53,13 +48,20 @@ set(ifopt_FOUND TRUE)
  
 get_target_property(ifopt_INCLUDE_DIRS ifopt::ifopt_core INTERFACE_INCLUDE_DIRECTORIES)
 
-get_property(ifopt_LIBRARIES TARGET ifopt::ifopt_core PROPERTY LOCATION)
+
+# ifopt_core
+get_property(ifopt_LIB_CORE TARGET ifopt::ifopt_core PROPERTY LOCATION)
+set(ifopt_LIBRARIES "${ifopt_LIB_CORE}")
+
+# ifopt_ipopt
 if(TARGET ifopt::ifopt_ipopt)
-  get_property(path TARGET ifopt::ifopt_ipopt PROPERTY LOCATION)
-  set(ifopt_LIBRARIES "${ifopt_LIBRARIES};${path}")
+  get_property(ifopt_LIB_IPOPT TARGET ifopt::ifopt_ipopt PROPERTY LOCATION)
+  set(ifopt_LIBRARIES "${ifopt_LIBRARIES};${ifopt_LIB_IPOPT}")
 endif()
+
+# ifopt_snopt
 if(TARGET ifopt::ifopt_snopt)
-  get_property(path TARGET ifopt::ifopt_snopt PROPERTY LOCATION)
-  set(ifopt_LIBRARIES "${ifopt_LIBRARIES};${path}")
+  get_property(ifopt_LIB_SNOPT TARGET ifopt::ifopt_snopt PROPERTY LOCATION)
+  set(ifopt_LIBRARIES "${ifopt_LIBRARIES};${ifopt_LIB_SNOPT}")
 endif()
 
