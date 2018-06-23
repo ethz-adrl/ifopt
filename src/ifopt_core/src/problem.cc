@@ -28,6 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 #include <ifopt/problem.h>
+#include <iostream>
+#include <iomanip>
 
 
 namespace ifopt {
@@ -174,9 +176,30 @@ Problem::SetOptVariablesFinal ()
 void
 Problem::PrintCurrent() const
 {
+  using namespace std;
+  cout << "\n"
+       << "************************************************************\n"
+       << "    IFOPT - Interface to Nonlinear Optimizers (v1.1.0)\n"
+       << "                \u00a9 Alexander W. Winkler\n"
+       << "           https://github.com/ethz-adrl/ifopt\n"
+       << "************************************************************"
+       << "\n"
+       << "Legend:\n"
+       << "c - number of variables, constraints or cost terms" << std::endl
+       << "i - indices of this set in overall problem" << std::endl
+       << "v - count violated constraints in that set"
+       << "\n\n"
+       << std::right
+       << std::setw(33) << ""
+       << std::setw(5)  << "c  "
+       << std::setw(12) << "i    "
+       << std::setw(6)  << "v "
+       << std::left
+       << "\n";
+
   variables_->Print();
-  costs_.Print();
   constraints_.Print();
+  costs_.Print();
 };
 
 Problem::VectorXd

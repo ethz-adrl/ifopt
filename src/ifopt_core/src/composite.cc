@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/composite.h>
 
 #include <iostream>
+#include <iomanip>
 
 namespace ifopt {
 
@@ -180,20 +181,12 @@ Composite::Print () const
 
 void Component::Print () const
 {
-  int print_rows = 3;
-  std::string end_string = ", ...";
-
-  if (num_rows_ < print_rows) {
-    print_rows = num_rows_;
-    end_string.clear(); // all variables printed
-  }
-
   // calculate squared bound violation
   VectorXd x = GetValues();
   VecBound bounds = GetBounds();
 
   std::vector<int> viol_idx;
-  double eps = 0.001; // from ipopt config file
+  double eps = 0.001; // precision to which constraints should be fulfilled
   for (uint i=0; i<bounds.size(); ++i) {
     double lower = bounds.at(i).lower_;
     double upper = bounds.at(i).upper_;
@@ -202,33 +195,24 @@ void Component::Print () const
       viol_idx.push_back(i); // constraint out of bounds
   }
 
-
   std::cout.precision(2);
-  std::cout << std::fixed;
-  // https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
+  std::cout << std::fixed << std::left;
   std::string black = "\033[0m";
   std::string red   = "\033[31m";
   std::string color = viol_idx.empty()? black : red;
-  std::cout << name_ << "\t(";
-  std::cout << num_rows_ << ", " << print_counter << "-" << print_counter+num_rows_;
-  std::cout << ", " << color << "nr_violated=" << viol_idx.size() << " ( ";
-  uint i_print = 4;
-  int nr_indices_print = viol_idx.size()<i_print? viol_idx.size() : i_print;
-  for (int i=0; i<nr_indices_print; ++i)
-    std::cout << viol_idx.at(i) << ", ";
-  std::cout << ")";
-  std::cout << black;
-  std::cout << ":\t";
+  std::cout << std::left
+            << std::setw(30) << name_
+            << std::right
+            << std::setw(4) << num_rows_
+            << std::setw(7) << print_counter
+            << "-"
+            << std::setw(4) << print_counter+num_rows_
+            << color
+            << std::setw(6) << viol_idx.size()
+            << black
+            << std::endl;
 
   print_counter += num_rows_;
-
-  VectorXd val = GetValues().topRows(print_rows);
-  if (val.rows() > 0)
-    std::cout << val(0);
-  for (int i=1; i<val.rows(); ++i)
-    std::cout << ",\t" << val(i);
-
-  std::cout << end_string << std::endl;
 }
 
 } /* namespace opt */
