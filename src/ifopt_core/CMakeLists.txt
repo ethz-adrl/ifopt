@@ -46,14 +46,14 @@ install(EXPORT ${LIB_CORE}-targets
 #############
 find_package(GTest QUIET)
 if (TARGET GTest::GTest) # only build when modern target exists
-  add_executable(testifopt 
+  add_executable(${LIB_CORE}-test 
     test/composite_test.cc
     test/problem_test.cc
   )  
-  target_link_libraries(testifopt 
+  target_link_libraries(${LIB_CORE}-test  
     PRIVATE 
       ${LIB_CORE} 
       GTest::GTest GTest::Main
   )    
-  add_test(testifopt testifopt)
+  add_test(${LIB_CORE}-test  ${LIB_CORE}-test)
 endif()

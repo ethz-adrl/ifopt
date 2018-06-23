@@ -45,9 +45,9 @@ install(EXPORT ${LIB_IPOPT}-targets
 #############
 ## Testing ##
 #############
-add_executable(testipopt test/ex_test_ipopt.cc)
-target_link_libraries(testipopt 
+add_executable(${LIB_IPOPT}-example test/ex_test_ipopt.cc)
+target_link_libraries(${LIB_IPOPT}-example 
   PRIVATE 
     ${LIB_IPOPT}
 )
-add_test(testipopt testipopt)
+add_test(${LIB_IPOPT}-example ${LIB_IPOPT}-example)

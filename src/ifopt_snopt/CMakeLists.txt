@@ -53,9 +53,9 @@ install(EXPORT ${LIB_SNOPT}-targets
 #############
 ## Testing ##
 #############
-add_executable(testsnopt test/ex_test_snopt.cc)
-target_link_libraries(testsnopt 
+add_executable(${LIB_SNOPT}-example test/ex_test_snopt.cc)
+target_link_libraries(${LIB_SNOPT}-example 
   PRIVATE 
     ${LIB_SNOPT}
 )
-add_test(testsnopt testsnopt)
+add_test(${LIB_SNOPT}-example ${LIB_SNOPT}-example)

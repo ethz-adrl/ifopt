@@ -187,7 +187,7 @@ Problem::PrintCurrent() const
        << "Legend:\n"
        << "c - number of variables, constraints or cost terms" << std::endl
        << "i - indices of this set in overall problem" << std::endl
-       << "v - count violated constraints in that set"
+       << "v - number of violated constraints in that set"
        << "\n\n"
        << std::right
        << std::setw(33) << ""
