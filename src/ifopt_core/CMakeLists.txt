@@ -48,12 +48,12 @@ find_package(GTest QUIET)
 if (TARGET GTest::GTest) # only build when modern target exists
   add_executable(testifopt 
     test/composite_test.cc
-    test/problem_test.cc)
-    
+    test/problem_test.cc
+  )  
   target_link_libraries(testifopt 
     PRIVATE 
       ${LIB_CORE} 
-      GTest::GTest GTest::Main)
-      
+      GTest::GTest GTest::Main
+  )    
   add_test(testifopt testifopt)
 endif()

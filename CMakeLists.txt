@@ -4,34 +4,11 @@ project(ifopt VERSION 1.1.0)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(Eigen3 REQUIRED)
+# optional packages
+find_package(ipopt  QUIET)
+find_package(snopt  QUIET)
+find_package(catkin QUIET) 
 
-
-################
-## Find IPOPT ##
-################
-# adapt this to point to your installed IPOPT folder
-set(IPOPT_DIR "/home/winklera/3rd_party_software/Ipopt-3.12.8")
-if(IS_DIRECTORY ${IPOPT_DIR}/build/include/coin)
-  set(LIB_IPOPT ifopt_ipopt)
-else()
-  message(WARNING "IPOPT directory \"" ${IPOPT_DIR} "\" NOT found " 
-                  "-> Not compiling ifopt_ipopt. \n" 
-                  "Specify path to your installed IPOPT installation here.")
-endif()
-
-
-################
-## Find SNOPT ##
-################
-# adapt this to point to your installed SNOPT folder
-set(SNOPT_DIR "/home/winklera/3rd_party_software/snopt_lib")
-if(IS_DIRECTORY ${SNOPT_DIR}/include)
-  set(LIB_SNOPT ifopt_snopt)
-else()
-  message(WARNING "SNOPT directory \"" ${SNOPT_DIR} "\" NOT found "
-                  "-> Not compiling ifopt_snopt.\n" 
-                  "Specify path to your installed SNOPT installation here.")
-endif()
 
 
 set(LIB_CORE ifopt_core)
@@ -39,7 +16,6 @@ set(LIB_CORE ifopt_core)
 ## catkin specific configuration (optional) ##
 ##############################################
 # This can also used to generate scripts for "find_package(ifopt)" 
-find_package(catkin QUIET) # optional: incorporate into catkin workspace
 if (catkin_FOUND)
 catkin_package(
   INCLUDE_DIRS src/ifopt_core/include

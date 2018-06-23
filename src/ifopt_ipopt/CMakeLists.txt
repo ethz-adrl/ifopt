@@ -11,13 +11,13 @@ target_include_directories(${LIB_IPOPT}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
   PRIVATE
-    ${IPOPT_DIR}/build/include/coin
+    ${ipopt_INCLUDE_DIRS}
 )
 target_link_libraries(${LIB_IPOPT}
   PUBLIC 
     ifopt_core
   PRIVATE
-    ${IPOPT_DIR}/build/lib/libipopt.so
+    ${ipopt_LIBRARIES}
 )
 
 #############
