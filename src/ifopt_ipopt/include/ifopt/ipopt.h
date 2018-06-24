@@ -35,6 +35,8 @@ namespace ifopt {
 // this is the only class users should interact with
 class Ipopt : public Solver {
 public:
+  using Ptr = std::shared_ptr<Ipopt>;
+
   /** @brief  Creates an IpoptAdapter and solves the NLP.
     * @param [in/out]  nlp  The specific problem.
     *
@@ -59,8 +61,8 @@ public:
   std::string hessian_approximation_ = "limited-memory";
   double tol_ = 0.001;
   double max_cpu_time_ = 40.0; //s
-  int print_level_ = 5;
-  std::string print_user_options_ = "yes";
+  int print_level_ = 3;
+  std::string print_user_options_ = "no";
   std::string print_timing_statistics_ = "no";
 
   // whether to use provided analytical derivatives or approximate by

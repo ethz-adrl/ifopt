@@ -213,14 +213,4 @@ private:
 
 } /* namespace opt */
 
-
-/** @defgroup solvers NLP solvers
- *  @brief Interfaces to specific solvers
- *
- *  These are specific solvers for which the interface to the Problem class
- *  has been implemented.
- *  @{
- *  @}
- */
-
 #endif /* IFOPT_INCLUDE_OPT_PROBLEM_H_ */

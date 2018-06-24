@@ -33,13 +33,20 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace ifopt;
 
 int main() {
-  Problem nlp;
 
+  // 1. define the problem
+  Problem nlp;
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
   nlp.AddCostSet      (std::make_shared<ExCost>());
+  nlp.PrintCurrent();
 
+  // 2. choose solver and options
   Ipopt ipopt;
+  ipopt.linear_solver_ = "ma27";
+  ipopt.tol_           = 0.001;
+
+  // 3 . solve
   ipopt.Solve(nlp);
 
   std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;

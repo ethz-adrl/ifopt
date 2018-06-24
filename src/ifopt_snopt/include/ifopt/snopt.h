@@ -34,6 +34,7 @@ namespace ifopt {
 
 class Snopt : public Solver {
 public:
+  using Ptr = std::shared_ptr<Snopt>;
 
   /**
    * @brief Creates a snoptProblemA from @a nlp and solves it.

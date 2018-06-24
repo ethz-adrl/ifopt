@@ -43,8 +43,8 @@ Snopt::Solve (Problem& ref)
   snopt.setIntParameter( "Derivative option", 1 ); // 1 = snopt will not calculate missing derivatives
   snopt.setIntParameter( "Verify level ", 3 ); // full check on gradients, will throw error
   snopt.setIntParameter("Iterations limit", 200000);
-  snopt.setRealParameter( "Major feasibility tolerance",  1.0e-3); // target nonlinear constraint violation
-  snopt.setRealParameter( "Minor feasibility tolerance",  1.0e-3); // for satisfying the QP bounds
+  snopt.setRealParameter( "Major feasibility tolerance",  1.0e-4); // target nonlinear constraint violation
+  snopt.setRealParameter( "Minor feasibility tolerance",  1.0e-4); // for satisfying the QP bounds
   snopt.setRealParameter( "Major optimality tolerance",   1.0e-2); // target complementarity gap
 
 

@@ -61,7 +61,7 @@ public:
   ExVariables(const std::string& name) : VariableSet(2, name)
   {
     // the initial values where the NLP starts iterating from
-    x0_ = 0.5;
+    x0_ = 3.5;
     x1_ = 1.5;
   }
 

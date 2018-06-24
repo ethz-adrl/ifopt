@@ -7,7 +7,6 @@ find_package(Eigen3 REQUIRED)
 # optional packages
 find_package(ipopt  QUIET)
 find_package(snopt  QUIET)
-find_package(catkin QUIET) 
 
 
 
@@ -15,8 +14,8 @@ set(LIB_CORE ifopt_core)
 ##############################################
 ## catkin specific configuration (optional) ##
 ##############################################
-# This can also used to generate scripts for "find_package(ifopt)" 
-if (catkin_FOUND)
+if (CATKIN_DEVEL_PREFIX) # set only when building with catkin, not pure cmake
+find_package(catkin REQUIRED)
 catkin_package(
   INCLUDE_DIRS src/ifopt_core/include
                src/ifopt_ipopt/include 
