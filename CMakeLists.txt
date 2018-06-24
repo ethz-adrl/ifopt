@@ -1,6 +1,6 @@
 # Copyright (c) 2017, Alexander W. Winkler, ETH Zurich. All rights reserved.
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
-project(ifopt VERSION 1.1.0)
+project(ifopt VERSION 2.0.0)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(Eigen3 REQUIRED)

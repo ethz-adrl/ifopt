@@ -181,7 +181,7 @@ Problem::PrintCurrent() const
   using namespace std;
   cout << "\n"
        << "************************************************************\n"
-       << "    IFOPT - Interface to Nonlinear Optimizers (v1.1.0)\n"
+       << "    IFOPT - Interface to Nonlinear Optimizers (v2.0.0)\n"
        << "                \u00a9 Alexander W. Winkler\n"
        << "           https://github.com/ethz-adrl/ifopt\n"
        << "************************************************************"

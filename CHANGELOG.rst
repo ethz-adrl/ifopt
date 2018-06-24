@@ -2,6 +2,16 @@
 Changelog for package ifopt_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2018-06-24)
+------------------
+* allow building with pure cmake (catkin optional) `#13 <https://github.com/ethz-adrl/ifopt/issues/13>`_
+* generate ifopt-config.cmake to easily include in other cmake projects `#13 <https://github.com/ethz-adrl/ifopt/issues/13>`_
+* implement pimpl idiom to avoid exporting IPOPT/SNOPT libraries/headers `#12 <https://github.com/ethz-adrl/ifopt/issues/12>`_
+* Add possibility to set solver options (e.g. "ma27") on user side
+* Clean-up and improve printouts
+* Reduce to one single catkin package with solvers as cmake subdirectories
+* Contributors: Alexander Winkler
+
 1.0.2 (2018-02-05)
 ------------------
 * add correct catkin install folder for ifopt_core
