@@ -176,6 +176,8 @@ Problem::SetOptVariablesFinal ()
 void
 Problem::PrintCurrent() const
 {
+  double tol = 0.001; ///< tolerance when printing out constraint/bound violation.
+
   using namespace std;
   cout << "\n"
        << "************************************************************\n"
@@ -187,19 +189,19 @@ Problem::PrintCurrent() const
        << "Legend:\n"
        << "c - number of variables, constraints or cost terms" << std::endl
        << "i - indices of this set in overall problem" << std::endl
-       << "v - number of violated constraints in that set"
+       << "v - number of violated variable bounds or constraints (tol=" << tol << ")"
        << "\n\n"
        << std::right
        << std::setw(33) << ""
        << std::setw(5)  << "c  "
-       << std::setw(12) << "i    "
+       << std::setw(14) << "i    "
        << std::setw(6)  << "v "
        << std::left
        << "\n";
 
-  variables_->Print();
-  constraints_.Print();
-  costs_.Print();
+  variables_->Print(tol);
+  constraints_.Print(tol);
+  costs_.Print(tol);
 };
 
 Problem::VectorXd

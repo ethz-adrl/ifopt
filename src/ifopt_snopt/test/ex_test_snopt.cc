@@ -40,6 +40,7 @@ int main() {
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
   nlp.AddCostSet      (std::make_shared<ExCost>());
+  nlp.PrintCurrent();
 
   Snopt solver;
   solver.Solve(nlp);
