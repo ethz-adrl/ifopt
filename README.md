@@ -30,7 +30,7 @@ Point cmake to the location of your NLP solvers by modifying the [Findipopt.cmak
 set(solver_DIR "/path_to_solver_build_dir") 
 ```
 
-### cmake
+### Building with cmake
 * Install:
   ```bash
   git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
@@ -63,7 +63,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
   ```
         
-### catkin
+### Building with catkin
 * Install:
   Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install   python-catkin-tools``), clone this repo into your catkin workspace and build
   ```bash
@@ -131,6 +131,9 @@ Output:
 ```bash
 1.0 0.0
 ```
+Take a quick look now at how easily this example problem can be formulated:
+
+[src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h)
 
 Each set of variables, costs and constraints are formulated by one C++ object
 purely through Eigen vectors and matrices and independent from any specific solver.
@@ -140,17 +143,8 @@ so each set can be implemented independent of the others.
 
 <img align="center" height="300" src="https://i.imgur.com/uzt1N7O.png"/>
 
-> Check out this more involved problem definition from [towr] with multiple sets 
-> of variables and constraints ([image](https://i.imgur.com/4yhohZF.png)).
-
-
-Take a quick look now at how easily this example problem can be formulated:
-
-[src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h)
-
-
-
-
+> Check out this more involved problem definition with multiple sets 
+> of variables and constraints: [image](https://i.imgur.com/4yhohZF.png) (taken from [towr]).
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Publications
