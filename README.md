@@ -16,11 +16,11 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 
 ## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
-
-* [CMake] >= v3.1.0
-* [Eigen] >= v3.2.0  (```sudo apt-get install libeigen3-dev```)
-* [Ipopt](https://www.coin-or.org/Ipopt/documentation/node10.html) and/or 
-  [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm)
+| Name | Min. Ver. | Description |
+| --- | --- | --- |
+| [CMake] | v3.1.0 | C++ build tool: ```sudo apt-get install cmake```. |
+| [Eigen] | v3.2.0 | Library for linear algebra: ```sudo apt-get install libeigen3-dev```. |
+| [Ipopt]/[Snopt] |  | One or both off-the-shelf NLP solvers to solve the formulated optimization problem. |
 
 
 ## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building
