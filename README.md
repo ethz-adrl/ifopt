@@ -107,7 +107,7 @@ so each set can be implemented independent of the others.
 
 > The red values show the initial variables values and constraints violating the bounds. 
 > A more involved problem definition with multiple sets 
-> of variables and constraints can be seen here [image](https://i.imgur.com/4yhohZF.png) (taken from [towr]).
+> of variables and constraints can be seen [here](https://i.imgur.com/4yhohZF.png) (taken from [towr]).
 
 If you have IPOPT installed and linked correctly, you can run this binary [example](src/ifopt_core/test/ex_test_ipopt.cc) through
 ```bash
