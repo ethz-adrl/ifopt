@@ -69,7 +69,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   cd catkin_workspace/src
   git clone https://github.com/ethz-adrl/ifopt.git
   cd ..
-  catkin_make # `catkin build` if you are using catkin command-line tools 
+  catkin_make_isolated # `catkin build` if you are using catkin command-line tools 
   source ./devel/setup.bash
   ```
    
@@ -78,7 +78,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   rosrun ifopt ifopt_core-test # or ifopt_ipopt-example ifopt_snopt-example
   ```
 
-* Use: Included in your catkin project by adding to your *CMakeLists.txt* 
+* Use: Include in your catkin project by adding to your *CMakeLists.txt* 
   ```cmake
   find_package(catkin COMPONENTS ifopt) 
   include_directories(${catkin_INCLUDE_DIRS})
