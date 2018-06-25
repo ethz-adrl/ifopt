@@ -18,7 +18,7 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 ## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
 
 * [CMake] >= v3.1.0
-* [Eigen] v3.2.0: ```$ sudo apt-get install libeigen3-dev```
+* [Eigen] >= v3.2.0  (```sudo apt-get install libeigen3-dev```)
 * [Ipopt](https://www.coin-or.org/Ipopt/documentation/node10.html) and/or 
   [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm)
 
@@ -30,67 +30,67 @@ Point cmake to the location of your NLP solvers by modifying the [Findipopt.cmak
 set(solver_DIR "/path_to_solver_build_dir") 
 ```
 
-#### CMake
+### cmake
 * Install:
-```bash
-git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
-mkdir build && cd build
-cmake ..
-make
-sudo make install # copy files in this folder to /usr/local/*
-sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
-```
+  ```bash
+  git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
+  mkdir build && cd build
+  cmake ..
+  make
+  sudo make install # copy files in this folder to /usr/local/*
+  sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
+  ```
 
 * Test: Make sure everything installed correctly by running
-```bash
-make test
-```
-You should see `#1 ifopt_core-test....Passed` as well as one test for each installed solver.
-In case you want to see the actual iterations of the solver, run ``ctest -V``. 
+  ```bash
+  make test
+  ```
+  You should see `#1 ifopt_core-test....Passed` as well as one test for each installed solver.
+  In case you want to see the actual iterations of the solver, run ``ctest -V``. 
 
  
 * Use: To use in your cmake project, see this minimal *CMakeLists.txt*:
-```cmake
-find_package(ifopt)
+  ```cmake
+  find_package(ifopt)
  
-# your function formulating and solving an optimization problem
-add_executable(main main.cpp)
+  # your function formulating and solving an optimization problem
+  add_executable(main main.cpp)
  
-# only command required to pull in include directories, libraries, ... 
-# if only formulating the problem, use ifopt:ifopt_core
-# if solving with IPOPT, use ifopt::ifopt_ipopt
-# if solving with SNOPT, use ifopt::ifopt_snopt
-target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
-```
+  # only command required to pull in include directories, libraries, ... 
+  # if only formulating the problem, use ifopt:ifopt_core
+  # if solving with IPOPT, use ifopt::ifopt_ipopt
+  # if solving with SNOPT, use ifopt::ifopt_snopt
+  target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
+  ```
         
-#### catkin
+### catkin
 * Install:
-Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build
-```bash
-cd catkin_workspace/src
-git clone https://github.com/ethz-adrl/ifopt.git
-cd ..
-catkin_make # `catkin build` if you are using catkin command-line tools 
-source ./devel/setup.bash
-```
+  Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install   python-catkin-tools``), clone this repo into your catkin workspace and build
+  ```bash
+  cd catkin_workspace/src
+  git clone https://github.com/ethz-adrl/ifopt.git
+  cd ..
+  catkin_make # `catkin build` if you are using catkin command-line tools 
+  source ./devel/setup.bash
+  ```
    
 * Test:
-```bash
-rosrun ifopt ifopt_core-test # or ifopt_ipopt-example ifopt_snopt-example
-```
+  ```bash
+  rosrun ifopt ifopt_core-test # or ifopt_ipopt-example ifopt_snopt-example
+  ```
 
 * Use: Included in your catkin project by adding to your *CMakeLists.txt* 
-```cmake
-find_package(catkin COMPONENTS ifopt) 
-include_directories(${catkin_INCLUDE_DIRS})
-target_link_libraries(foo ${catkin_LIBRARIES})
-```
-Add the following to your *package.xml*:
-```xml
-<package>
-  <depend>ifopt</depend>
-</package>
-```
+  ```cmake
+  find_package(catkin COMPONENTS ifopt) 
+  include_directories(${catkin_INCLUDE_DIRS})
+  target_link_libraries(foo ${catkin_LIBRARIES})
+  ```
+  Add the following to your *package.xml*:
+  ```xml
+  <package>
+    <depend>ifopt</depend>
+  </package>
+  ```
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Example
