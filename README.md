@@ -12,15 +12,15 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 [<img src="https://i.imgur.com/uCvLs2j.png" height="40" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="40" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="40" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 -------
-... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) Eigen sparse-matrix exploitation for fast performance, (4) constraint-jacobian and cost-gradient ordering and (5) implementation of interfaces to Ipopt and Snopt. 
+... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) Eigen sparse-matrix exploitation for fast performance, (4) implementation of interfaces to Ipopt and Snopt. 
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
 
-* [CMake] 3.1.0 or greater
-* [Eigen] 3.2.0 (older might work as well): ```$ sudo apt-get install libeigen3-dev```
-* ([Ipopt](https://www.coin-or.org/Ipopt/documentation/node10.html) and/or 
-  [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm))
+* [CMake] >= v3.1.0
+* [Eigen] v3.2.0: ```$ sudo apt-get install libeigen3-dev```
+* [Ipopt](https://www.coin-or.org/Ipopt/documentation/node10.html) and/or 
+  [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm)
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
@@ -31,28 +31,22 @@ set(IPOPT_DIR "/home/your_name/path_to_ipopt_dir")
 set(SNOPT_DIR "/home/your_name/path_to_snopt_dir")
 ```
 
-### ... with CMake
+#### CMake
 *Install*:
 ```bash
 git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
 mkdir build && cd build
 cmake ..
 make
-# copy files in this folder to
-# /usr/local/include/ifopt: headers
-# /usr/local/lib: libraries
-# /usr/local/shared/ifopt/cmake: find-scripts (.cmake)
-sudo make install
-  
-# in case you want to uninstall the above
-sudo xargs rm < install_manifest.txt 
+sudo make install # copy files in this folder to /usr/local/*
+sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
 ```
 
 *Test*: Make sure everything installed correctly by running
 ```bash
 make test
 ```
-You should see `#1 test-ifopt....Passed` as well as one test for each installed solver.
+You should see `#1 ifopt_core-test....Passed` as well as one test for each installed solver.
 In case you want to see the actual iterations of the solver, run ``ctest -V``. 
 
  
@@ -70,9 +64,9 @@ add_executable(main main.cpp)
 target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
 ```
         
-### ... with catkin
+#### catkin
 *Install*:
-Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build:
+Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build
 ```bash
 cd catkin_workspace/src
 git clone https://github.com/ethz-adrl/ifopt.git
@@ -81,9 +75,9 @@ catkin_make # `catkin build` if you are using catkin command-line tools
 source ./devel/setup.bash
 ```
    
-*Test*: test if solvers where correctly linked through
+*Test*:
 ```bash
-rosrun ifopt testifopt # or testipopt, testsnopt
+rosrun ifopt ifopt_core-test # or ifopt_ipopt-example ifopt_snopt-example
 ```
 
 *Use*: Included in your catkin project by adding to your *CMakeLists.txt* 
@@ -107,23 +101,31 @@ The optimization problem to solve is defined as:
 
 If you have IPOPT installed and linked correctly, you can run this binary example through
 ```bash
-./build/src/ifopt_ipopt/testipopt # or `rosrun ifopt testipopt` if built with catkin
+./build/src/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example ` if built with catkin
 ```
 [src/ifopt_ipopt/src/ipopt_adapter.cc](src/ifopt_ipopt/src/ipopt_adapter.cc):
 ```c++
-#include <ifopt/test/ex_problem.h>
-#include <ifopt_ipopt/ipopt_adapter.h>
+#include <ifopt/problem.h>
+#include <ifopt/ipopt.h>
+#include <test_vars_constr_cost.h>
 
-int main() 
-{
+int main() {
+
+  // 1. define the solver independent problem
   Problem nlp;
-
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
   nlp.AddCostSet      (std::make_shared<ExCost>());
-  
-  IpoptAdapter::Solve(nlp); // or SnoptAdapter::Solve(nlp);
-  std::cout << nlp.GetOptVariables()->GetValues();
+
+  // 2. choose solver and options
+  Ipopt solver; // or Snopt
+  solver.linear_solver_ = "ma27";
+  solver.tol_           = 0.001;
+
+  // 3 . solve
+  solver.Solve(nlp);
+
+  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
 }
 ```
 Output:
@@ -131,11 +133,15 @@ Output:
 1.0 0.0
 ```
 
-The 3 classes representing variables, costs and constraints are defined as 
-in the following. The entire following code is independent from any specific solver
-and is based purely on Eigen.
+Each set of variables, costs and constraints are formulated by one C++ object
+purely through Eigen vectors and matrices and independent from any specific solver.
+Multiple sets of variables or constraints can be added to the NLP and ifopt 
+manages the overall variable vector and jacobian, so each set can be implemented
+independent of the others. An  
 
-[src/ifopt_core/include/ifopt/ex_problem.h](src/ifopt_core/include/ifopt/ex_problem.h):
+Each "set" of variables or co
+
+[src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h):
 
 The variables x0 and x1 with their bound -1 <= x0 <= 1 is
 formulated as follows:
