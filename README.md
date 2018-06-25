@@ -15,7 +15,7 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 ... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) Eigen sparse-matrix exploitation for fast performance, (4) implementation of interfaces to Ipopt and Snopt. 
 
 
-## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
+## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
 
 * [CMake] >= v3.1.0
 * [Eigen] >= v3.2.0  (```sudo apt-get install libeigen3-dev```)
@@ -23,7 +23,7 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
   [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm)
 
 
-## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
+## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building
 Point cmake to the location of your NLP solvers by modifying the [Findipopt.cmake](cmake/Findipopt.cmake) and/or
 [Findsnopt.cmake](cmake/Findsnopt.cmake)
 ```bash
@@ -92,7 +92,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   ```
 
 
-## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Example
+## <img align="center" height="15" src="https://i.imgur.com/vAYeCzC.png"/> Example
 The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
@@ -147,7 +147,7 @@ Take a quick look now at how easily this example problem can be formulated:
 [src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h)
 
 
-## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Publications
+## <img align="center" height="15" src="https://i.imgur.com/dHQx91Q.png"/> Publications
 
 If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
 or the project within which this code was developed:
@@ -169,7 +169,7 @@ or the project within which this code was developed:
 
 
 
-##  <img align="center" height="20" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
+##  <img align="center" height="15" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues). This can include a desired interface to another solver, build issues on your machine, or general usage questions.  
 
