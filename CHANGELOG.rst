@@ -1,5 +1,5 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package ifopt_core
+Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 2.0.0 (2018-06-24)
