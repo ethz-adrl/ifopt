@@ -98,6 +98,18 @@ The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
+Each set of variables, costs and constraints are formulated by one C++ object
+purely through Eigen vectors and matrices and independent from any specific solver.
+Although this example adds just one, multiple sets of variables or constraints 
+can be added to the NLP and ifopt manages the overall variable vector and jacobian, 
+so each set can be implemented independent of the others. 
+
+<img align="center" height="300" src="https://i.imgur.com/uzt1N7O.png"/>
+
+> The red values show the initial variables values and constraints violating the bounds. 
+> A more involved problem definition with multiple sets 
+> of variables and constraints can be seen here [image](https://i.imgur.com/4yhohZF.png) (taken from [towr]).
+
 If you have IPOPT installed and linked correctly, you can run this binary [example](src/ifopt_core/test/ex_test_ipopt.cc) through
 ```bash
 ./build/src/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example `
@@ -134,17 +146,6 @@ Output:
 Take a quick look now at how easily this example problem can be formulated:
 
 [src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h)
-
-Each set of variables, costs and constraints are formulated by one C++ object
-purely through Eigen vectors and matrices and independent from any specific solver.
-Although this example adds just one, multiple sets of variables or constraints 
-can be added to the NLP and ifopt manages the overall variable vector and jacobian, 
-so each set can be implemented independent of the others. 
-
-<img align="center" height="300" src="https://i.imgur.com/uzt1N7O.png"/>
-
-> Check out this more involved problem definition with multiple sets 
-> of variables and constraints: [image](https://i.imgur.com/4yhohZF.png) (taken from [towr]).
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Publications
