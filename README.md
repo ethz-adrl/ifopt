@@ -24,15 +24,14 @@ Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers,
 
 
 ## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
-Point CMake to the location of your NLP solvers by modifying the root [CMakeLists.txt](CMakeLists.txt)
+Point cmake to the location of your NLP solvers by modifying the [Findipopt.cmake](cmake/Findipopt.cmake) and/or
+[Findsnopt.cmake](cmake/Findsnopt.cmake)
 ```bash
-# if folder doesn't exist cmake just ignores that solver
-set(IPOPT_DIR "/home/your_name/path_to_ipopt_dir") 
-set(SNOPT_DIR "/home/your_name/path_to_snopt_dir")
+set(solver_DIR "/path_to_solver_build_dir") 
 ```
 
 #### CMake
-*Install*:
+* Install:
 ```bash
 git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
 mkdir build && cd build
@@ -42,7 +41,7 @@ sudo make install # copy files in this folder to /usr/local/*
 sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
 ```
 
-*Test*: Make sure everything installed correctly by running
+* Test: Make sure everything installed correctly by running
 ```bash
 make test
 ```
@@ -50,7 +49,7 @@ You should see `#1 ifopt_core-test....Passed` as well as one test for each insta
 In case you want to see the actual iterations of the solver, run ``ctest -V``. 
 
  
-*Use*: To use in your cmake project, see this minimal *CMakeLists.txt*:
+* Use: To use in your cmake project, see this minimal *CMakeLists.txt*:
 ```cmake
 find_package(ifopt)
  
@@ -65,7 +64,7 @@ target_link_libraries(main PUBLIC ifopt::ifopt_ipopt)
 ```
         
 #### catkin
-*Install*:
+* Install:
 Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install python-catkin-tools``), clone this repo into your catkin workspace and build
 ```bash
 cd catkin_workspace/src
@@ -75,12 +74,12 @@ catkin_make # `catkin build` if you are using catkin command-line tools
 source ./devel/setup.bash
 ```
    
-*Test*:
+* Test:
 ```bash
 rosrun ifopt ifopt_core-test # or ifopt_ipopt-example ifopt_snopt-example
 ```
 
-*Use*: Included in your catkin project by adding to your *CMakeLists.txt* 
+* Use: Included in your catkin project by adding to your *CMakeLists.txt* 
 ```cmake
 find_package(catkin COMPONENTS ifopt) 
 include_directories(${catkin_INCLUDE_DIRS})
@@ -99,11 +98,11 @@ The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
-If you have IPOPT installed and linked correctly, you can run this binary example through
+If you have IPOPT installed and linked correctly, you can run this binary [example](src/ifopt_core/test/ex_test_ipopt.cc) through
 ```bash
-./build/src/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example ` if built with catkin
+./build/src/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example `
 ```
-[src/ifopt_ipopt/src/ipopt_adapter.cc](src/ifopt_ipopt/src/ipopt_adapter.cc):
+
 ```c++
 #include <ifopt/problem.h>
 #include <ifopt/ipopt.h>
@@ -111,18 +110,18 @@ If you have IPOPT installed and linked correctly, you can run this binary exampl
 
 int main() {
 
-  // 1. define the solver independent problem
+  // Define the solver independent problem
   Problem nlp;
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
   nlp.AddConstraintSet(std::make_shared<ExConstraint>());
   nlp.AddCostSet      (std::make_shared<ExCost>());
 
-  // 2. choose solver and options
+  // Choose solver and options
   Ipopt solver; // or Snopt
   solver.linear_solver_ = "ma27";
   solver.tol_           = 0.001;
 
-  // 3 . solve
+  // Solve
   solver.Solve(nlp);
 
   std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
@@ -135,110 +134,45 @@ Output:
 
 Each set of variables, costs and constraints are formulated by one C++ object
 purely through Eigen vectors and matrices and independent from any specific solver.
-Multiple sets of variables or constraints can be added to the NLP and ifopt 
-manages the overall variable vector and jacobian, so each set can be implemented
-independent of the others. An  
+Although this example adds just one, multiple sets of variables or constraints 
+can be added to the NLP and ifopt manages the overall variable vector and jacobian, 
+so each set can be implemented independent of the others. 
 
-Each "set" of variables or co
+<img align="center" height="300" src="https://i.imgur.com/uzt1N7O.png"/>
 
-[src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h):
-
-The variables x0 and x1 with their bound -1 <= x0 <= 1 is
-formulated as follows:
-```c++
-class ExVariables : public VariableSet {
-public:
-  ExVariables() : VariableSet(2, "var_set1")
-  { // initial values
-    x0_ = 0.5;
-    x1_ = 1.5;
-  }
-
-  virtual void SetVariables(const VectorXd& x)
-  {
-    x0_ = x(0);
-    x1_ = x(1);
-  };
-
-  virtual VectorXd GetValues() const
-  {
-    return Vector2d(x0_, x1_);
-  };
-
-  VecBound GetBounds() const override
-  {
-    VecBound bounds(GetRows());
-    bounds.at(0) = Bounds(-1.0, 1.0);
-    bounds.at(1) = NoBound;
-    return bounds;
-  }
-
-private:
-  double x0_, x1_;
-};
-```
-
-The example constraint 0 = x0^2 + x1 - 1 is formulated as follows:
-```c++
-class ExConstraint : public ConstraintSet {
-public:
-  ExConstraint() : ConstraintSet(1, "constraint1") {}
-
-  virtual VectorXd GetValues() const override
-  {
-    VectorXd g(GetRows());
-    Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
-    g(0) = std::pow(x(0),2) + x(1);
-    return g;
-  };
-
-  VecBound GetBounds() const override
-  {
-    VecBound b(GetRows());
-    b.at(0) = Bounds(1.0, 1.0);
-    return b;
-  }
-
-  void FillJacobianBlock (std::string var_set, Jacobian& jac) const override
-  {
-    if (var_set == "var_set1") {
-      Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
-      
-      jac.coeffRef(0, 0) = 2.0*x(0); // derivative of first constraint w.r.t x0
-      jac.coeffRef(0, 1) = 1.0;      // derivative of first constraint w.r.t x1
-    }
-  }
-};
-```
+> Check out this more involved problem definition from [towr] with multiple sets 
+> of variables and constraints ([image](https://i.imgur.com/4yhohZF.png)).
 
 
-The example cost f(x) = -(x1-2)^2 is formulated as follows:
-```c++
-class ExCost: public CostTerm {
-public:
-  ExCost() : CostTerm("cost_term1") {}
+Take a quick look now at how easily this example problem can be formulated:
 
-  virtual double GetCost() const override
-  {
-    Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
-    return -std::pow(x(1)-2,2);
-  };
+[src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h)
 
-  void FillJacobianBlock (std::string var_set, Jacobian& jac) const override
-  {
-    if (var_set == "var_set1") {
-      Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
 
-      jac.coeffRef(0, 0) = 0.0;             // derivative of cost w.r.t x0
-      jac.coeffRef(0, 1) = -2.0*(x(1)-2.0); // derivative of cost w.r.t x1
-    }
-  }
-};
-```
+
+
+
 
 ## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Publications
 
-If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE).
+If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
+or the project within which this code was developed:
+> A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
+
+    @article{winkler18,
+      author    = {Winkler, Alexander W and Bellicoso, Dario C and 
+                   Hutter, Marco and Buchli, Jonas},
+      title     = {Gait and Trajectory Optimization for Legged Systems 
+                   through Phase-based End-Effector Parameterization},
+      journal   = {IEEE Robotics and Automation Letters (RA-L)},
+      year      = {2018},
+      month     = {July},
+      pages     = {1560-1567},
+      volume    = {3},
+      doi       = {10.1109/LRA.2018.2798285},
+    }
+
+
 
 
 ##  <img align="center" height="20" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
