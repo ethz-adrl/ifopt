@@ -31,7 +31,7 @@ set(solver_DIR "/path_to_solver_build_dir")
 ```
 
 ### Building with cmake
-* Install:
+* Install
   ```bash
   git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
   mkdir build && cd build
@@ -64,8 +64,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   ```
         
 ### Building with catkin
-* Install:
-  Download [catkin] (``sudo apt-get install ros-kinetic-catkin``) or [catkin command line tools] (``sudo apt-get install   python-catkin-tools``), clone this repo into your catkin workspace and build
+* Install: Download [catkin] or [catkin command line tools], then:
   ```bash
   cd catkin_workspace/src
   git clone https://github.com/ethz-adrl/ifopt.git
@@ -74,7 +73,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   source ./devel/setup.bash
   ```
    
-* Test:
+* Test
   ```bash
   rosrun ifopt ifopt_core-test # or ifopt_ipopt-example ifopt_snopt-example
   ```
