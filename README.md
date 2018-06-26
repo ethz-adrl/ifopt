@@ -5,14 +5,20 @@
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
 
-Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. An example of how this interface can be used to optimize complex motions for legged robots can be seen in [towr].
+*A modern, light-weight, Eigen-based C++ interface to Ipopt and Snopt*
+
+Ifopt is an [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets :heavy_check_mark:. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
+
+More Features:  
+:heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
+:heavy_check_mark: exports cmake scripts `find_package(ifopt)` to easily link to your project.  
+:heavy_check_mark: [catkin] integration (optional).  
+:heavy_check_mark: light-weight (~[1k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
+
 
 **Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)**
 
 [<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
-
--------
-... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) Eigen sparse-matrix exploitation for fast performance, (4) implementation of interfaces to Ipopt and Snopt. 
 
 
 ## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
@@ -37,7 +43,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   mkdir build && cd build
   cmake ..
   make
-  sudo make install # copy files in this folder to /usr/local/*
+  sudo make install # copies files in this folder to /usr/local/*
   sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
   ```
 
