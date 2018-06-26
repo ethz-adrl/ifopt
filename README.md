@@ -5,9 +5,9 @@
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
 
-*A modern, light-weight, Eigen-based C++ interface to Ipopt and Snopt*
+*A modern, light-weight, [Eigen]-based C++ interface to Nonlinear Programming solvers, such as [Ipopt] and [Snopt].*
 
-Ifopt is an [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets :heavy_check_mark:. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
+:heavy_check_mark: Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
 
 More Features:  
 :heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
