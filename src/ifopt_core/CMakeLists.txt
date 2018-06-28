@@ -30,7 +30,12 @@ install(TARGETS ${LIB_CORE} EXPORT ${LIB_CORE}-targets
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 # Copy header files to usr/local/include/ifopt/*
-install(DIRECTORY include/ifopt/
+install(
+  DIRECTORY include/ifopt/
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ifopt
+)
+install(
+  FILES test/test_vars_constr_cost.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ifopt
 )
 # Generate the find scripts

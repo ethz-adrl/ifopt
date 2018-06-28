@@ -39,10 +39,6 @@ Ipopt::Solve (Problem& nlp)
 
   // initialize the Ipopt solver
   IpoptApplicationPtr ipopt_app_ = new IpoptApplication();
-  ipopt_app_->RethrowNonIpoptException(true);
-
-
-
 
 
   // set the solver options

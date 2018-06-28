@@ -11,13 +11,18 @@ target_include_directories(${LIB_IPOPT}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
   PRIVATE
-    ${ipopt_INCLUDE_DIRS}
+    ${IPOPT_INCLUDE_DIRS}
 )
 target_link_libraries(${LIB_IPOPT}
   PUBLIC 
     ifopt_core
   PRIVATE
-    ${ipopt_LIBRARIES}
+    ${IPOPT_LIBRARIES}
+    ${IPOPT_LINK_FLAGS}
+)
+target_compile_definitions(${LIB_IPOPT}
+  PRIVATE
+    ${IPOPT_DEFINITIONS}
 )
 
 #############
