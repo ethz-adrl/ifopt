@@ -43,7 +43,7 @@ int main() {
 
   // 2. choose solver and options
   Ipopt ipopt;
-  ipopt.linear_solver_ = "ma27";
+  ipopt.linear_solver_ = "mumps";
   ipopt.tol_           = 0.001;
 
   // 3 . solve
