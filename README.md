@@ -5,25 +5,31 @@
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
 
-Ifopt is a unified [Eigen]-based interface to use Nonlinear Programming solvers, such as [Ipopt] and [Snopt]. The user defines the solver independent optimization problem by set of C++ classes resembling variables, cost and constraints. Subsequently, the problem can then be solved with either solver. An example of how this interface can be used to optimize complex motions for legged robots can be seen in [towr].
+*A modern, light-weight, [Eigen]-based C++ interface to Nonlinear Programming solvers, such as [Ipopt] and [Snopt].*
+
+:heavy_check_mark: Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
+
+More Features:  
+:heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
+:heavy_check_mark: exports cmake scripts `find_package(ifopt)` to easily link to your project.  
+:heavy_check_mark: [catkin] integration (optional).  
+:heavy_check_mark: light-weight (~[1k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
+
 
 **Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)**
 
 [<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
 
--------
-... also we only need [981 lines of code](https://i.imgur.com/NCPJsSw.png) [(why this matters)](https://blog.codinghorror.com/the-best-code-is-no-code-at-all/) to allow the generation of (1) solver independent problem formulations, (2) automatic ordering of independent variable and constraint sets in the overall problem, (3) Eigen sparse-matrix exploitation for fast performance, (4) implementation of interfaces to Ipopt and Snopt. 
+
+## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
+| Name | Min. Ver. | Description |
+| --- | --- | --- |
+| [CMake] | v3.1.0 | C++ build tool: ```sudo apt-get install cmake```. |
+| [Eigen] | v3.2.0 | Library for linear algebra: ```sudo apt-get install libeigen3-dev```. |
+| [Ipopt] / [Snopt] |  | One or both NLP solvers to solve the Eigen-based optimization problem. |
 
 
-## <img align="center" height="20" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
-
-* [CMake] >= v3.1.0
-* [Eigen] >= v3.2.0  (```sudo apt-get install libeigen3-dev```)
-* [Ipopt](https://www.coin-or.org/Ipopt/documentation/node10.html) and/or 
-  [Snopt](http://www.sbsi-sol-optimize.com/asp/sol_snopt.htm)
-
-
-## <img align="center" height="20" src="https://i.imgur.com/x1morBF.png"/> Building
+## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building
 Point cmake to the location of your NLP solvers by modifying the [Findipopt.cmake](cmake/Findipopt.cmake) and/or
 [Findsnopt.cmake](cmake/Findsnopt.cmake)
 ```bash
@@ -37,7 +43,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   mkdir build && cd build
   cmake ..
   make
-  sudo make install # copy files in this folder to /usr/local/*
+  sudo make install # copies files in this folder to /usr/local/*
   sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
   ```
 
@@ -69,7 +75,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   cd catkin_workspace/src
   git clone https://github.com/ethz-adrl/ifopt.git
   cd ..
-  catkin_make # `catkin build` if you are using catkin command-line tools 
+  catkin_make_isolated # `catkin build` if you are using catkin command-line tools 
   source ./devel/setup.bash
   ```
    
@@ -78,7 +84,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   rosrun ifopt ifopt_core-test # or ifopt_ipopt-example ifopt_snopt-example
   ```
 
-* Use: Included in your catkin project by adding to your *CMakeLists.txt* 
+* Use: Include in your catkin project by adding to your *CMakeLists.txt* 
   ```cmake
   find_package(catkin COMPONENTS ifopt) 
   include_directories(${catkin_INCLUDE_DIRS})
@@ -92,7 +98,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   ```
 
 
-## <img align="center" height="20" src="https://i.imgur.com/vAYeCzC.png"/> Example
+## <img align="center" height="15" src="https://i.imgur.com/vAYeCzC.png"/> Example
 The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
@@ -147,7 +153,7 @@ Take a quick look now at how easily this example problem can be formulated:
 [src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h)
 
 
-## <img align="center" height="20" src="https://i.imgur.com/dHQx91Q.png"/> Publications
+## <img align="center" height="15" src="https://i.imgur.com/dHQx91Q.png"/> Publications
 
 If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
 or the project within which this code was developed:
@@ -169,7 +175,7 @@ or the project within which this code was developed:
 
 
 
-##  <img align="center" height="20" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
+##  <img align="center" height="15" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues). This can include a desired interface to another solver, build issues on your machine, or general usage questions.  
 
