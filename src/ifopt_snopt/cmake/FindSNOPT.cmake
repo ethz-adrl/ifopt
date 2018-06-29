@@ -25,10 +25,11 @@ if(IS_DIRECTORY ${SNOPT_DIR}/include)
   set(SNOPT_INCLUDE_DIRS "${SNOPT_DIR}/include")
   set(SNOPT_LIBRARIES    "${SNOPT_DIR}/lib/libsnopt7_cpp.so;"
                          "${SNOPT_DIR}/lib/libsnopt7.so")
+  message(STATUS "SNOPT headers found at:  \"" ${SNOPT_INCLUDE_DIRS} "\" ")
+                                              
 else()
-  message(WARNING "SNOPT directory \"" ${SNOPT_DIR} "\" NOT found. "
-                  "If you want to compile with SNOPT, "
-                  "set path to your SNOPT installation in your ~/.bashrc:\n"
+  message(STATUS  "SNOPT directory \"" ${SNOPT_DIR} "\" NOT found. "
+                  "Set path to your SNOPT installation in your ~/.bashrc:\n"
                   "export SNOPT_DIR=/home/your_name/Code/Snopt\n"
   )
 endif()

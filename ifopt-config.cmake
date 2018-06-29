@@ -9,9 +9,9 @@
 # ^^^^^^^^^^^^^^^^
 #
 # This module defines the following IMPORTED targets:
-#   ifopt::ifopt_core  - formulate a solver-independent optimization problem
-#   ifopt::ifopt_ipopt - interface to NLP solver IPOPT
-#   ifopt::ifopt_snopt - interface to NLP solver SNOPT 
+#   ifopt::ifopt_core   - formulate a solver-independent optimization problem
+#   ifopt::ifopt_ipopt  - interface to NLP solver IPOPT
+#   (ifopt::ifopt_snopt - interface to NLP solver SNOPT)
 #
 #
 # Example usage
@@ -28,10 +28,10 @@
 # This module will set the following variables in your project. 
 # These can be neccessary when building with catkin and not modern cmake
 #   ifopt_INCLUDE_DIRS    - path to public include (.h) files
-#   ifopt_ifopt_LIBRARIES - path to all libraries
+#   ifopt_LIBRARIES       - path to all libraries
 #   ifopt_LIB_CORE        - path to ifopt_core library
 #   ifopt_LIB_IPOPT       - path to ifopt_ipopt library
-#   ifopt_LIB_SNOPT       - path to ifopt_snopt library
+#   (ifopt_LIB_SNOPT      - path to ifopt_snopt library)
 #
 #=============================================================================
 
@@ -45,17 +45,17 @@ get_target_property(ifopt_INCLUDE_DIRS ifopt::ifopt_core INTERFACE_INCLUDE_DIREC
 
 # ifopt_core
 get_property(ifopt_LIB_CORE TARGET ifopt::ifopt_core PROPERTY LOCATION)
-set(ifopt_LIBRARIES "${ifopt_LIB_CORE}")
+list(APPEND ifopt_LIBRARIES ${ifopt_LIB_CORE})
 
 # ifopt_ipopt
 if(TARGET ifopt::ifopt_ipopt)
   get_property(ifopt_LIB_IPOPT TARGET ifopt::ifopt_ipopt PROPERTY LOCATION)
-  set(ifopt_LIBRARIES "${ifopt_LIBRARIES};${ifopt_LIB_IPOPT}")
+  list(APPEND ifopt_LIBRARIES ${ifopt_LIB_IPOPT})
 endif()
 
 # ifopt_snopt
 if(TARGET ifopt::ifopt_snopt)
   get_property(ifopt_LIB_SNOPT TARGET ifopt::ifopt_snopt PROPERTY LOCATION)
-  set(ifopt_LIBRARIES "${ifopt_LIBRARIES};${ifopt_LIB_SNOPT}")
+  list(APPEND ifopt_LIBRARIES ${ifopt_LIB_SNOPT})
 endif()
 
