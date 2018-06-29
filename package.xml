@@ -4,14 +4,12 @@
   <name>ifopt</name>
   <version>2.0.0</version>
   <description>
-    Provides a unified 
-    <a href="http://eigen.tuxfamily.org">Eigen-</a>
-    based interface to use Nonlinear Programming solvers
-    <a href="https://projects.coin-or.org/Ipopt">Ipopt</a> and
-    <a href="http://ampl.com/products/solvers/solvers-we-sell/snopt/">Snopt</a>.
-    The user defines the solver independent optimization problem by set of C++ 
-    classes resembling variables, cost and constraints. Subsequently, the 
-    problem can be efficently solved with either solver.
+    An <a href="http://eigen.tuxfamily.org">Eigen-</a>
+    based interface to Nonlinear Programming solver
+    <a href="https://projects.coin-or.org/Ipopt">Ipopt</a>. 
+    Inuitive and efficient C++ implementation of variables, costs and 
+    constraints using Eigen. Easy integration in your projects in catkin
+    or pure cmake. 
   </description>
   
   <author>Alexander W. Winkler</author>
@@ -19,9 +17,16 @@
   <license>BSD</license>
   
   <url type="website">https://github.com/ethz-adrl/ifopt</url>
-  <url type="bugtracker">https://github.com/ethz-adrl/ifopt/issues</url>
   
+  <build_depend>pkg-config</build_depend>
+  <depend>eigen</depend>
+  <depend>coinor-libipopt-dev</depend> 
+  
+  <!-- The following tags are recommended by REP-136 for non-catkin pkgs -->
+  <exec_depend>catkin</exec_depend>
   <buildtool_depend>cmake</buildtool_depend>
-  <buildtool_depend>catkin</buildtool_depend> <!-- optional -->
-  <depend>eigen</depend>  
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+  
 </package>
