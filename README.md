@@ -21,22 +21,31 @@ More Features:
 [<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 
-## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Requirements
-| Name | Min. Ver. | Description |
-| --- | --- | --- |
-| [CMake] | v3.1.0 | C++ build tool: ```sudo apt-get install cmake```. |
-| [Eigen] | v3.2.0 | Library for linear algebra: ```sudo apt-get install libeigen3-dev```. |
-| [Ipopt] / [Snopt] |  | One or both NLP solvers to solve the Eigen-based optimization problem. |
+## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Dependencies
+Name | Min. Ver. | Description
+--- | --- | --- |
+[CMake] | v3.1.0 | C++ build tool: ```sudo apt-get install cmake```.
+[Eigen] | v3.2.0 | Library for linear algebra: ```sudo apt-get install libeigen3-dev```.
+| | | Install one or both to solve the optimization problem:
+[Ipopt] | v3.11.9 | NLP solver using Interior-Point Method: ```sudo apt-get install coinor-libipopt-dev```.
+[Snopt] |  7.4  |  NLP solver using Sequential Quadratic Programming (non-free).
 
 
-## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building
-Point cmake to the location of your NLP solvers by modifying the [Findipopt.cmake](cmake/Findipopt.cmake) and/or
-[Findsnopt.cmake](cmake/Findsnopt.cmake)
+
+####  Setting up Solvers
+If [Ipopt] was installed through the the package manager or installed into the standard search paths,
+there is nothing to do here. If you want to link to a local installation, add the path to your
+Ipopt build folder to your `~/.bashrc`, e.g.
 ```bash
-set(solver_DIR "/path_to_solver_build_dir") 
+export IPOPT_DIR=/home/your_name/Code/Ipopt-3.12.8/build
 ```
 
-### Building with cmake
+If you need an interface to [Snopt], point cmake to that build folder in your `~/.bashrc` through e.g.
+```bash
+export SNOPT_DIR=/home/your_name/Code/Snopt
+```
+
+## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building with cmake
 * Install
   ```bash
   git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
@@ -69,7 +78,7 @@ set(solver_DIR "/path_to_solver_build_dir")
   target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
   ```
         
-### Building with catkin
+## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building with catkin
 * Install: Download [catkin] or [catkin command line tools], then:
   ```bash
   cd catkin_workspace/src
@@ -173,6 +182,22 @@ or the project within which this code was developed:
     }
 
 
+
+## Install Ipopt from source
+In case your OS doesn't provide the precompiled binaries or the required version,
+you can also easily install Ipopt from source as described [here](https://www.coin-or.org/Ipopt/documentation/node14.html). This summary might work for you:
+```bash
+wget https://www.coin-or.org/download/source/Ipopt/Ipopt-3.11.10.zip
+unzip Ipopt-3.11.10.zip
+cd Ipopt-3.11.10/ThirdParty/Mumps
+./get.Mumps  # HSL routines are faster (http://www.hsl.rl.ac.uk/ipopt/)
+cd ../../
+mkdir build && cd build
+../configure --prefix=/usr/local
+make
+make test
+make install
+```
 
 
 ##  <img align="center" height="15" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests

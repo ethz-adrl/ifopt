@@ -33,15 +33,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ifopt {
 
-/** @defgroup solvers NLP solvers
- *  @brief Interfaces to specific solvers
- *
- *  These are specific solvers for which the interface to the Problem class
- *  has been implemented.
- *  @{
- *  @}
+/**
+ * @brief Solver interface implemented by IPOPT and SNOPT.
  */
-
 class Solver {
 public:
   using Ptr = std::shared_ptr<Solver>;

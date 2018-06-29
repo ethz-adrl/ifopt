@@ -37,38 +37,22 @@ Ipopt::Solve (Problem& nlp)
   using IpoptPtr            = SmartPtr<TNLP>;
   using IpoptApplicationPtr = SmartPtr<IpoptApplication>;
 
-  // initialize the Ipopt solver
   IpoptApplicationPtr ipopt_app_ = new IpoptApplication();
-  ipopt_app_->RethrowNonIpoptException(true);
 
-
-
-
-
-  // set the solver options
-  // A complete list of options can be found here
-  // https://www.coin-or.org/Ipopt/documentation/node40.html
-
-  // Download and use additional solvers here: http://www.hsl.rl.ac.uk/ipopt/
-  ipopt_app_->Options()->SetStringValue("linear_solver", linear_solver_); // ma27, ma57, ma77, ma86, ma97
-  ipopt_app_->Options()->SetStringValue("print_user_options", print_user_options_);
-  ipopt_app_->Options()->SetStringValue("print_timing_statistics", print_timing_statistics_);
+  ipopt_app_->Options()->SetStringValue("linear_solver", linear_solver_);
   ipopt_app_->Options()->SetStringValue("hessian_approximation", hessian_approximation_);
-  ipopt_app_->Options()->SetNumericValue("tol", tol_);
   ipopt_app_->Options()->SetNumericValue("max_cpu_time", max_cpu_time_);
-  ipopt_app_->Options()->SetIntegerValue("print_level", print_level_);
-
+  ipopt_app_->Options()->SetNumericValue("tol", tol_);
   if (use_jacobian_approximation_)
     ipopt_app_->Options()->SetStringValue("jacobian_approximation", "finite-difference-values");
+
+  ipopt_app_->Options()->SetStringValue("print_timing_statistics", print_timing_statistics_);
+  ipopt_app_->Options()->SetStringValue("print_user_options", print_user_options_);
+  ipopt_app_->Options()->SetIntegerValue("print_level", print_level_);
 
   //  ipopt_app_->Options()->SetIntegerValue("max_iter", 1);
   //  ipopt_app_->Options()->SetNumericValue("derivative_test_tol", 1e-3);
   //  ipopt_app_->Options()->SetStringValue("derivative_test", "first-order"); // "second-order"
-
-
-
-
-
 
   ApplicationReturnStatus status_ = ipopt_app_->Initialize();
   if (status_ != Solve_Succeeded) {

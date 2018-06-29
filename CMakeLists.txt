@@ -5,12 +5,21 @@ project(ifopt VERSION 2.0.0)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(Eigen3 REQUIRED)
 # optional packages
-find_package(ipopt  QUIET)
-find_package(snopt  QUIET)
+find_package(IPOPT 3.11.9 QUIET)
+find_package(SNOPT  QUIET)
 
 
-
+# predefine library names to export with catkin-package 
 set(LIB_CORE ifopt_core)
+if (IPOPT_FOUND)
+  message(STATUS "IPOPT headers found at:  \"" ${IPOPT_INCLUDE_DIRS} "\" ")
+  set(LIB_IPOPT ifopt_ipopt)
+endif()
+if (SNOPT_FOUND)
+  message(STATUS "SNOPT headers found at:  \"" ${SNOPT_INCLUDE_DIRS} "\" ")
+  set(LIB_SNOPT ifopt_snopt)
+endif()
+
 ##############################################
 ## catkin specific configuration (optional) ##
 ##############################################
@@ -44,11 +53,11 @@ endif()
 enable_testing()
 add_subdirectory(src/ifopt_core)
 
-if (LIB_IPOPT)
+if (IPOPT_FOUND)
   add_subdirectory(src/ifopt_ipopt)
 endif()
 
-if (LIB_SNOPT)
+if (SNOPT_FOUND)
   add_subdirectory(src/ifopt_snopt)
 endif()
 

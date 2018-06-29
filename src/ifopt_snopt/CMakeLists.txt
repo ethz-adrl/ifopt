@@ -10,15 +10,15 @@ target_include_directories(${LIB_SNOPT}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
   PRIVATE
-    ${snopt_INCLUDE_DIRS}
+    ${SNOPT_INCLUDE_DIRS}
 )
 target_link_libraries(${LIB_SNOPT} 
   PUBLIC
     ifopt_core
   PRIVATE  
-    ${snopt_LIBRARIES}
+    ${SNOPT_LIBRARIES}
 )
-if(${snopt_v76})
+if(${SNOPT_v76})
   message(STATUS "compiling for snopt version >= 7.6")
   target_compile_definitions(${LIB_SNOPT} 
     PRIVATE

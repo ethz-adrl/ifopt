@@ -32,7 +32,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ifopt {
 
-// this is the only class users should interact with
 class Ipopt : public Solver {
 public:
   using Ptr = std::shared_ptr<Ipopt>;
@@ -44,30 +43,35 @@ public:
     * options (see SetOptions()) and passes the IpoptAdapter problem to it
     * to be modified.
     */
-  void Solve(Problem& nlp);
+  virtual void Solve(Problem& nlp) override;
 
-  /**
-  * These settings include which QP solver to use, if gradients should
-  * be approximated or the provided analytical ones used, when the iterations
-  * should be terminated,...
-  *
-  * A complete list of options can be found at:
-  * https://www.coin-or.org/Ipopt/documentation/node40.html
-  */
+  /** Options for the IPOPT solver. A complete list can be found here:
+    * https://www.coin-or.org/Ipopt/documentation/node40.html
+    */
 
-  // these are the options
-  // Download and use additional solvers here: http://www.hsl.rl.ac.uk/ipopt/
-  std::string linear_solver_ = "ma27"; ///< ma27, ma57, ma77, ma86, ma97
+  /** Which linear solver to use. Mumps is default because it comes with the
+   *  precompiled ubuntu binaries. However, the coin-hsl solvers can be
+   *  significantly faster and are free for academic purposes. They can be
+   *  downloaded here: http://www.hsl.rl.ac.uk/ipopt/ and must be compiled
+   *  into your IPOPT libraries. Then you can use the additional strings:
+   *  "ma27, ma57, ma77, ma86, ma97" here.
+   */
+  std::string linear_solver_ = "mumps";
+
+  /** whether to use the analytical derivatives coded in ifopt, or let
+   *  IPOPT approximate these through finite differences. This is usually
+   *  significantly slower.
+   */
+  bool use_jacobian_approximation_ = false;
+
+
   std::string hessian_approximation_ = "limited-memory";
   double tol_ = 0.001;
-  double max_cpu_time_ = 40.0; //s
+  double max_cpu_time_ = 40.0;
   int print_level_ = 3;
   std::string print_user_options_ = "no";
   std::string print_timing_statistics_ = "no";
 
-  // whether to use provided analytical derivatives or approximate by
-  // finite differences.
-  bool use_jacobian_approximation_ = false;
 
 
 
