@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.1 (2018-06-30)
+------------------
 * make IPOPT the default ON solver option
 * Add documentation and update package.xml to use ubuntu ipopt install coinor-libipopt-dev
 * Use FindIpopt.cmake (from robotology/idyntree)
