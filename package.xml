@@ -18,15 +18,9 @@
   
   <url type="website">https://github.com/ethz-adrl/ifopt</url>
   
-  <build_depend>pkg-config</build_depend>
+  <!-- although pure cmake is also sufficient -->
+  <buildtool_depend>catkin</buildtool_depend> 
   <depend>eigen</depend>
   <depend>coinor-libipopt-dev</depend> 
-  
-  <!-- The following tags are recommended by REP-136 for non-catkin pkgs -->
-  <exec_depend>catkin</exec_depend>
-  <buildtool_depend>cmake</buildtool_depend>
-  <export>
-    <build_type>cmake</build_type>
-  </export>
   
 </package>
