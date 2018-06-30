@@ -11,7 +11,7 @@
 
 More Features:  
 :heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
-:heavy_check_mark: exports cmake scripts `find_package(ifopt)` to easily link to your project.  
+:heavy_check_mark: exports cmake scripts to easily `find_package(ifopt)` in your project.  
 :heavy_check_mark: [catkin] integration (optional).  
 :heavy_check_mark: light-weight (~[1k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
@@ -34,16 +34,8 @@ Name | Min. Ver. | Description
 
 ####  Setting up Solvers
 If [Ipopt] was installed through the the package manager or installed into the standard search paths,
-there is nothing to do here. If you want to link to a local installation, add the path to your
-Ipopt build folder to your `~/.bashrc`, e.g.
-```bash
-export IPOPT_DIR=/home/your_name/Code/Ipopt-3.12.8/build
-```
-
-If you need an interface to [Snopt], point cmake to that build folder in your `~/.bashrc` through e.g.
-```bash
-export SNOPT_DIR=/home/your_name/Code/Snopt
-```
+you're all set! But if you want to link to a local installation of Ipopt or to 
+Snopt, see this [section](#solver-install).
 
 ## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building with cmake
 * Install
@@ -124,15 +116,15 @@ so each set can be implemented independent of the others.
 > A more involved problem definition with multiple sets 
 > of variables and constraints can be seen [here](https://i.imgur.com/4yhohZF.png) (taken from [towr]).
 
-If you have IPOPT installed and linked correctly, you can run this binary [example](src/ifopt_core/test/ex_test_ipopt.cc) through
+If you have IPOPT installed and linked correctly, you can run this binary [example](ifopt_ipopt/test/ex_test_ipopt.cc) through
 ```bash
-./build/src/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example `
+./build/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example `
 ```
 
 ```c++
 #include <ifopt/problem.h>
 #include <ifopt/ipopt.h>
-#include <test_vars_constr_cost.h>
+#include <ifopt/test_vars_constr_cost.h>
 
 int main() {
 
@@ -159,7 +151,7 @@ Output:
 ```
 Take a quick look now at how easily this example problem can be formulated:
 
-[src/ifopt_core/test/test_vars_constr_cost.h](src/ifopt_core/test/test_vars_constr_cost.h)
+[ifopt_core/test/test_vars_constr_cost.h](ifopt_core/test/test_vars_constr_cost.h)
 
 
 ## <img align="center" height="15" src="https://i.imgur.com/dHQx91Q.png"/> Publications
@@ -183,7 +175,13 @@ or the project within which this code was developed:
 
 
 
-## Install Ipopt from source
+## <a name="solver-install"></a> Installing and linking solvers
+If you want to use a locally installed version of IPOPT add the path to your
+Ipopt build folder to your `~/.bashrc`, e.g.
+```bash
+export IPOPT_DIR=/home/your_name/Code/Ipopt-3.12.8/build
+```
+
 In case your OS doesn't provide the precompiled binaries or the required version,
 you can also easily install Ipopt from source as described [here](https://www.coin-or.org/Ipopt/documentation/node14.html). This summary might work for you:
 ```bash
@@ -197,8 +195,17 @@ mkdir build && cd build
 make
 make test
 make install
+export IPOPT_TEST=`pwd`
 ```
 
+If you need an interface to [Snopt], point cmake to that build folder in your `~/.bashrc` through e.g.
+```bash
+export SNOPT_DIR=/home/your_name/Code/Snopt
+```
+and run cmake as 
+```bash
+cmake -DBUILD_SNOPT=ON ..
+```
 
 ##  <img align="center" height="15" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
 
