@@ -28,9 +28,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 #include <gtest/gtest.h>
-#include <ifopt/problem.h>
 
-#include <test_vars_constr_cost.h>
+#include <ifopt/problem.h>
+#include <ifopt/test_vars_constr_cost.h>
 
 using namespace ifopt;
 

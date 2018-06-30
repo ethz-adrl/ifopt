@@ -9,19 +9,19 @@ find_package(Eigen3 REQUIRED)
 set(LIB_CORE ifopt_core)
 set(ifopt_LIBRARIES ${LIB_CORE})
 set(ifopt_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
-list(APPEND ifopt_INCLUDE_DIRS src/ifopt_core/include)
+list(APPEND ifopt_INCLUDE_DIRS ifopt_core/include)
 
 option(BUILD_IPOPT "compile with IPOPT solver" ON)
 if (BUILD_IPOPT)
   set(LIB_IPOPT ifopt_ipopt)
-  list(APPEND ifopt_INCLUDE_DIRS src/ifopt_ipopt/include)
+  list(APPEND ifopt_INCLUDE_DIRS ifopt_ipopt/include)
   list(APPEND ifopt_LIBRARIES ${LIB_IPOPT})  
 endif()
 
 option(BUILD_SNOPT "compile with SNOPT solver" OFF)
 if (BUILD_SNOPT)
   set(LIB_SNOPT ifopt_snopt)
-  list(APPEND ifopt_INCLUDE_DIRS src/ifopt_snopt/include)
+  list(APPEND ifopt_INCLUDE_DIRS ifopt_snopt/include)
   list(APPEND ifopt_LIBRARIES ${LIB_SNOPT})
 endif()
 
@@ -52,14 +52,14 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Release)
 endif()
 
 enable_testing()
-add_subdirectory(src/ifopt_core)
+add_subdirectory(${LIB_CORE})
 
 if (BUILD_IPOPT)
-  add_subdirectory(src/ifopt_ipopt)
+  add_subdirectory(${LIB_IPOPT})
 endif()
 
 if (BUILD_SNOPT)
-  add_subdirectory(src/ifopt_snopt)
+  add_subdirectory(${LIB_SNOPT})
 endif()
 
 

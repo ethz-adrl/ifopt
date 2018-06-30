@@ -10,7 +10,7 @@
 #
 # This module defines the following IMPORTED targets:
 #   ifopt::ifopt_core   - formulate a solver-independent optimization problem
-#   ifopt::ifopt_ipopt  - interface to NLP solver IPOPT
+#   (ifopt::ifopt_ipopt - interface to NLP solver IPOPT)
 #   (ifopt::ifopt_snopt - interface to NLP solver SNOPT)
 #
 #
@@ -30,7 +30,7 @@
 #   ifopt_INCLUDE_DIRS    - path to public include (.h) files
 #   ifopt_LIBRARIES       - path to all libraries
 #   ifopt_LIB_CORE        - path to ifopt_core library
-#   ifopt_LIB_IPOPT       - path to ifopt_ipopt library
+#   (ifopt_LIB_IPOPT      - path to ifopt_ipopt library)
 #   (ifopt_LIB_SNOPT      - path to ifopt_snopt library)
 #
 #=============================================================================
