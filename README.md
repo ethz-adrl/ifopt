@@ -28,7 +28,7 @@ Name | Min. Ver. | Description | Install
 [CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake```
 [Eigen] | v3.2.0 | Library for linear algebra | ```sudo apt-get install libeigen3-dev```
 ([Ipopt]) | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
-([Snopt]) |  7.4  |  NLP solver (Sequential Quadratic Programming) | (non-free)
+([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
 
 ####  Setting up NLP solvers
 Install one or both NLP solvers to solve the optimization problem.
