@@ -17,7 +17,7 @@ target_include_directories(${LIB_SNOPT}
 )
 target_link_libraries(${LIB_SNOPT} 
   PUBLIC
-    ifopt_core
+    ${LIB_CORE}
   PRIVATE  
     ${SNOPT_LIBRARIES}
 )
