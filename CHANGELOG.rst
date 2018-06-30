@@ -2,11 +2,20 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* make IPOPT the default ON solver option
+* Add documentation and update package.xml to use ubuntu ipopt install coinor-libipopt-dev
+* Use FindIpopt.cmake (from robotology/idyntree)
+* Set default solver to mumps, as this is free one installed in ubuntu
+* Define SNOPT/IPOPT location also through environmental variable
+* Contributors: Alexander Winkler
+
 2.0.0 (2018-06-24)
 ------------------
-* allow building with pure cmake (catkin optional) `#13 <https://github.com/ethz-adrl/ifopt/issues/13>`_
-* generate ifopt-config.cmake to easily include in other cmake projects `#13 <https://github.com/ethz-adrl/ifopt/issues/13>`_
-* implement pimpl idiom to avoid exporting IPOPT/SNOPT libraries/headers `#12 <https://github.com/ethz-adrl/ifopt/issues/12>`_
+* allow building with pure cmake (catkin optional) (`#13 <https://github.com/ethz-adrl/ifopt/issues/13>`_)
+* generate ifopt-config.cmake to easily include in other cmake projects (`#13 <https://github.com/ethz-adrl/ifopt/issues/13>`_)
+* implement pimpl idiom to avoid exporting IPOPT/SNOPT libraries/headers (`#12 <https://github.com/ethz-adrl/ifopt/issues/12>`_)
 * Add possibility to set solver options (e.g. "ma27") on user side
 * Clean-up and improve printouts
 * Reduce to one single catkin package with solvers as cmake subdirectories
