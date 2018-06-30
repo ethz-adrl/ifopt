@@ -21,18 +21,17 @@ More Features:
 [<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 
+
 ## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Dependencies
-Name | Min. Ver. | Description
---- | --- | --- |
-[CMake] | v3.1.0 | C++ build tool: ```sudo apt-get install cmake```.
-[Eigen] | v3.2.0 | Library for linear algebra: ```sudo apt-get install libeigen3-dev```.
-| | | Install one or both to solve the optimization problem:
-[Ipopt] | v3.11.9 | NLP solver using Interior-Point Method: ```sudo apt-get install coinor-libipopt-dev```.
-[Snopt] |  7.4  |  NLP solver using Sequential Quadratic Programming (non-free).
+Name | Min. Ver. | Description | Install
+--- | --- | --- | --- |
+[CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake```.
+[Eigen] | v3.2.0 | Library for linear algebra | ```sudo apt-get install libeigen3-dev```.
+([Ipopt]) | v3.11.9 | NLP solver using Interior-Point Method |```sudo apt-get install coinor-libipopt-dev```.
+([Snopt]) |  7.4  |  NLP solver using Sequential Quadratic Programming | (non-free).
 
-
-
-####  Setting up Solvers
+####  Setting up NLP solvers
+Install one or both NLP solvers to solve the optimization problem.
 If [Ipopt] was installed through the the package manager or installed into the standard search paths,
 you're all set! But if you want to link to a local installation of Ipopt or to 
 Snopt, see this [section](#solver-install).
