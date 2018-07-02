@@ -1,8 +1,6 @@
 ### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
 
-<!-- until build server fixed
 [![Build Status](https://ci.leggedrobotics.com/buildStatus/icon?job=github_ethz-adrl/ifopt/master)](https://ci.leggedrobotics.com/job/github_ethz-adrl/job/ifopt/job/master/)
--->
 [<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/lunar/api/ifopt/html/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->

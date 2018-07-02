@@ -4,6 +4,7 @@ find_package(SNOPT REQUIRED)
 ###########
 ## Build ##
 ###########
+set(LIB_SNOPT ifopt_snopt)
 add_library(${LIB_SNOPT} SHARED
   src/snopt.cc
   src/snopt_adapter.cc
