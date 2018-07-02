@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.2 (2018-07-02)
+------------------
 * fully remove catkin dependency
 * increase cmake project version number manually
 * DRY in cmake list (reuse ${LIB_CORE})
