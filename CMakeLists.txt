@@ -29,8 +29,6 @@ if (BUILD_SNOPT)
   add_subdirectory(ifopt_snopt)
 endif()
 
-message(WARNING "VERSION: ${ifopt_VERSION}")
-
 ##################################################
 ## Install find scripts for find_package(ifopt) ##
 ##################################################
