@@ -1,6 +1,6 @@
 ### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
 
-[![Build Status](https://ci.leggedrobotics.com/buildStatus/icon?job=github_ethz-adrl/ifopt/master)](https://ci.leggedrobotics.com/job/github_ethz-adrl/job/ifopt/job/master/)
+[![Build Status](http://build.ros.org/buildStatus/icon?job=Kdev__ifopt__ubuntu_xenial_amd64)](http://build.ros.org/view/Kdev/job/Kdev__ifopt__ubuntu_xenial_amd64/)
 [<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/lunar/api/ifopt/html/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->
@@ -31,7 +31,6 @@ Name | Min. Ver. | Description | Install
 ([Ipopt]) | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
 ([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
 
-####  Setting up NLP solvers
 Install one or both NLP solvers to solve the optimization problem.
 If [Ipopt] was installed through the the package manager or installed into the standard search paths,
 you're all set! But if you want to link to a local installation of Ipopt or to 
@@ -195,7 +194,7 @@ mkdir build && cd build
 make
 make test
 make install
-export IPOPT_TEST=`pwd`
+export IPOPT_DIR=`pwd`
 ```
 
 If you need an interface to [Snopt], point cmake to that build folder in your `~/.bashrc` through e.g.
