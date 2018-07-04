@@ -8,7 +8,7 @@
 
 *A modern, light-weight, [Eigen]-based C++ interface to Nonlinear Programming solvers, such as [Ipopt] and [Snopt].*
 
-:heavy_check_mark: Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
+Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
 
 More Features:  
 :heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
@@ -16,10 +16,9 @@ More Features:
 :heavy_check_mark: [catkin] integration (optional).  
 :heavy_check_mark: light-weight (~[1k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
+by [:globe_with_meridians: Alexander W. Winkler](https://awinkler.github.io/)
 
-**Author/Maintainer: [Alexander W. Winkler](https://awinkler.github.io/)**
-
-[<img src="https://i.imgur.com/uCvLs2j.png" height="50" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="50" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="50" />](https://www.ethz.ch/en.html "ETH Zurich")
+[<img src="https://i.imgur.com/uCvLs2j.png" height="45" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="45" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="45" />](https://www.ethz.ch/en.html "ETH Zurich")
 
 
 
@@ -135,7 +134,7 @@ int main() {
 
   // Choose solver and options
   Ipopt solver; // or Snopt
-  solver.linear_solver_ = "ma27";
+  solver.linear_solver_ = "mumps";
   solver.tol_           = 0.001;
 
   // Solve
@@ -148,7 +147,7 @@ Output:
 ```bash
 1.0 0.0
 ```
-Take a quick look now at how easily this example problem can be formulated:
+Take a quick look at how easily this example problem can be formulated:
 
 [ifopt_core/test/test_vars_constr_cost.h](ifopt_core/test/test_vars_constr_cost.h)
 
