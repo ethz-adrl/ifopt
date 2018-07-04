@@ -29,6 +29,7 @@ if (BUILD_SNOPT)
   add_subdirectory(ifopt_snopt)
 endif()
 
+
 ##################################################
 ## Install find scripts for find_package(ifopt) ##
 ##################################################
@@ -39,16 +40,12 @@ write_basic_package_version_file(
   VERSION ${ifopt_VERSION}
   COMPATIBILITY SameMajorVersion
 )
-
-# install the two files in a place where cmake looks for them so can call
-# "find_package(ifopt).
-# see also: https://cmake.org/cmake/help/v3.0/manual/cmake-packages.7.html
+# install the two files in a place where cmake looks for them
 install(
   FILES 
-    "${CMAKE_CURRENT_SOURCE_DIR}/ifopt-config.cmake"   # self-written
+    "${CMAKE_CURRENT_SOURCE_DIR}/ifopt-config.cmake"         # self-written
     "${CMAKE_CURRENT_BINARY_DIR}/ifopt-config-version.cmake" # generated
   DESTINATION ${config_package_location}
 )
-
 # Install a Catkin 'package.xml' file. This is required by REP-136.
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
