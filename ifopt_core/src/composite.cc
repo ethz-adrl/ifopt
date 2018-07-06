@@ -206,7 +206,7 @@ void Component::Print (double tol) const
             << std::setw(4) << num_rows_
             << std::setw(7) << print_counter
             << std::setfill ('.')
-            << std::setw(7) << print_counter+num_rows_
+            << std::setw(7) << print_counter+num_rows_-1
             << std::setfill (' ')
             << color
             << std::setw(6) << viol_idx.size()
