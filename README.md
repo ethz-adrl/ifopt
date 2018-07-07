@@ -16,7 +16,8 @@ More Features:
 :heavy_check_mark: [catkin] integration (optional).  
 :heavy_check_mark: light-weight (~[1k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
-by [:globe_with_meridians: Alexander W. Winkler](https://awinkler.github.io/)
+Lead developer:  
+[:globe_with_meridians: Alexander W. Winkler](https://awinkler.github.io/)
 
 [<img src="https://i.imgur.com/uCvLs2j.png" height="45" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="45" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="45" />](https://www.ethz.ch/en.html "ETH Zurich")
 
@@ -57,14 +58,9 @@ Snopt, see this [section](#solver-install).
 * Use: To use in your cmake project, see this minimal *CMakeLists.txt*:
   ```cmake
   find_package(ifopt)
- 
-  # your function formulating and solving an optimization problem
+  # Formulate (ifopt:ifopt_core) and solve (ifopt::ifopt_ipopt) the problem
   add_executable(main main.cpp)
- 
-  # only command required to pull in include directories, libraries, ... 
-  # if only formulating the problem, use ifopt:ifopt_core
-  # if solving with IPOPT, use ifopt::ifopt_ipopt
-  # if solving with SNOPT, use ifopt::ifopt_snopt
+  # Pull in include directories, libraries, ... 
   target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
   ```
         
@@ -147,9 +143,7 @@ Output:
 ```bash
 1.0 0.0
 ```
-Take a quick look at how easily this example problem can be formulated:
-
-[ifopt_core/test/test_vars_constr_cost.h](ifopt_core/test/test_vars_constr_cost.h)
+See [here :page_facing_up:](ifopt_core/test/ifopt/test_vars_constr_cost.h) for how easily this example problem is formulated
 
 
 ## <img align="center" height="15" src="https://i.imgur.com/dHQx91Q.png"/> Publications
@@ -173,7 +167,7 @@ or the project within which this code was developed:
 
 
 
-## <a name="solver-install"></a> Installing and linking solvers
+## <a name="solver-install"></a><img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Installing and linking solvers
 If you want to use a locally installed version of IPOPT add the path to your
 Ipopt build folder to your `~/.bashrc`, e.g.
 ```bash
