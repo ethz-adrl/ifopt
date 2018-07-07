@@ -48,6 +48,11 @@ int main() {
 
   // 3 . solve
   ipopt.Solve(nlp);
+  Eigen::VectorXd x = nlp.GetOptVariables()->GetValues();
+  std::cout << x.transpose() << std::endl;
 
-  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
+  // 4. test if solution correct
+  double eps = 1e-5; //double precision
+  assert(1.0-eps < x(0) && x(0) < 1.0+eps);
+  assert(0.0-eps < x(1) && x(1) < 0.0+eps);
 }
