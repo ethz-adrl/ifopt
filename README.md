@@ -1,7 +1,11 @@
 ### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
 
 [![Build Status](http://build.ros.org/buildStatus/icon?job=Kdev__ifopt__ubuntu_xenial_amd64)](http://build.ros.org/view/Kdev/job/Kdev__ifopt__ubuntu_xenial_amd64/)
-[<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/lunar/api/ifopt/html/)
+[![Documentation](https://img.shields.io/badge/docs-generated-green.svg)](http://docs.ros.org/kinetic/api/ifopt/html/)
+[![ROS integration](https://img.shields.io/badge/ROS-integration-blue.svg)](http://wiki.ros.org/ifopt)
+![](https://tokei.rs/b1/github/ethz-adrl/ifopt)
+[![CodeFactor](https://www.codefactor.io/repository/github/ethz-adrl/ifopt/badge)](https://www.codefactor.io/repository/github/ethz-adrl/ifopt)
+[![License BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://tldrlegal.com/license/bsd-3-clause-license-%28revised%29#fulltext)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
@@ -12,9 +16,9 @@ Related variables and constraints are implemented (grouped) in *independent sets
 
 More Features:  
 :heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
-:heavy_check_mark: exports cmake scripts to easily `find_package(ifopt)` in your project.  
+:heavy_check_mark: exports cmake scripts to easily *find_package(ifopt)* in your project.  
 :heavy_check_mark: [catkin] integration (optional).  
-:heavy_check_mark: light-weight (~[1k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
+:heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
 Lead developer:  
 [:globe_with_meridians: Alexander W. Winkler](https://awinkler.github.io/)
