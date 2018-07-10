@@ -2,6 +2,14 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add codefactor integration and contributing guidelines
+* display indices more precisely in printout
+* remove rsl jekins, use ros build farm
+* remove warning from version number
+* Contributors: Alexander Winkler
+
 2.0.2 (2018-07-02)
 ------------------
 * fully remove catkin dependency
