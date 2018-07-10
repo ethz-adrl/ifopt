@@ -151,7 +151,7 @@ See here the list of [contributors](https://github.com/ethz-adrl/ifopt/graphs/co
 
 
 ## Authors 
-- [*Alexander W. Winkler*](https://awinkler.github.io/) - Initial Work
+[**Alexander W. Winkler**](https://awinkler.github.io/) - Initial Work/Maintainer
 
 This was has been carried out at the following institutions:
 
