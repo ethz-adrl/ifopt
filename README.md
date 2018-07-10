@@ -144,7 +144,7 @@ Output:
 See [here :page_facing_up:](ifopt_core/test/ifopt/test_vars_constr_cost.h) for how easily this example problem is formulated
 
 
-## Contributors welcome
+## Contributing
 We love pull request, whether its interfaces to additional solvers, bug fixes, unit tests or updating the documentation. Please have a look at [CONTRIBUTING.md](CONTRIBUTING.md) for more information.  
 
 See here the list of [contributors](https://github.com/ethz-adrl/ifopt/graphs/contributors) who participated in this project. 
