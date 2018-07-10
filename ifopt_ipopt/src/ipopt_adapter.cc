@@ -109,7 +109,6 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
 {
   // defines the positions of the nonzero elements of the jacobian
   if (values == NULL) {
-
     auto jac = nlp_->GetJacobianOfConstraints();
     int nele=0; // nonzero cells in jacobian
     for (int k=0; k<jac.outerSize(); ++k) {

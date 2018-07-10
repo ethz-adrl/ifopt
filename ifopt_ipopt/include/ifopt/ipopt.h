@@ -43,7 +43,7 @@ public:
     * options (see SetOptions()) and passes the IpoptAdapter problem to it
     * to be modified.
     */
-  virtual void Solve(Problem& nlp) override;
+  void Solve(Problem& nlp) override;
 
   /** Options for the IPOPT solver. A complete list can be found here:
     * https://www.coin-or.org/Ipopt/documentation/node40.html
@@ -71,10 +71,6 @@ public:
   int print_level_ = 3;
   std::string print_user_options_ = "no";
   std::string print_timing_statistics_ = "no";
-
-
-
-
 };
 
 } /* namespace ifopt */

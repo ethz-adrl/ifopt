@@ -68,7 +68,7 @@ public:
   // Here is where you can transform the Eigen::Vector into whatever
   // internal representation of your variables you have (here two doubles, but
   // can also be complex classes such as splines, etc..
-  virtual void SetVariables(const VectorXd& x) override
+  void SetVariables(const VectorXd& x) override
   {
     x0_ = x(0);
     x1_ = x(1);
@@ -76,7 +76,7 @@ public:
 
   // Here is the reverse transformation from the internal representation to
   // to the Eigen::Vector
-  virtual VectorXd GetValues() const override
+  VectorXd GetValues() const override
   {
     return Vector2d(x0_, x1_);
   };
@@ -104,7 +104,7 @@ public:
   ExConstraint(const std::string& name) : ConstraintSet(1, name) {}
 
   // The constraint value minus the constant value "1", moved to bounds.
-  virtual VectorXd GetValues() const override
+  VectorXd GetValues() const override
   {
     VectorXd g(GetRows());
     Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
@@ -122,11 +122,10 @@ public:
     return b;
   }
 
-  // This function should provides the derivative of the constraint set.
-  // can also tell the solvers to approximate the derivatives by finite
-  // differences and simply leave this function empty by setting the solver
-  // option in e.g. ipopt_adapter.cc::SetOptions():
-  // SetStringValue("jacobian_approximation", "finite-difference-values");
+  // This function provides the first derivative of the constraints.
+  // In case this is too difficult to write, you can also tell the solvers to
+  // approximate the derivatives by finite differences and not overwrite this
+  // function, e.g. in ipopt.cc::use_jacobian_approximation_ = true
   void FillJacobianBlock (std::string var_set, Jacobian& jac_block) const override
   {
     // must fill only that submatrix of the overall Jacobian that relates
@@ -134,7 +133,6 @@ public:
     // classes are added, this submatrix will always start at row 0 and column 0,
     // thereby being independent from the overall problem.
     if (var_set == "var_set1") {
-
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
 
       jac_block.coeffRef(0, 0) = 2.0*x(0); // derivative of first constraint w.r.t x0
@@ -149,7 +147,7 @@ public:
   ExCost() : ExCost("cost_term1") {}
   ExCost(const std::string& name) : CostTerm(name) {}
 
-  virtual double GetCost() const override
+  double GetCost() const override
   {
     Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
     return -std::pow(x(1)-2,2);
@@ -158,7 +156,6 @@ public:
   void FillJacobianBlock (std::string var_set, Jacobian& jac) const override
   {
     if (var_set == "var_set1") {
-
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
 
       jac.coeffRef(0, 0) = 0.0;             // derivative of cost w.r.t x0

@@ -33,8 +33,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using namespace ifopt;
 
-int main() {
-
+int main()
+{
   Problem nlp;
 
   nlp.AddVariableSet  (std::make_shared<ExVariables>());
