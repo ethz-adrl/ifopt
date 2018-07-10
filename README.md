@@ -20,12 +20,6 @@ More Features:
 :heavy_check_mark: [catkin] integration (optional).  
 :heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
-Lead developer:  
-[:globe_with_meridians: Alexander W. Winkler](https://awinkler.github.io/)
-
-[<img src="https://i.imgur.com/uCvLs2j.png" height="45" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="45" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="45" />](https://www.ethz.ch/en.html "ETH Zurich")
-
-
 
 ## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Dependencies
 Name | Min. Ver. | Description | Install
@@ -150,6 +144,20 @@ Output:
 See [here :page_facing_up:](ifopt_core/test/ifopt/test_vars_constr_cost.h) for how easily this example problem is formulated
 
 
+## Contributors welcome
+We love pull request, whether its interfaces to additional solvers, bug fixes, unit tests or updating the documentation. Please have a look at [CONTRIBUTING.md](CONTRIBUTING.md) for more information.  
+
+See here the list of [contributors](https://github.com/ethz-adrl/ifopt/graphs/contributors) who participated in this project. 
+
+
+## Authors 
+- [*Alexander W. Winkler*](https://awinkler.github.io/) - Initial Work
+
+This was has been carried out at the following institutions:
+
+[<img src="https://i.imgur.com/uCvLs2j.png" height="45" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="45" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="45" />](https://www.ethz.ch/en.html "ETH Zurich")
+
+
 ## <img align="center" height="15" src="https://i.imgur.com/dHQx91Q.png"/> Publications
 
 If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
@@ -168,6 +176,9 @@ or the project within which this code was developed:
       volume    = {3},
       doi       = {10.1109/LRA.2018.2798285},
     }
+
+
+
 
 
 
