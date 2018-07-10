@@ -102,7 +102,6 @@ Composite::GetValues () const
 
   int row = 0;
   for (const auto& c : components_) {
-
     int n_rows = c->GetRows();
     VectorXd g = c->GetValues();
     g_all.middleRows(row, n_rows) += g;
@@ -118,7 +117,6 @@ Composite::SetVariables (const VectorXd& x)
 {
   int row = 0;
   for (auto& c : components_) {
-
     int n_rows = c->GetRows();
     c->SetVariables(x.middleRows(row,n_rows));
     row += n_rows;
@@ -133,7 +131,6 @@ Composite::GetJacobian () const
 
   int row = 0;
   for (const auto& c : components_) {
-
     const Jacobian& jac = c->GetJacobian();
     for (int k=0; k<jac.outerSize(); ++k)
       for (Jacobian::InnerIterator it(jac,k); it; ++it)

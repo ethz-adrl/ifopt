@@ -1,7 +1,11 @@
 ### <img src="https://i.imgur.com/ZOfGZwB.png" height="60" />
 
 [![Build Status](http://build.ros.org/buildStatus/icon?job=Kdev__ifopt__ubuntu_xenial_amd64)](http://build.ros.org/view/Kdev/job/Kdev__ifopt__ubuntu_xenial_amd64/)
-[<img height="20" src="https://i.imgur.com/ZqRckbJ.png"/>](http://docs.ros.org/lunar/api/ifopt/html/)
+[![Documentation](https://img.shields.io/badge/docs-generated-green.svg)](http://docs.ros.org/kinetic/api/ifopt/html/)
+[![ROS integration](https://img.shields.io/badge/ROS-integration-blue.svg)](http://wiki.ros.org/ifopt)
+![](https://tokei.rs/b1/github/ethz-adrl/ifopt)
+[![CodeFactor](https://www.codefactor.io/repository/github/ethz-adrl/ifopt/badge)](https://www.codefactor.io/repository/github/ethz-adrl/ifopt)
+[![License BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://tldrlegal.com/license/bsd-3-clause-license-%28revised%29#fulltext)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
@@ -12,31 +16,24 @@ Related variables and constraints are implemented (grouped) in *independent sets
 
 More Features:  
 :heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
-:heavy_check_mark: exports cmake scripts to easily `find_package(ifopt)` in your project.  
+:heavy_check_mark: exports cmake scripts to easily <find_package(ifopt)> in your project.  
 :heavy_check_mark: [catkin] integration (optional).  
-:heavy_check_mark: light-weight (~[1k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
-
-Lead developer:  
-[:globe_with_meridians: Alexander W. Winkler](https://awinkler.github.io/)
-
-[<img src="https://i.imgur.com/uCvLs2j.png" height="45" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="45" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")           &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/aGOnNTZ.png" height="45" />](https://www.ethz.ch/en.html "ETH Zurich")
+:heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
 
-
-## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Dependencies
+## Dependencies
 Name | Min. Ver. | Description | Install
 --- | --- | --- | --- |
 [CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake```
 [Eigen] | v3.2.0 | Library for linear algebra | ```sudo apt-get install libeigen3-dev```
-([Ipopt]) | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
+[Ipopt] | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
 ([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
 
-Install one or both NLP solvers to solve the optimization problem.
-If [Ipopt] was installed through the the package manager or installed into the standard search paths,
-you're all set! But if you want to link to a local installation of Ipopt or to 
-Snopt, see this [section](#solver-install).
+Quick Install: ``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
 
-## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building with cmake
+> If you want to link to a local installation of Ipopt or to Snopt, see this [section](#solver-install).
+
+## Building with cmake
 * Install
   ```bash
   git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
@@ -44,7 +41,7 @@ Snopt, see this [section](#solver-install).
   cmake ..
   make
   sudo make install # copies files in this folder to /usr/local/*
-  sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
+  # sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
   ```
 
 * Test: Make sure everything installed correctly by running
@@ -64,7 +61,7 @@ Snopt, see this [section](#solver-install).
   target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
   ```
         
-## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building with catkin
+## Building with catkin
 * Install: Download [catkin] or [catkin command line tools], then:
   ```bash
   cd catkin_workspace/src
@@ -93,7 +90,7 @@ Snopt, see this [section](#solver-install).
   ```
 
 
-## <img align="center" height="15" src="https://i.imgur.com/vAYeCzC.png"/> Example
+## Example
 The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
@@ -146,28 +143,48 @@ Output:
 See [here :page_facing_up:](ifopt_core/test/ifopt/test_vars_constr_cost.h) for how easily this example problem is formulated
 
 
-## <img align="center" height="15" src="https://i.imgur.com/dHQx91Q.png"/> Publications
+## Authors 
+[Alexander W. Winkler](https://awinkler.github.io/) - Initial Work/Maintainer
 
-If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
-or the project within which this code was developed:
-> A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
+This was has been carried out at the following institutions:
 
-    @article{winkler18,
-      author    = {Winkler, Alexander W and Bellicoso, Dario C and 
-                   Hutter, Marco and Buchli, Jonas},
-      title     = {Gait and Trajectory Optimization for Legged Systems 
-                   through Phase-based End-Effector Parameterization},
-      journal   = {IEEE Robotics and Automation Letters (RA-L)},
-      year      = {2018},
-      month     = {July},
-      pages     = {1560-1567},
-      volume    = {3},
-      doi       = {10.1109/LRA.2018.2798285},
-    }
+[<img src="https://i.imgur.com/aGOnNTZ.png" height="45" />](https://www.ethz.ch/en.html "ETH Zurich") &nbsp; &nbsp; &nbsp; &nbsp; [<img src="https://i.imgur.com/uCvLs2j.png" height="45" />](http://www.adrl.ethz.ch/doku.php "Agile and Dexterous Robotics Lab")  &nbsp; &nbsp; &nbsp; &nbsp;[<img src="https://i.imgur.com/gYxWH9p.png" height="45" />](http://www.rsl.ethz.ch/ "Robotic Systems Lab")
 
 
+## Publications
 
-## <a name="solver-install"></a><img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Installing and linking solvers
+If you use this work in an academic context, please consider citing the currently released version as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
+or the research project within which this code was developed:
+- A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
+
+
+      @article{winkler18,
+        author    = {Winkler, Alexander W and Bellicoso, Dario C and 
+                     Hutter, Marco and Buchli, Jonas},
+        title     = {Gait and Trajectory Optimization for Legged Systems 
+                     through Phase-based End-Effector Parameterization},
+        journal   = {IEEE Robotics and Automation Letters (RA-L)},
+        year      = {2018},
+        month     = {July},
+        pages     = {1560-1567},
+        volume    = {3},
+        doi       = {10.1109/LRA.2018.2798285},
+      }
+
+
+## Contributing
+We love pull request, whether its interfaces to additional solvers, bug fixes, unit tests or updating the documentation. Please have a look at [CONTRIBUTING.md](CONTRIBUTING.md) for more information.  
+
+See here the list of [contributors](https://github.com/ethz-adrl/ifopt/graphs/contributors) who participated in this project.
+
+
+##  Bugs & Feature Requests
+
+To report bugs, request features or ask questions, please have a look at [CONTRIBUTING.md](CONTRIBUTING.md). 
+
+
+
+## <a name="solver-install"></a> Installing and linking solvers
 If you want to use a locally installed version of IPOPT add the path to your
 Ipopt build folder to your `~/.bashrc`, e.g.
 ```bash
@@ -199,9 +216,10 @@ and run cmake as
 cmake -DBUILD_SNOPT=ON ..
 ```
 
-##  <img align="center" height="15" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
 
-Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues). This can include a desired interface to another solver, build issues on your machine, or general usage questions.  
+
+
+
 
 [CMake]: https://cmake.org/cmake/help/v3.0/
 [Eigen]: http://eigen.tuxfamily.org

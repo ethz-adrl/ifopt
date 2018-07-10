@@ -36,7 +36,6 @@ namespace ifopt {
  * @brief Upper and lower bound for optimization variables and constraints.
  */
 struct Bounds {
-
   /**
    * @brief Creates a bound between @a lower and @a upper.
    */
