@@ -64,7 +64,7 @@ public:
    * The optimization variable values are necessary for calculating constraint
    * violations and Jacobians.
    */
-  void LinkWithVariables(const VariablesPtr& x) final;
+  void LinkWithVariables(const VariablesPtr& x);
 
   /**
    * @brief  The matrix of derivatives for these constraints and variables.
