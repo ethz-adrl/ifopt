@@ -57,12 +57,12 @@ public:
   /**
    * @brief  Wrapper function that converts double to Eigen::VectorXd.
    */
-  virtual VectorXd GetValues() const override final;
+  VectorXd GetValues() const final;
 
   /**
    * @brief  Returns infinite bounds (e.g. no bounds).
    */
-  virtual VecBound GetBounds() const override final;
+  VecBound GetBounds() const final;
 };
 
 }

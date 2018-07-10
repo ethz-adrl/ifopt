@@ -69,12 +69,14 @@ public:
                                         char     *cu,  int *lencu,
                                         int     iu[],  int *leniu,
                                         double  ru[],  int *lenru);
+
 private:
   static NLPPtr nlp_; // use raw pointer as SnoptAdapter doesn't own the nlp.
 
 // additional variables as Snopt76 base class doesn't have them, not really
 // necessary but to keep the same structure of the original SnoptAdapter
 #ifdef SNOPT76
+
 public:
   int     jacComputed = 0;
   int     n = 0;
