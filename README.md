@@ -21,7 +21,7 @@ More Features:
 :heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
 
-## <img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Dependencies
+## Dependencies
 Name | Min. Ver. | Description | Install
 --- | --- | --- | --- |
 [CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake```
@@ -34,7 +34,7 @@ If [Ipopt] was installed through the the package manager or installed into the s
 you're all set! But if you want to link to a local installation of Ipopt or to 
 Snopt, see this [section](#solver-install).
 
-## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building with cmake
+## Building with cmake
 * Install
   ```bash
   git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
@@ -62,7 +62,7 @@ Snopt, see this [section](#solver-install).
   target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
   ```
         
-## <img align="center" height="15" src="https://i.imgur.com/x1morBF.png"/> Building with catkin
+## Building with catkin
 * Install: Download [catkin] or [catkin command line tools], then:
   ```bash
   cd catkin_workspace/src
@@ -91,7 +91,7 @@ Snopt, see this [section](#solver-install).
   ```
 
 
-## <img align="center" height="15" src="https://i.imgur.com/vAYeCzC.png"/> Example
+## Example
 The optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
@@ -162,7 +162,7 @@ This was has been carried out at the following institutions:
 
 If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
 or the project within which this code was developed:
-> A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
+- A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
 
     @article{winkler18,
       author    = {Winkler, Alexander W and Bellicoso, Dario C and 
@@ -179,10 +179,7 @@ or the project within which this code was developed:
 
 
 
-
-
-
-## <a name="solver-install"></a><img align="center" height="15" src="https://i.imgur.com/fjS3xIe.png"/> Installing and linking solvers
+## Installing and linking solvers
 If you want to use a locally installed version of IPOPT add the path to your
 Ipopt build folder to your `~/.bashrc`, e.g.
 ```bash
@@ -214,7 +211,7 @@ and run cmake as
 cmake -DBUILD_SNOPT=ON ..
 ```
 
-##  <img align="center" height="15" src="https://i.imgur.com/H4NwgMg.png"/> Bugs & Feature Requests
+##  Bugs & Feature Requests
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues). This can include a desired interface to another solver, build issues on your machine, or general usage questions.  
 
