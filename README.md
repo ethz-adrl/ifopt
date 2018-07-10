@@ -143,12 +143,6 @@ Output:
 See [here :page_facing_up:](ifopt_core/test/ifopt/test_vars_constr_cost.h) for how easily this example problem is formulated
 
 
-## Contributing
-We love pull request, whether its interfaces to additional solvers, bug fixes, unit tests or updating the documentation. Please have a look at [CONTRIBUTING.md](CONTRIBUTING.md) for more information.  
-
-See here the list of [contributors](https://github.com/ethz-adrl/ifopt/graphs/contributors) who participated in this project. 
-
-
 ## Authors 
 [Alexander W. Winkler](https://awinkler.github.io/) - Initial Work/Maintainer
 
@@ -176,6 +170,18 @@ or the research project within which this code was developed:
         volume    = {3},
         doi       = {10.1109/LRA.2018.2798285},
       }
+
+
+## Contributing
+We love pull request, whether its interfaces to additional solvers, bug fixes, unit tests or updating the documentation. Please have a look at [CONTRIBUTING.md](CONTRIBUTING.md) for more information.  
+
+See here the list of [contributors](https://github.com/ethz-adrl/ifopt/graphs/contributors) who participated in this project.
+
+
+##  Bugs & Feature Requests
+
+To report bugs, request features or ask questions, please have a look at [CONTRIBUTING.md](CONTRIBUTING.md). 
+
 
 
 ## <a name="solver-install"></a> Installing and linking solvers
@@ -210,9 +216,10 @@ and run cmake as
 cmake -DBUILD_SNOPT=ON ..
 ```
 
-##  Bugs & Feature Requests
 
-To report bugs, request features or ask questions, please have a look at [CONTRIBUTING.md](CONTRIBUTING.md). 
+
+
+
 
 [CMake]: https://cmake.org/cmake/help/v3.0/
 [Eigen]: http://eigen.tuxfamily.org
