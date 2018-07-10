@@ -16,7 +16,7 @@ Related variables and constraints are implemented (grouped) in *independent sets
 
 More Features:  
 :heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
-:heavy_check_mark: exports cmake scripts to easily *find_package(ifopt)* in your project.  
+:heavy_check_mark: exports cmake scripts to easily <find_package(ifopt)> in your project.  
 :heavy_check_mark: [catkin] integration (optional).  
 :heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
@@ -160,23 +160,23 @@ This was has been carried out at the following institutions:
 
 ## <img align="center" height="15" src="https://i.imgur.com/dHQx91Q.png"/> Publications
 
-If you use this work in an academic context, please consider citing the currently released version <a href="https://doi.org/10.5281/zenodo.1135046"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg" alt="DOI" align="center"></a> as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
-or the project within which this code was developed:
+If you use this work in an academic context, please consider citing the currently released version as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
+or the research project within which this code was developed:
 - A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
 
-    @article{winkler18,
-      author    = {Winkler, Alexander W and Bellicoso, Dario C and 
-                   Hutter, Marco and Buchli, Jonas},
-      title     = {Gait and Trajectory Optimization for Legged Systems 
-                   through Phase-based End-Effector Parameterization},
-      journal   = {IEEE Robotics and Automation Letters (RA-L)},
-      year      = {2018},
-      month     = {July},
-      pages     = {1560-1567},
-      volume    = {3},
-      doi       = {10.1109/LRA.2018.2798285},
-    }
 
+      @article{winkler18,
+        author    = {Winkler, Alexander W and Bellicoso, Dario C and 
+                     Hutter, Marco and Buchli, Jonas},
+        title     = {Gait and Trajectory Optimization for Legged Systems 
+                     through Phase-based End-Effector Parameterization},
+        journal   = {IEEE Robotics and Automation Letters (RA-L)},
+        year      = {2018},
+        month     = {July},
+        pages     = {1560-1567},
+        volume    = {3},
+        doi       = {10.1109/LRA.2018.2798285},
+      }
 
 
 ## Installing and linking solvers
