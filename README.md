@@ -26,12 +26,12 @@ Name | Min. Ver. | Description | Install
 --- | --- | --- | --- |
 [CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake```
 [Eigen] | v3.2.0 | Library for linear algebra | ```sudo apt-get install libeigen3-dev```
-([Ipopt]) | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
+[Ipopt] | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
 ([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
 
-Install one or both NLP solvers to solve the optimization problem.
-If [Ipopt] was installed through the the package manager or installed into the standard search paths,
-you're all set! But if you want to link to a local installation of Ipopt or to 
+Quick Install: ``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
+
+If you want to link to a local installation of Ipopt or to 
 Snopt, see this [section](#solver-install).
 
 ## Building with cmake
@@ -42,7 +42,7 @@ Snopt, see this [section](#solver-install).
   cmake ..
   make
   sudo make install # copies files in this folder to /usr/local/*
-  sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
+  # sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
   ```
 
 * Test: Make sure everything installed correctly by running
@@ -179,7 +179,7 @@ or the research project within which this code was developed:
       }
 
 
-## Installing and linking solvers
+## <a name="solver-install"></a> Installing and linking solvers
 If you want to use a locally installed version of IPOPT add the path to your
 Ipopt build folder to your `~/.bashrc`, e.g.
 ```bash
@@ -213,7 +213,7 @@ cmake -DBUILD_SNOPT=ON ..
 
 ##  Bugs & Feature Requests
 
-Please report bugs and request features using the [Issue Tracker](https://github.com/ethz-adrl/ifopt/issues). This can include a desired interface to another solver, build issues on your machine, or general usage questions.  
+To report bugs, request features or ask questions, please have a look at [CONTRIBUTING.md](CONTRIBUTING.md). 
 
 [CMake]: https://cmake.org/cmake/help/v3.0/
 [Eigen]: http://eigen.tuxfamily.org
