@@ -31,8 +31,7 @@ Name | Min. Ver. | Description | Install
 
 Quick Install: ``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
 
-If you want to link to a local installation of Ipopt or to 
-Snopt, see this [section](#solver-install).
+> If you want to link to a local installation of Ipopt or to Snopt, see this [section](#solver-install).
 
 ## Building with cmake
 * Install
