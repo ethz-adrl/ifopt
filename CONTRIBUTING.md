@@ -1,16 +1,44 @@
 
-# Contributing
+# Contributing to ifopt
 
-We are grateful to anyone who decides to actively engage in this project. 
-This can be writing interfaces to additional solvers, submitting bug fixes, 
-updating the documentation and readme or anything else that increases the quality 
-of code for the community.
+:+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
-By participating in this project, you agree to abide by the 
-
-We love contributions from everyone!
-By participating in this project,
-you agree to abide by the thoughtbot [code of conduct].
+We are grateful to anyone who decides to actively engage in this project.
+This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). 
+By participating, you are expected to uphold this code. 
 
 
-## Contributing Code
+## Question or Issue?
+If you want to ask a general usage question, please do this at [ROS Answers](https://answers.ros.org/questions/ask/) using the tag `ifopt`. Asking this here has the following advantages:
+
+- There are many more people reading questions there so your chances on getting an answer and in a timely manner are much higher.
+
+- In the future other users will search there for similar problems and can find your question and the potential answers.
+
+In case you want to report bugs, request features or anything more related to code than to usage, the 
+[issue tracker](https://github.com/ethz-adrl/ifopt/issues) in this repo is the way to go.   
+
+
+## How Can I Contribute?
+Unsure where to begin contributing to ifopt? You can start by looking through these `beginner` and `help-wanted` issues:
+
+* [Good first issues](https://github.com/ethz-adrl/ifopt/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) - issues which should only require a few lines of code, and a test or two.
+* [Help wanted issues](https://github.com/ethz-adrl/ifopt/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) - issues which should be a bit more involved than `beginner` issues.
+
+Further ideas might include:
+- writing interfaces to additional solvers
+- reporting bugs
+- enhance documentation
+- add unit tests
+
+Please follow the [Google Style Guide](https://google.github.io/styleguide/cppguide.html) when writing your C++ Code. 
+
+
+## A good pull request
+If you've made some improvements, please create a [pull request](https://github.com/ethz-adrl/ifopt/compare). 
+
+- Keep pull requests small, focussing on one specific issue.
+- Include screenshots and animated GIFs in your pull request whenever possible.
+
+We are performing automatic pull request testing, so if you see anything red, please read through the log and update your pull request until the tests pass.
+
