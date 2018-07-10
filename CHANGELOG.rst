@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.3 (2018-07-10)
+------------------
 * Add codefactor integration and contributing guidelines
 * display indices more precisely in printout
 * remove rsl jekins, use ros build farm
