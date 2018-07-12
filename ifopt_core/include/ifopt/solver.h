@@ -34,7 +34,16 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace ifopt {
 
 /**
+ * @defgroup Solvers
+ * @brief Interfaces to IPOPT and SNOPT to solve the optimization problem.
+ *
+ * These are included in the folders: @ref ifopt_ipopt/ and @ref ifopt_snopt/.
+ */
+
+/**
  * @brief Solver interface implemented by IPOPT and SNOPT.
+ *
+ * @ingroup Solvers
  */
 class Solver {
 public:

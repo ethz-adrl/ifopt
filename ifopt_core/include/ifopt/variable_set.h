@@ -40,6 +40,7 @@ namespace ifopt {
  * This is a single set of variables representing a single concept, e.g
  * "spline coefficients" or "step durations".
  *
+ * @ingroup ProblemFormulation
  * @sa Component
  */
 class VariableSet : public Component {

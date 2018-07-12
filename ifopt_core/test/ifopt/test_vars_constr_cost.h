@@ -27,15 +27,18 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-
 /**
- *  Example to generate a solver-independent formulation for the problem, taken
+ *  @file test_vars_constr_cost.h
+ *
+ *  @brief Example to generate a solver-independent formulation for the problem, taken
  *  from the IPOPT cpp_example.
  *
- *  min_x f(x) = -(x1-2)^2
- *  s.t.
- *       0 = x0^2 + x1 - 1
- *       -1 <= x0 <= 1
+ *  The example problem to be solved is given as:
+ *
+ *      min_x f(x) = -(x1-2)^2
+ *      s.t.
+ *           0 = x0^2 + x1 - 1
+ *           -1 <= x0 <= 1
  *
  * In this simple example we only use one set of variables, constraints and
  * cost. However, most real world problems have multiple different constraints

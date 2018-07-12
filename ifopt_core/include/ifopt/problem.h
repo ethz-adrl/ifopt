@@ -34,7 +34,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "constraint_set.h"
 #include "cost_term.h"
 
+/**
+ * @brief common namespace for all elements in this library.
+ */
 namespace ifopt {
+
+
+/**
+ * @defgroup ProblemFormulation
+ * @brief The elements to formulate the solver independent optimization problem.
+ *
+ * These are defined in @ref ifopt_core.
+ */
 
 /**
  * @brief A generic optimization problem with variables, costs and constraints.
@@ -44,20 +55,21 @@ namespace ifopt {
  * the cost function, the constraints and their bounds and derivatives of
  * all. With this information the problem can be solved by any specific solver.
  *
- *  find x1, x2                            (Variable sets 1 & 2)
- *  s.t
+ *     find x1, x2                         (variable sets 1 & 2, or defined in variable set)
+ *     s.t
  *       x1_lower  <= x1 <= x1_upper       (bounds on variable set x1 \in R^m1)
  *
- *       g1_lower < g1(x1,x2) < g1_upper   (Constraint set 1 \in R^n1)
- *       g2_lower < g2(x1,x2) < g2_upper   (Constraint set 2 \in R^n2)
+ *       g1_lower < g1(x1,x2) < g1_upper   (constraint set 1 \in R^n1)
+ *       g2_lower < g2(x1,x2) < g2_upper   (constraint set 2 \in R^n2)
+ *                                         (or both constraints grouped in one constraint set)
  *
- *       x1,x2 = arg min c1(x1,x2)         (Cost terms 1)
- *
- *
- * See @ref solvers for currently implemented solvers.
+ *       x1,x2 = arg min c1(x1,x2)         (cost terms 1)
  *
  * Notice all the quantities (variables, cost, constraint) are represented
  * by the same generic Component class.
+ *
+ * @ingroup ProblemFormulation
+ * See @ref Solvers for currently implemented solvers.
  */
 class Problem {
 public:

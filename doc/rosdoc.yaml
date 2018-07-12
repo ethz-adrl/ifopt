@@ -1,0 +1,3 @@
+- builder: doxygen
+  file_patterns: '*.c *.cpp *.h *.cc *.hh *.dox *.md'
+  exclude_patterns: '*CONTRIBUTING.md *CODE_OF_CONDUCT.md *README.md'

@@ -40,6 +40,7 @@ namespace ifopt {
  * This container builds a scalar cost term from the values of the variables.
  * This can be seen as a constraint with only one row and no bounds.
  *
+ * @ingroup ProblemFormulation
  * @sa Component
  */
 class CostTerm : public ConstraintSet {

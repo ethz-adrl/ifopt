@@ -42,6 +42,7 @@ namespace ifopt {
  * @c n rows is given by:
  * lower_bound < g(x) < upper_bound
  *
+ * @ingroup ProblemFormulation
  * @sa Component
  */
 class ConstraintSet : public Component {
