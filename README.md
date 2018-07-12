@@ -12,7 +12,7 @@
 
 *A modern, light-weight, [Eigen]-based C++ interface to Nonlinear Programming solvers, such as [Ipopt] and [Snopt].*
 
-The optimization problem to solve is defined as:
+The optimization problem to solve is e.g. defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
