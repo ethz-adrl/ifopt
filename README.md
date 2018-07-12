@@ -41,9 +41,10 @@ Name | Min. Ver. | Description | Install
 
   ``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
 
+[![Documentation](https://img.shields.io/badge/docs-generated-brightgreen.svg)](http://docs.ros.org/kinetic/api/ifopt/html/)
 If you want to link to a local installation of Ipopt or to Snopt, see the doxygen
 [documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
-[![Documentation](https://img.shields.io/badge/docs-generated-brightgreen.svg)](http://docs.ros.org/kinetic/api/ifopt/html/)
+
   
 ## Building with cmake
 * Install
