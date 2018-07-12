@@ -16,8 +16,8 @@ The optimization problem to solve is e.g. defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
-:page_facing_up: To see how this problem is formulated, see [test_vars_constr_cost.h](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
-:page_facing_up: Afterwards the problem can be solved using e.g. [Ipopt] as shown in [ex_test_ipopt.cc](ifopt_ipopt/test/ex_test_ipopt.cc).   
+* To see how this problem is formulated, see [*test_vars_constr_cost.h*](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
+* Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).   
 
 Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
 
