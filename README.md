@@ -41,9 +41,7 @@ Name | Min. Ver. | Description | Install
 
   ``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
 
-[![Documentation](https://img.shields.io/badge/docs-generated-brightgreen.svg)](http://docs.ros.org/kinetic/api/ifopt/html/)
-If you want to link to a local installation of Ipopt or to Snopt, see the doxygen
-[documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
+If you want to link to a local installation of Ipopt or to Snopt, see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
 
   
 ## Building with cmake
@@ -108,51 +106,22 @@ If you want to link to a local installation of Ipopt or to Snopt, see the doxyge
 ## Example
 Each set of variables, costs and constraints are formulated by one C++ object
 purely through Eigen vectors and matrices and independent from any specific solver.
-Although this example adds just one, multiple sets of variables or constraints 
-can be added to the NLP and ifopt manages the overall variable vector and jacobian, 
-so each set can be implemented independent of the others. 
+Although this [example](ifopt_core/test/ifopt/test_vars_constr_cost.h) adds just one, 
+multiple sets of variables or constraints can be added to the NLP and ifopt manages 
+the overall variable vector and jacobian, so each set can be implemented independent of 
+the others. A more involved problem definition with multiple sets 
+of variables and constraints, taken from [towr] can be seen in the following: 
 
-<img align="center" height="300" src="https://i.imgur.com/uzt1N7O.png"/>
-
-> The red values show the initial variables values and constraints violating the bounds. 
-> A more involved problem definition with multiple sets 
-> of variables and constraints can be seen [here](https://i.imgur.com/4yhohZF.png) (taken from [towr]).
+<img align="center" height="500" src="https://i.imgur.com/4yhohZF.png"/>
 
 If you have IPOPT installed and linked correctly, you can run this binary [example](ifopt_ipopt/test/ex_test_ipopt.cc) through
 ```bash
 ./build/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example `
 ```
-
-```c++
-#include <ifopt/problem.h>
-#include <ifopt/ipopt.h>
-#include <ifopt/test_vars_constr_cost.h>
-
-int main() {
-
-  // Define the solver independent problem
-  Problem nlp;
-  nlp.AddVariableSet  (std::make_shared<ExVariables>());
-  nlp.AddConstraintSet(std::make_shared<ExConstraint>());
-  nlp.AddCostSet      (std::make_shared<ExCost>());
-
-  // Choose solver and options
-  Ipopt solver; // or Snopt
-  solver.linear_solver_ = "mumps";
-  solver.tol_           = 0.001;
-
-  // Solve
-  solver.Solve(nlp);
-
-  std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
-}
-```
 Output:
 ```bash
 1.0 0.0
 ```
-See [here :page_facing_up:](ifopt_core/test/ifopt/test_vars_constr_cost.h) for how easily this example problem is formulated
-
 
 ## Authors 
 [Alexander W. Winkler](https://awinkler.github.io/) - Initial Work/Maintainer
