@@ -33,6 +33,14 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ifopt/problem.h>
 
+/**
+ * @brief namespace defined by the Ipopt solver.
+ *
+ * Sine this adapter wraps all of the Ipopt functions, we define the adapter
+ * in this namespace as well.
+ *
+ * @ingroup Solvers
+ */
 namespace Ipopt {
 
 /**
@@ -46,6 +54,8 @@ namespace Ipopt {
  *
  * This implements the Adapter pattern. This class should not add any
  * functionality, but merely delegate it to the Adaptee (the Problem object).
+ *
+ * @ingroup Solvers
  */
 class IpoptAdapter : public TNLP {
 public:
@@ -98,24 +108,24 @@ private:
 
   /** This is called after every iteration and is used to save intermediate
     *  solutions in the nlp */
-  virtual bool intermediate_callback(Ipopt::AlgorithmMode mode,
+  virtual bool intermediate_callback(AlgorithmMode mode,
                                      Index iter, double obj_value,
                                      double inf_pr, double inf_du,
                                      double mu, double d_norm,
                                      double regularization_size,
                                      double alpha_du, double alpha_pr,
                                      Index ls_trials,
-                                     const Ipopt::IpoptData* ip_data,
-                                     Ipopt::IpoptCalculatedQuantities* ip_cq);
+                                     const IpoptData* ip_data,
+                                     IpoptCalculatedQuantities* ip_cq);
 
   /** This method is called when the algorithm is complete so the TNLP can
     * store/write the solution */
-  virtual void finalize_solution(Ipopt::SolverReturn status,
+  virtual void finalize_solution(SolverReturn status,
                                  Index n, const double* x, const double* z_L, const double* z_U,
                                  Index m, const double* g, const double* lambda,
                                  double obj_value,
-                                 const Ipopt::IpoptData* ip_data,
-                                 Ipopt::IpoptCalculatedQuantities* ip_cq);
+                                 const IpoptData* ip_data,
+                                 IpoptCalculatedQuantities* ip_cq);
 };
 
 } // namespace Ipopt

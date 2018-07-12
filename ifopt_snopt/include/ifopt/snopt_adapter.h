@@ -46,6 +46,8 @@ namespace ifopt {
  *
  * This implements the Adapter pattern. This class should not add any
  * functionality, but merely delegate it to the Adaptee (the Problem object).
+ *
+ * @ingroup Solvers
  */
 class SnoptAdapter : public snoptProblemA {
 public:

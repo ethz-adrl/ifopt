@@ -38,6 +38,8 @@ namespace ifopt {
 struct Bounds {
   /**
    * @brief Creates a bound between @a lower and @a upper.
+   *
+   * @ingroup ProblemFormulation
    */
   Bounds(double lower = 0.0, double upper = 0.0)
   {

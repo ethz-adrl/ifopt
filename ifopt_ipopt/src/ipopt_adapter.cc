@@ -129,15 +129,15 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
   return true;
 }
 
-bool IpoptAdapter::intermediate_callback(Ipopt::AlgorithmMode mode,
+bool IpoptAdapter::intermediate_callback(AlgorithmMode mode,
                                          Index iter, double obj_value,
                                          double inf_pr, double inf_du,
                                          double mu, double d_norm,
                                          double regularization_size,
                                          double alpha_du, double alpha_pr,
                                          Index ls_trials,
-                                         const Ipopt::IpoptData* ip_data,
-                                         Ipopt::IpoptCalculatedQuantities* ip_cq)
+                                         const IpoptData* ip_data,
+                                         IpoptCalculatedQuantities* ip_cq)
 {
   nlp_->SaveCurrent();
   return true;

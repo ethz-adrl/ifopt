@@ -32,6 +32,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ifopt {
 
+/**
+ * @brief An interface to IPOPT, fully hiding its implementation.
+ *
+ * @ingroup Solvers
+ */
 class Ipopt : public Solver {
 public:
   using Ptr = std::shared_ptr<Ipopt>;
