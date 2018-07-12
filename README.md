@@ -12,6 +12,13 @@
 
 *A modern, light-weight, [Eigen]-based C++ interface to Nonlinear Programming solvers, such as [Ipopt] and [Snopt].*
 
+The optimization problem to solve is defined as:
+
+<img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
+
+:page_facing_up: To see how this problem is formulated, see [test_vars_constr_cost.h](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
+:page_facing_up: Afterwards the problem can be solved using e.g. [Ipopt] as shown in [ex_test_ipopt.cc](ifopt_ipopt/test/ex_test_ipopt.cc).   
+
 Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
 
 More Features:  
@@ -19,6 +26,7 @@ More Features:
 :heavy_check_mark: exports cmake scripts to easily <find_package(ifopt)> in your project.  
 :heavy_check_mark: [catkin] integration (optional).  
 :heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
+
 
 
 ## Dependencies
@@ -29,9 +37,9 @@ Name | Min. Ver. | Description | Install
 [Ipopt] | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
 ([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
 
-Quick Install: 
+* Quick Install: 
 
-``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
+  ``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
 
 If you want to link to a local installation of Ipopt or to Snopt, see the doxygen
 [documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
@@ -97,10 +105,6 @@ If you want to link to a local installation of Ipopt or to Snopt, see the doxyge
 
 
 ## Example
-The optimization problem to solve is defined as:
-
-<img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
-
 Each set of variables, costs and constraints are formulated by one C++ object
 purely through Eigen vectors and matrices and independent from any specific solver.
 Although this example adds just one, multiple sets of variables or constraints 
