@@ -40,52 +40,11 @@
 # (To distribute this file outside of YCM, substitute the full
 #  License text for the above reference.)
 
-
 if(NOT WIN32)
-  # On non Windows systems we use PkgConfig to find IPOPT
-  find_package(PkgConfig QUIET)
-  if(PKG_CONFIG_FOUND)
 
-    if(IPOPT_FIND_VERSION)
-      if(IPOPT_FIND_VERSION_EXACT)
-        pkg_check_modules(_PC_IPOPT QUIET ipopt=${IPOPT_FIND_VERSION})
-      else()
-        pkg_check_modules(_PC_IPOPT QUIET ipopt>=${IPOPT_FIND_VERSION})
-      endif()
-    else()
-      pkg_check_modules(_PC_IPOPT QUIET ipopt)
-    endif()
-
-
-    if(_PC_IPOPT_FOUND)
-      set(IPOPT_INCLUDE_DIRS ${_PC_IPOPT_INCLUDE_DIRS} CACHE PATH "IPOPT include directory")
-      set(IPOPT_DEFINITIONS ${_PC_IPOPT_CFLAGS_OTHER} CACHE STRING "Additional compiler flags for IPOPT")
-      set(IPOPT_LIBRARIES "" CACHE STRING "IPOPT libraries" FORCE)
-      foreach(_LIBRARY IN ITEMS ${_PC_IPOPT_LIBRARIES})
-        find_library(${_LIBRARY}_PATH
-                     NAMES ${_LIBRARY}
-                     PATHS ${_PC_IPOPT_LIBRARY_DIRS})
-        # Workaround for https://github.com/robotology/icub-main/issues/418
-        if(${_LIBRARY}_PATH)
-          list(APPEND IPOPT_LIBRARIES ${${_LIBRARY}_PATH})
-        endif()
-      endforeach()
-    else()
-      set(IPOPT_DEFINITIONS "")
-    endif()
-
-  endif()
-
-  set(IPOPT_LINK_FLAGS "")
-
-  # If pkg-config fails, try to find the package using IPOPT_DIR
-  if(NOT _PC_IPOPT_FOUND)
-    set(IPOPT_DIR_TEST $ENV{IPOPT_DIR})
-    if(IPOPT_DIR_TEST)
-      set(IPOPT_DIR $ENV{IPOPT_DIR} CACHE PATH "Path to IPOPT build directory")
-    else()
-      set(IPOPT_DIR /usr            CACHE PATH "Path to IPOPT build directory")
-    endif()
+  # First priority is finding the package using IPOPT_DIR if set
+  if(DEFINED ENV{IPOPT_DIR})
+    set(IPOPT_DIR $ENV{IPOPT_DIR} CACHE PATH "Path to IPOPT build directory")
 
     set(IPOPT_INCLUDE_DIRS ${IPOPT_DIR}/include/coin)
     find_library(IPOPT_LIBRARIES ipopt ${IPOPT_DIR}/lib
@@ -104,7 +63,7 @@ if(NOT WIN32)
         string(REGEX REPLACE "-[^l][^ ]* " "" IPOPT_DEP ${IPOPT_DEP})
         string(REPLACE "-l"                "" IPOPT_DEP ${IPOPT_DEP})
         string(REPLACE "\n"                "" IPOPT_DEP ${IPOPT_DEP})
-        string(REPLACE "ipopt"             "" IPOPT_DEP ${IPOPT_DEP})       # remove any possible auto-dependency
+        string(REPLACE "ipopt"             "" IPOPT_DEP ${IPOPT_DEP})  # remove any possible auto-dependency
         separate_arguments(IPOPT_DEP)
 
         # use the find_library command in order to prepare rpath correctly
@@ -126,8 +85,44 @@ if(NOT WIN32)
     endif()
 
     set(IPOPT_DEFINITIONS "")
-    set(IPOPT_LINK_FLAGS "")
+
+  
+  # if IPOPT_DIR not set, try finding IPOPT through package manager  
+  else()
+    find_package(PkgConfig QUIET)
+    if(PKG_CONFIG_FOUND)
+    
+      if(IPOPT_FIND_VERSION)
+        if(IPOPT_FIND_VERSION_EXACT)
+          pkg_check_modules(_PC_IPOPT REQUIRED ipopt=${IPOPT_FIND_VERSION})
+        else()
+          pkg_check_modules(_PC_IPOPT REQUIRED ipopt>=${IPOPT_FIND_VERSION})
+        endif()
+      else()
+        pkg_check_modules(_PC_IPOPT REQUIRED ipopt)
+      endif()
+    
+    
+      if(_PC_IPOPT_FOUND)
+        set(IPOPT_INCLUDE_DIRS ${_PC_IPOPT_INCLUDE_DIRS} CACHE PATH "IPOPT include directory")
+        set(IPOPT_DEFINITIONS ${_PC_IPOPT_CFLAGS_OTHER} CACHE STRING "Additional compiler flags for IPOPT")
+        set(IPOPT_LIBRARIES "" CACHE STRING "IPOPT libraries" FORCE)
+        foreach(_LIBRARY IN ITEMS ${_PC_IPOPT_LIBRARIES})
+          find_library(${_LIBRARY}_PATH
+                       NAMES ${_LIBRARY}
+                       PATHS ${_PC_IPOPT_LIBRARY_DIRS})
+          # Workaround for https://github.com/robotology/icub-main/issues/418
+          if(${_LIBRARY}_PATH)
+            list(APPEND IPOPT_LIBRARIES ${${_LIBRARY}_PATH})
+          endif()
+        endforeach()
+      else()
+        set(IPOPT_DEFINITIONS "")
+      endif()
+    endif()
   endif()
+  
+  set(IPOPT_LINK_FLAGS "")
 
 # Windows platforms
 else()
