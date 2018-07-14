@@ -88,15 +88,14 @@ If you want to link to a local installation of Ipopt or to Snopt, see the [doxyg
   ```
   
 ## Test 
-Make sure everything installed and linked correctly by executing the `test` target. 
-Herefore, navigate to your build folder in which the `Makefile` resides, which depends
+Navigate to your build folder in which the `Makefile` resides, which depends
 on how you built the code:
 ```bash
 cd ifopt/build  # plain cmake 
 cd catkin_ws/build_isolated/ifopt/devel # catkin_make_isolated
 cd catkin_ws/build/ifopt # catkin build
 ```
-Make sure everything installed correctly by running
+Make sure everything installed correctly by running the `test` target
 ```bash
 make test
 ```
