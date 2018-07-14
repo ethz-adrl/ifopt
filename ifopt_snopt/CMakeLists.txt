@@ -31,16 +31,16 @@ if(${SNOPT_v76})
 endif()
 
 
-
-
 #############
 ## Install ##
 #############
  # Copy library files to usr/local/lib/libifopt_snopt.so
-install(TARGETS ${LIB_SNOPT} EXPORT ${LIB_SNOPT}-targets
+install(
+  TARGETS ${LIB_SNOPT} ${LIB_SNOPT}-example
+  EXPORT ${LIB_SNOPT}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  RUNTIME DESTINATION ${IFOPT_INSTALL_BINDIR}
 )
 # Copy header files to usr/local/include/ifopt/*
 install(DIRECTORY include/ifopt/

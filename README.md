@@ -166,7 +166,7 @@ To report bugs, request features or ask questions, please have a look at [CONTRI
 [Eigen]: http://eigen.tuxfamily.org
 [Ipopt]: https://projects.coin-or.org/Ipopt
 [Snopt]: http://ampl.com/products/solvers/solvers-we-sell/snopt/
-[catkin]: http://wiki.ros.org/catkin
+[catkin]: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
 [catkin command line tools]: http://catkin-tools.readthedocs.io/en/latest/installing.html
 [towr]: https://github.com/ethz-adrl/towr
 [catkin tools]: http://catkin-tools.readthedocs.org/
