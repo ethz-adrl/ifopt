@@ -12,7 +12,7 @@
 
 *A modern, light-weight, [Eigen]-based C++ interface to Nonlinear Programming solvers, such as [Ipopt] and [Snopt].*
 
-The optimization problem to solve is e.g. defined as:
+An example nonlinear optimization problem to solve is defined as:
 
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
@@ -23,7 +23,7 @@ Related variables and constraints are implemented (grouped) in *independent sets
 
 More Features:  
 :heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
-:heavy_check_mark: exports cmake scripts to easily <find_package(ifopt)> in your project.  
+:heavy_check_mark: exports cmake scripts to easily `find_package(ifopt)` in your project.  
 :heavy_check_mark: [catkin] integration (optional).  
 :heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
 
@@ -32,14 +32,14 @@ More Features:
 ## Dependencies
 Name | Min. Ver. | Description | Install
 --- | --- | --- | --- |
-[CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake```
+[CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake``` [(upgrade)](https://askubuntu.com/questions/829310/how-to-upgrade-cmake-in-ubuntu#answer-908211)
 [Eigen] | v3.2.0 | Library for linear algebra | ```sudo apt-get install libeigen3-dev```
 [Ipopt] | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
 ([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
 
-* Quick Install: 
+Quick Install: 
 
-  ``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
+``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
 
 If you want to link to a local installation of Ipopt or to Snopt, see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
 
@@ -55,14 +55,6 @@ If you want to link to a local installation of Ipopt or to Snopt, see the [doxyg
   # sudo xargs rm < install_manifest.txt # in case you want to uninstall the above
   ```
 
-* Test: Make sure everything installed correctly by running
-  ```bash
-  make test
-  ```
-  You should see `#1 ifopt_core-test....Passed` as well as one test for each installed solver.
-  In case you want to see the actual iterations of the solver, run ``ctest -V``. 
-
- 
 * Use: To use in your cmake project, see this minimal *CMakeLists.txt*:
   ```cmake
   find_package(ifopt)
@@ -75,20 +67,13 @@ If you want to link to a local installation of Ipopt or to Snopt, see the [doxyg
 ## Building with catkin
 * Install: Download [catkin] or [catkin command line tools], then:
   ```bash
-  cd catkin_workspace/src
+  cd catkin_ws/src
   git clone https://github.com/ethz-adrl/ifopt.git
   cd ..
   catkin_make_isolated # `catkin build` if you are using catkin command-line tools 
   source ./devel/setup.bash
   ```
-   
-* Test: To run the code, navigate to your `catkin_ws/build` folder and execute 
-  the binaries
-  ```bash
-  ./ifopt/ifopt_core/ifopt_core-test
-  ./ifopt/ifopt_ipopt/ifopt_ipopt-example
-  ```
-
+  
 * Use: Include in your catkin project by adding to your *CMakeLists.txt* 
   ```cmake
   find_package(catkin COMPONENTS ifopt) 
@@ -101,27 +86,42 @@ If you want to link to a local installation of Ipopt or to Snopt, see the [doxyg
     <depend>ifopt</depend>
   </package>
   ```
+  
+## Test 
+Make sure everything installed and linked correctly by executing the `test` target. 
+Herefore, navigate to your build folder in which the `Makefile` resides, which depends
+on how you built the code:
+```bash
+cd ifopt/build  # plain cmake 
+cd catkin_ws/build_isolated/ifopt/devel # catkin_make_isolated
+cd catkin_ws/build/ifopt # catkin build
+```
+Make sure everything installed correctly by running
+```bash
+make test
+```
+You should see `ifopt_ipopt-example....Passed` (or snopt if installed) as well as `ifopt_core-test` if
+[gtest] is installed.
 
+If you have IPOPT installed and linked correctly, you can also run the [binary example](ifopt_ipopt/test/ex_test_ipopt.cc) 
+directly (again, first navigate to the build folder with the `Makefile`)
+```bash
+make test ARGS='-R ifopt_ipopt-example -V'
+```
+Output:
+```bash
+1.0 0.0
+```
 
-## Example
 Each set of variables, costs and constraints are formulated by one C++ object
 purely through Eigen vectors and matrices and independent from any specific solver.
-Although this [example](ifopt_core/test/ifopt/test_vars_constr_cost.h) adds just one, 
+Although the above [example](ifopt_core/test/ifopt/test_vars_constr_cost.h) adds just one, 
 multiple sets of variables or constraints can be added to the NLP and ifopt manages 
 the overall variable vector and jacobian, so each set can be implemented independent of 
 the others. A more involved problem definition with multiple sets 
 of variables and constraints, taken from [towr] can be seen in the following: 
 
 <img align="center" height="500" src="https://i.imgur.com/4yhohZF.png"/>
-
-If you have IPOPT installed and linked correctly, you can run this binary [example](ifopt_ipopt/test/ex_test_ipopt.cc) through
-```bash
-./build/ifopt_ipopt/ifopt_ipopt-example # or `rosrun ifopt ifopt_ipopt-example `
-```
-Output:
-```bash
-1.0 0.0
-```
 
 ## Authors 
 [Alexander W. Winkler](https://awinkler.github.io/) - Initial Work/Maintainer
@@ -172,6 +172,6 @@ To report bugs, request features or ask questions, please have a look at [CONTRI
 [catkin tools]: http://catkin-tools.readthedocs.org/
 [ROS]: http://www.ros.org
 [rviz]: http://wiki.ros.org/rviz
-[Fa2png]: http://fa2png.io/r/font-awesome/link/
+[gtest]: https://github.com/google/googletest
 
 
