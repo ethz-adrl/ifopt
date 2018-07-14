@@ -1,5 +1,8 @@
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(IPOPT 3.11.9 REQUIRED)
+# previous IPOPT versions have a bug which causes mumps segfault:
+# https://bugs.launchpad.net/ubuntu/+source/coinor-ipopt/+bug/1167585
+
 
 ###########
 ## Build ##
@@ -47,10 +50,10 @@ add_test(${LIB_IPOPT}-example ${LIB_IPOPT}-example)
  # Copy library files to usr/local/lib/libifopt_ipopt.so
 install(
   TARGETS ${LIB_IPOPT} ${LIB_IPOPT}-example
-  EXPORT ${LIB_IPOPT}-targets
+  EXPORT  ${LIB_IPOPT}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  RUNTIME DESTINATION ${IFOPT_INSTALL_BINDIR}
   INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 # Copy header files to usr/local/include/ifopt/*
