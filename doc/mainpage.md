@@ -3,9 +3,9 @@ IFOPT - Interface for Nonlinear Optimizers {#mainpage}
 
 *A modern, light-weight, [Eigen]-based C++ interface to Nonlinear Programming solvers, such as [Ipopt] and [Snopt].* 
 
-|Solves a Nonlinear Optimization Problem as: ||
+|Solves a Nonlinear Optimization Problem as: | |
 | -------|------ |
-|<img src="../figures/example_nlp.png" width="250px"/> | |
+| \image html example_nlp.png | |
 
 * **To see how this problem is formulated, see test_vars_constr_cost.h.** 
 * **Afterwards the problem can be solved using e.g. IPOPT as shown in ex_test_ipopt.cc**.
@@ -68,17 +68,6 @@ cmake -DBUILD_SNOPT=ON ..
 \endcode
 
 
-
-Run {#run}
-=========================
-To run the code, navigate to your `build` folder and execute the binaries
-\code{.sh}
-./ifopt_core/ifopt_core-test
-./ifopt_ipopt/ifopt_ipopt-example
-\endcode
-
-
-
 Contribute {#contribute}
 ==========================
 We love pull requests. Please see 
@@ -92,7 +81,7 @@ who participated in this project.
 
 Authors {#authors}
 =======================
-[Alexander W. Winkler](http://awinkler.me) - Initial Developer & Maintainence
+[Alexander W. Winkler](http://awinkler.me) - Initial Developer & Maintenance
 
 
 [ROS]: http://www.ros.org
