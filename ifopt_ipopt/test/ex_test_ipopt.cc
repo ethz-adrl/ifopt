@@ -27,7 +27,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include <ifopt/problem.h>
-#include <ifopt/ipopt.h>
+#include <ifopt/ipopt_solver.h>
 #include <ifopt/test_vars_constr_cost.h>
 
 using namespace ifopt;
@@ -42,9 +42,9 @@ int main()
   nlp.PrintCurrent();
 
   // 2. choose solver and options
-  Ipopt ipopt;
-  ipopt.linear_solver_ = "mumps";
-  ipopt.tol_           = 0.001;
+  IpoptSolver ipopt;
+  ipopt.SetOption("linear_solver", "mumps");
+  ipopt.SetOption("jacobian_approximation", "exact");
 
   // 3 . solve
   ipopt.Solve(nlp);

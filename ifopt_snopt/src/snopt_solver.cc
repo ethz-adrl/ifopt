@@ -24,13 +24,13 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <ifopt/snopt.h>
+#include <ifopt/snopt_solver.h>
 #include <ifopt/snopt_adapter.h>
 
 namespace ifopt {
 
 void
-Snopt::Solve (Problem& ref)
+SnoptSolver::Solve (Problem& ref)
 {
   SnoptAdapter snopt(ref);
   snopt.Init();

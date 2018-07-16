@@ -24,35 +24,45 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <ifopt/ipopt.h>
+#include <ifopt/ipopt_solver.h>
 #include <ifopt/ipopt_adapter.h>
 
 namespace ifopt {
 
+IpoptSolver::IpoptSolver()
+{
+  ipopt_app_ = std::make_shared<Ipopt::IpoptApplication>();
+
+  /* Which linear solver to use. Mumps is default because it comes with the
+   * precompiled ubuntu binaries. However, the coin-hsl solvers can be
+   * significantly faster and are free for academic purposes. They can be
+   * downloaded here: http://www.hsl.rl.ac.uk/ipopt/ and must be compiled
+   * into your IPOPT libraries. Then you can use the additional strings:
+   * "ma27, ma57, ma77, ma86, ma97" here.
+   */
+  SetOption("linear_solver", "mumps");
+
+  /* whether to use the analytical derivatives "exact" coded in ifopt, or let
+   * IPOPT approximate these through "finite difference-values". This is usually
+   * significantly slower.
+   */
+  SetOption("jacobian_approximation", "exact");
+  SetOption("hessian_approximation", "limited-memory");
+  SetOption("max_cpu_time", 40.0);
+  SetOption("tol", 0.001);
+  SetOption("print_timing_statistics", "no");
+  SetOption("print_user_options", "no");
+  SetOption("print_level", 3);
+
+  // SetOption("max_iter", 1);
+  // SetOption("derivative_test", "first-order");
+  // SetOption("derivative_test_tol", 1e-3);
+}
 
 void
-Ipopt::Solve (Problem& nlp)
+IpoptSolver::Solve (Problem& nlp)
 {
   using namespace Ipopt;
-  using IpoptPtr            = SmartPtr<TNLP>;
-  using IpoptApplicationPtr = SmartPtr<IpoptApplication>;
-
-  IpoptApplicationPtr ipopt_app_ = new IpoptApplication();
-
-  ipopt_app_->Options()->SetStringValue("linear_solver", linear_solver_);
-  ipopt_app_->Options()->SetStringValue("hessian_approximation", hessian_approximation_);
-  ipopt_app_->Options()->SetNumericValue("max_cpu_time", max_cpu_time_);
-  ipopt_app_->Options()->SetNumericValue("tol", tol_);
-  if (use_jacobian_approximation_)
-    ipopt_app_->Options()->SetStringValue("jacobian_approximation", "finite-difference-values");
-
-  ipopt_app_->Options()->SetStringValue("print_timing_statistics", print_timing_statistics_);
-  ipopt_app_->Options()->SetStringValue("print_user_options", print_user_options_);
-  ipopt_app_->Options()->SetIntegerValue("print_level", print_level_);
-
-  //  ipopt_app_->Options()->SetIntegerValue("max_iter", 1);
-  //  ipopt_app_->Options()->SetNumericValue("derivative_test_tol", 1e-3);
-  //  ipopt_app_->Options()->SetStringValue("derivative_test", "first-order"); // "second-order"
 
   ApplicationReturnStatus status_ = ipopt_app_->Initialize();
   if (status_ != Solve_Succeeded) {
@@ -61,15 +71,31 @@ Ipopt::Solve (Problem& nlp)
   }
 
   // convert the NLP problem to Ipopt
-  IpoptPtr nlp_ptr = new IpoptAdapter(nlp);
+  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp);
   status_ = ipopt_app_->OptimizeTNLP(nlp_ptr);
 
   if (status_ != Solve_Succeeded) {
-    std::string msg = "ERROR: Ipopt failed to find a solution. ReturnCode: " + std::to_string(status_) + "\n";
+    std::string msg = "ERROR: Ipopt failed to find a solution. Return Code: " + std::to_string(status_) + "\n";
     std::cerr << msg;
   }
 }
 
+void
+IpoptSolver::SetOption (const std::string& name, const std::string& value)
+{
+  ipopt_app_->Options()->SetStringValue(name, value);
+}
 
+void
+IpoptSolver::SetOption (const std::string& name, int value)
+{
+  ipopt_app_->Options()->SetIntegerValue(name, value);
+}
+
+void
+IpoptSolver::SetOption (const std::string& name, double value)
+{
+  ipopt_app_->Options()->SetNumericValue(name, value);
+}
 
 } /* namespace ifopt */

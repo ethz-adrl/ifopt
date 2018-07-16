@@ -27,7 +27,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include <ifopt/problem.h>
-#include <ifopt/snopt.h>
+#include <ifopt/snopt_solver.h>
 #include <ifopt/test_vars_constr_cost.h>
 
 
@@ -42,7 +42,7 @@ int main()
   nlp.AddCostSet      (std::make_shared<ExCost>());
   nlp.PrintCurrent();
 
-  Snopt solver;
+  SnoptSolver solver;
   solver.Solve(nlp);
 
   std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;

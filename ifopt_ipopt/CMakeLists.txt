@@ -10,8 +10,8 @@ find_package(IPOPT 3.11.9 REQUIRED)
 set(LIB_IPOPT ifopt_ipopt)
 # The IPOPT solver interface
 add_library(${LIB_IPOPT} SHARED 
-    src/ipopt.cc
     src/ipopt_adapter.cc
+    src/ipopt_solver.cc
 )
 target_include_directories(${LIB_IPOPT} 
   PUBLIC

@@ -34,7 +34,7 @@ IpoptAdapter::IpoptAdapter(Problem& nlp)
 }
 
 bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
-                         Index& nnz_h_lag, IndexStyleEnum& index_style)
+                                Index& nnz_h_lag, IndexStyleEnum& index_style)
 {
   n = nlp_->GetNumberOfOptimizationVariables();
   m = nlp_->GetNumberOfConstraints();
@@ -49,7 +49,7 @@ bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
 }
 
 bool IpoptAdapter::get_bounds_info(Index n, double* x_lower, double* x_upper,
-                            Index m, double* g_l, double* g_u)
+                                   Index m, double* g_l, double* g_u)
 {
   auto bounds_x = nlp_->GetBoundsOnOptimizationVariables();
   for (uint c=0; c<bounds_x.size(); ++c) {
@@ -68,9 +68,9 @@ bool IpoptAdapter::get_bounds_info(Index n, double* x_lower, double* x_upper,
 }
 
 bool IpoptAdapter::get_starting_point(Index n, bool init_x, double* x,
-                               bool init_z, double* z_L, double* z_U,
-                               Index m, bool init_lambda,
-                               double* lambda)
+                                      bool init_z, double* z_L, double* z_U,
+                                      Index m, bool init_lambda,
+                                      double* lambda)
 {
   // Here, we assume we only have starting values for x
   assert(init_x == true);
@@ -104,8 +104,8 @@ bool IpoptAdapter::eval_g(Index n, const double* x, bool new_x, Index m, double*
 }
 
 bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
-                       Index m, Index nele_jac, Index* iRow, Index *jCol,
-                       double* values)
+                              Index m, Index nele_jac, Index* iRow, Index *jCol,
+                              double* values)
 {
   // defines the positions of the nonzero elements of the jacobian
   if (values == NULL) {

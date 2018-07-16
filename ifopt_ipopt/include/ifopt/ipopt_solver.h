@@ -24,30 +24,50 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#ifndef IFOPT_SRC_IFOPT_SNOPT_INCLUDE_IFOPT_SNOPT_H_
-#define IFOPT_SRC_IFOPT_SNOPT_INCLUDE_IFOPT_SNOPT_H_
+#ifndef IFOPT_SRC_IFOPT_IPOPT_INCLUDE_IFOPT_IPOPT_H_
+#define IFOPT_SRC_IFOPT_IPOPT_INCLUDE_IFOPT_IPOPT_H_
 
 #include <ifopt/problem.h>
 #include <ifopt/solver.h>
 
+
+namespace Ipopt {
+class IpoptApplication;
+}
+
 namespace ifopt {
 
 /**
- * @brief An interface to SNOPT, fully hiding its implementation.
+ * @brief An interface to IPOPT, fully hiding its implementation.
+ *
+ * To set specific options, see:
+ * https://www.coin-or.org/Ipopt/documentation/node40.html
  *
  * @ingroup Solvers
  */
-class Snopt : public Solver {
+class IpoptSolver : public Solver {
 public:
-  using Ptr = std::shared_ptr<Snopt>;
+  using Ptr = std::shared_ptr<IpoptSolver>;
 
-  /**
-   * @brief Creates a snoptProblemA from @a nlp and solves it.
-   * @param [in/out]  nlp  The specific problem to be used and modified.
-   */
-  void Solve(Problem& nlp) override ;
+  IpoptSolver();
+  virtual ~IpoptSolver() = default;
+
+  /** @brief  Creates an IpoptAdapter and solves the NLP.
+    * @param [in/out]  nlp  The specific problem.
+    */
+  void Solve(Problem& nlp) override;
+
+  /** Options for the IPOPT solver. A complete list can be found here:
+    * https://www.coin-or.org/Ipopt/documentation/node40.html
+    */
+  void SetOption(const std::string& name, const std::string& value);
+  void SetOption(const std::string& name, int value);
+  void SetOption(const std::string& name, double value);
+
+private:
+  std::shared_ptr<Ipopt::IpoptApplication> ipopt_app_;
 };
 
 } /* namespace ifopt */
 
-#endif /* IFOPT_SRC_IFOPT_SNOPT_INCLUDE_IFOPT_SNOPT_H_ */
+#endif /* IFOPT_SRC_IFOPT_IPOPT_INCLUDE_IFOPT_IPOPT_H_ */

@@ -6,8 +6,8 @@ find_package(SNOPT REQUIRED)
 ###########
 set(LIB_SNOPT ifopt_snopt)
 add_library(${LIB_SNOPT} SHARED
-  src/snopt.cc
   src/snopt_adapter.cc
+  src/snopt_solver.cc
 )
 target_include_directories(${LIB_SNOPT} 
   PUBLIC 
@@ -29,6 +29,17 @@ if(${SNOPT_v76})
       -DSNOPT76
   )
 endif()
+
+
+#############
+## Testing ##
+#############
+add_executable(${LIB_SNOPT}-example test/ex_test_snopt.cc)
+target_link_libraries(${LIB_SNOPT}-example 
+  PRIVATE 
+    ${LIB_SNOPT}
+)
+add_test(${LIB_SNOPT}-example ${LIB_SNOPT}-example)
 
 
 #############
@@ -54,12 +65,3 @@ install(EXPORT ${LIB_SNOPT}-targets
 )
 
 
-#############
-## Testing ##
-#############
-add_executable(${LIB_SNOPT}-example test/ex_test_snopt.cc)
-target_link_libraries(${LIB_SNOPT}-example 
-  PRIVATE 
-    ${LIB_SNOPT}
-)
-add_test(${LIB_SNOPT}-example ${LIB_SNOPT}-example)
