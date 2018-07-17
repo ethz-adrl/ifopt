@@ -19,13 +19,25 @@ An example nonlinear optimization problem to solve is defined as:
 * To see how this problem is formulated, see [*test_vars_constr_cost.h*](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
 * Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).   
 
-Related variables and constraints are implemented (grouped) in *independent sets*. Ifopt automatically generates the overall problem from these sets. No more changing indices in your variable vector or Jacobian when adding or removing variables/constraints. See this large [problem](https://i.imgur.com/4yhohZF.png), that requires multiple variable- and constraint sets to generate the motion for legged robot (implemented in [towr]).
+**[Ipopt] / [Snopt]**  
+:heavy_check_mark: fast and robust solvers for nonlinear optimization problems  
+:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction)      
+:x: linking and exporting difficult  
 
-More Features:  
-:heavy_check_mark: [Eigen] allows inuitive formulation and fast performance due to sparse matrix exploitation.  
-:heavy_check_mark: exports cmake scripts to easily `find_package(ifopt)` in your project.  
-:heavy_check_mark: [catkin] integration (optional).  
-:heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend.  
+**+ [Eigen]**      
+:heavy_check_mark: modern, intuitive formulations of vectors and matrices      
+:heavy_check_mark: fast   
+
+:arrow_right: **ifopt**   
+:heavy_check_mark: Pure Eigen-based and solver independent formulation of variables and constraints    
+:heavy_check_mark: Automatic index management by formulating similar variables (or constraints) as independent sets   
+:heavy_check_mark: cmake scripts to easily `find_package(ifopt)` in your project  
+:heavy_check_mark: [catkin] / [ROS] integration (optional)     
+:heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend  
+
+Projects using ifopt:
+
+- [towr]: requires multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
 
 
 
