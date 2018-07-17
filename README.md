@@ -19,16 +19,16 @@ An example nonlinear optimization problem to solve is defined as:
 * To see how this problem is formulated, see [*test_vars_constr_cost.h*](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
 * Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).   
 
-**+ [Ipopt] / [Snopt]**  
+**[Ipopt] / [Snopt]**  
 :heavy_check_mark: fast and robust solvers for nonlinear optimization problems  
 :x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction)      
 :x: linking and exporting difficult  
 
-**+ [Eigen]**      
+**[Eigen]**      
 :heavy_check_mark: modern, intuitive formulations of vectors and matrices      
 :heavy_check_mark: fast   
 
-**= ifopt**   
+**:arrow_right: ifopt**   
 :heavy_check_mark: Pure Eigen-based and solver independent formulation of variables and constraints    
 :heavy_check_mark: Automatic index management by formulating similar variables (or constraints) as independent sets   
 :heavy_check_mark: cmake scripts to easily `find_package(ifopt)` in your project  
