@@ -2,6 +2,17 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* generalize ipopt solver interface, so source never has to be touched.
+* Fix/simplify image path in doxygen.
+* Simplify and generalize testing procedure (`#25 <https://github.com/ethz-adrl/ifopt/issues/25>`_)
+* have cmake fail if IPOPT version <3.11.9
+* Install binaries to /lib/ifopt, just as catkin does.
+* Update README.md to always use `make test` for testing.
+* Improve doxygen (`#22 <https://github.com/ethz-adrl/ifopt/issues/22>`_)
+* Contributors: Alexander Winkler
+
 2.0.3 (2018-07-10)
 ------------------
 * Add codefactor integration and contributing guidelines

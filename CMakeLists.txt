@@ -1,6 +1,6 @@
 # Copyright (c) 2017, Alexander W. Winkler, ETH Zurich. All rights reserved.
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
-project(ifopt VERSION 2.0.2)
+project(ifopt VERSION 2.0.4)
 
 
 ###########
