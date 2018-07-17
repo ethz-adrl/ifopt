@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.4 (2018-07-17)
+------------------
 * generalize ipopt solver interface, so source never has to be touched.
 * Fix/simplify image path in doxygen.
 * Simplify and generalize testing procedure (`#25 <https://github.com/ethz-adrl/ifopt/issues/25>`_)
