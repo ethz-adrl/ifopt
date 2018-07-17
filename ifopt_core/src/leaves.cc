@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
 Copyright (c) 2017, Alexander W Winkler. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -50,20 +50,26 @@ ConstraintSet::GetJacobian () const
   Jacobian jacobian(GetRows(), variables_->GetRows());
 
   int col = 0;
+  Jacobian jac = Jacobian(GetRows(), 1);
+  std::vector< Eigen::Triplet<double> > triplet_list;
+
   for (const auto& vars : variables_->GetComponents()) {
     int n = vars->GetRows();
-    Jacobian jac = Jacobian(GetRows(), n);
+    jac.resize(GetRows(),n);
 
     FillJacobianBlock(vars->GetName(), jac);
+    // reserve space for the new elements to reduce memory allocation
+    triplet_list.reserve(triplet_list.size()+jac.nonZeros());
 
-    // insert the derivative in the correct position in the overall Jacobian
+    // create triplets for the derivative at the correct position in the overall Jacobian
     for (int k=0; k<jac.outerSize(); ++k)
       for (Jacobian::InnerIterator it(jac,k); it; ++it)
-        jacobian.coeffRef(it.row(), col+it.col()) = it.value();
-
+         triplet_list.push_back(Eigen::Triplet<double>(it.row(),col+it.col(),it.value()));
     col += n;
   }
 
+  // transform triplet vector into sparse matrix
+  jacobian.setFromTriplets(triplet_list.begin(), triplet_list.end());
   return jacobian;
 }
 
