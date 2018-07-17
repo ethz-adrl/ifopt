@@ -138,7 +138,7 @@ Composite::GetJacobian () const
 
     for (int k=0; k<jac.outerSize(); ++k)
       for (Jacobian::InnerIterator it(jac,k); it; ++it)
-          triplet_list.push_back(Eigen::Triplet<double>(row+it.row(),it.col(),it.value()));
+        triplet_list.push_back(Eigen::Triplet<double>(row+it.row(), it.col(), it.value()));
 
     if (!is_cost_)
       row += c->GetRows();
