@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
 Copyright (c) 2017, Alexander W Winkler. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -130,16 +130,21 @@ Composite::GetJacobian () const
   Jacobian jacobian(GetRows(), n_var);
 
   int row = 0;
+  std::vector< Eigen::Triplet<double> > triplet_list;
+
   for (const auto& c : components_) {
     const Jacobian& jac = c->GetJacobian();
+    triplet_list.reserve(triplet_list.size()+jac.nonZeros());
+
     for (int k=0; k<jac.outerSize(); ++k)
       for (Jacobian::InnerIterator it(jac,k); it; ++it)
-        jacobian.coeffRef(row+it.row(), it.col()) += it.value();
+        triplet_list.push_back(Eigen::Triplet<double>(row+it.row(), it.col(), it.value()));
 
     if (!is_cost_)
       row += c->GetRows();
   }
 
+  jacobian.setFromTriplets(triplet_list.begin(), triplet_list.end());
   return jacobian;
 }
 
