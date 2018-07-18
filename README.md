@@ -142,7 +142,7 @@ If you use this work, please consider citing as follows:
     @misc{ifopt,
       author       = {Alexander W Winkler},
       title        = {{Ifopt - A modern, light-weight, Eigen-based C++ interface to 
-                       Nonlinear Programming solvers, such as Ipopt and Snopt.}},
+                       Nonlinear Programming solvers Ipopt and Snopt.}},
       year         = 2018,
       doi          = {10.5281/zenodo.1135046},
       url          = {https://doi.org/10.5281/zenodo.1135046}
