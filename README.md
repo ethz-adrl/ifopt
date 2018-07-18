@@ -22,7 +22,7 @@ An example nonlinear optimization problem to solve is defined as:
 
 | [Ipopt] / [Snopt] | + | [Eigen]  |
 |----------|--------|----| 
-|:heavy_check_mark: fast and robust solvers for nonlinear optimization problems  |  | :heavy_check_mark: modern, intuitive formulations of vectors and matrices |
+|:heavy_check_mark: high-quality solvers for nonlinear optimization  |  | :heavy_check_mark: modern, intuitive formulations of vectors and matrices |
 |:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction) | | :heavy_check_mark: highly efficient implementations |       
 |:x: linking and exporting difficult  | | |
 
