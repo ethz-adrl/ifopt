@@ -137,11 +137,20 @@ This was has been carried out at the following institutions:
 
 
 ## Publications
-If you use this work in an academic context, please consider citing the currently released version as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
-or the research project within which this code was developed:
+If you use this work, please consider citing as follows:
 
-A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
+    @misc{ifopt,
+      author       = {Alexander W Winkler},
+      title        = {{Ifopt - A modern, light-weight, Eigen-based C++ interface to 
+                       Nonlinear Programming solvers, such as Ipopt and Snopt.}},
+      year         = 2018,
+      doi          = {10.5281/zenodo.1135046},
+      url          = {https://doi.org/10.5281/zenodo.1135046}
+    }
 
+The research project within which this code was developed:
+
+A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](http://awinkler.me), IEEE Robotics and Automation Letters (RA-L), 2018:
 
       @article{winkler18,
         author    = {Winkler, Alexander W and Bellicoso, Dario C and 
