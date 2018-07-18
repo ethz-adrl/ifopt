@@ -21,7 +21,9 @@ An example nonlinear optimization problem to solve is defined as:
 * Further example: [towr] - multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
 
 
-## Features Ifopt
+## Features
+*Combines* the advantages of [Ipopt] / [Snopt] and [Eigen]:
+
 | [Ipopt] / [Snopt] | + | [Eigen]  |
 |----------|--------|----| 
 |:heavy_check_mark: high-quality solvers for nonlinear optimization  |  | :heavy_check_mark: modern, intuitive formulations of vectors and matrices |
