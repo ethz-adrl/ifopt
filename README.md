@@ -47,7 +47,7 @@ packages from source. For this, install the required dependencies [Cmake], [Eige
 ```
 sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev
 ```
-If you want to link to a local installation of Ipopt or to [Snopt], see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
+If you want to link to a local installation of [Ipopt] or to [Snopt], see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
 
 #### Building with cmake
 * Install
