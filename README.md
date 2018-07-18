@@ -20,13 +20,14 @@ An example nonlinear optimization problem to solve is defined as:
 * Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).
 * Further example: [towr] - multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
 
+
+## Features Ifopt
 | [Ipopt] / [Snopt] | + | [Eigen]  |
 |----------|--------|----| 
 |:heavy_check_mark: high-quality solvers for nonlinear optimization  |  | :heavy_check_mark: modern, intuitive formulations of vectors and matrices |
 |:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction) | | :heavy_check_mark: highly efficient implementations |       
 |:x: linking and exporting difficult  | | |
 
-### Features Ifopt
 * Solver independent formulation of variables and constraints with Eigen      
 * Automatic index management by formulating similar variables (or constraints) as independent sets   
 * Highly efficient due to Eigen sparse matrix formulations  
