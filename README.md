@@ -23,14 +23,12 @@ An example nonlinear optimization problem to solve is defined as:
 :heavy_check_mark: fast and robust solvers for nonlinear optimization problems  
 :x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction)      
 :x: linking and exporting difficult  
+**+ [Eigen]** (:heavy_check_mark: modern, intuitive formulations of vectors and matrices)          
 
-**[Eigen]**      
-:heavy_check_mark: modern, intuitive formulations of vectors and matrices      
-:heavy_check_mark: fast   
-
-**:arrow_right: ifopt**   
-:heavy_check_mark: Pure Eigen-based and solver independent formulation of variables and constraints    
-:heavy_check_mark: Automatic index management by formulating similar variables (or constraints) as independent sets   
+**= ifopt**
+:heavy_check_mark: Solver independent formulation of variables and constraints with Eigen    
+:heavy_check_mark: Automatic index management by formulating similar variables (or constraints) as independent sets 
+:heavy_check_mark: Highly efficient due to Eigen sparse matrix formulations
 :heavy_check_mark: cmake scripts to easily `find_package(ifopt)` in your project  
 :heavy_check_mark: [catkin] / [ROS] integration (optional)     
 :heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend  
