@@ -26,7 +26,7 @@ An example nonlinear optimization problem to solve is defined as:
 |:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction) | | :heavy_check_mark: highly efficient implementations |       
 |:x: linking and exporting difficult  | | |
 
-**:arrow_right: Ifopt**
+### Features
 * Solver independent formulation of variables and constraints with Eigen      
 * Automatic index management by formulating similar variables (or constraints) as independent sets   
 * Highly efficient due to Eigen sparse matrix formulations  
