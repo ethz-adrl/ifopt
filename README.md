@@ -27,13 +27,12 @@ An example nonlinear optimization problem to solve is defined as:
 |:x: linking and exporting difficult  | | |
 
 **:arrow_right: Ifopt**
-
-:heavy_check_mark: Solver independent formulation of variables and constraints with Eigen      
-:heavy_check_mark: Automatic index management by formulating similar variables (or constraints) as independent sets   
-:heavy_check_mark: Highly efficient due to Eigen sparse matrix formulations  
-:heavy_check_mark: cmake scripts to easily `find_package(ifopt)` in your project    
-:heavy_check_mark: [catkin] / [ROS] integration (optional)       
-:heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend    
+* Solver independent formulation of variables and constraints with Eigen      
+* Automatic index management by formulating similar variables (or constraints) as independent sets   
+* Highly efficient due to Eigen sparse matrix formulations  
+* cmake scripts to easily `find_package(ifopt)` in your project    
+* [catkin] / [ROS] integration (optional)       
+* light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend    
 
 
 ## Install
