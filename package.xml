@@ -13,10 +13,11 @@
   </description>
   
   <author>Alexander W. Winkler</author>
-  <maintainer email="winklera@ethz.ch">Alexander W. Winkler</maintainer>
+  <maintainer email="alexander.w.winkler@gmail.com">Alexander W. Winkler</maintainer>
   <license>BSD</license>
   
   <url type="website">https://github.com/ethz-adrl/ifopt</url>
+  <url type="bugtracker">http://github.com/ethz-adrl/ifopt/issues</url>
   
   <depend>eigen</depend>
   <depend>coinor-libipopt-dev</depend> 

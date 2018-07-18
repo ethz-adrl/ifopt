@@ -17,46 +17,42 @@ An example nonlinear optimization problem to solve is defined as:
 <img align="center" height="100" src="https://i.imgur.com/YGi4LrR.png"/>
 
 * To see how this problem is formulated, see [*test_vars_constr_cost.h*](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
-* Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).   
-
-**[Ipopt] / [Snopt]**  
-:heavy_check_mark: fast and robust solvers for nonlinear optimization problems  
-:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction)      
-:x: linking and exporting difficult  
-
-**[Eigen]**      
-:heavy_check_mark: modern, intuitive formulations of vectors and matrices      
-:heavy_check_mark: fast   
-
-**:arrow_right: ifopt**   
-:heavy_check_mark: Pure Eigen-based and solver independent formulation of variables and constraints    
-:heavy_check_mark: Automatic index management by formulating similar variables (or constraints) as independent sets   
-:heavy_check_mark: cmake scripts to easily `find_package(ifopt)` in your project  
-:heavy_check_mark: [catkin] / [ROS] integration (optional)     
-:heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend  
-
-Projects using ifopt:
-
-- [towr]: requires multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
+* Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).
+* Further example: [towr] - multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
 
 
+## Features
+*Combines* the advantages of [Ipopt] / [Snopt] and [Eigen]:
 
-## Dependencies
-Name | Min. Ver. | Description | Install
---- | --- | --- | --- |
-[CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake``` [(upgrade)](https://askubuntu.com/questions/829310/how-to-upgrade-cmake-in-ubuntu#answer-908211)
-[Eigen] | v3.2.0 | Library for linear algebra | ```sudo apt-get install libeigen3-dev```
-[Ipopt] | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
-([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
+| [Ipopt] / [Snopt] | + | [Eigen]  |
+|----------|--------|----| 
+|:heavy_check_mark: high-quality solvers for nonlinear optimization  |  | :heavy_check_mark: modern, intuitive formulations of vectors and matrices |
+|:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction) | | :heavy_check_mark: highly efficient implementations |       
+|:x: linking and exporting difficult  | | |
 
-Quick Install: 
+* Solver independent formulation of variables and constraints with Eigen      
+* Automatic index management by formulating similar variables (or constraints) as independent sets   
+* Highly efficient due to Eigen sparse matrix formulations  
+* cmake scripts to easily `find_package(ifopt)` in your project    
+* [catkin] / [ROS] integration (optional)       
+* light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend    
 
-``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
 
-If you want to link to a local installation of Ipopt or to Snopt, see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
+## Install
+The easiest way to install is through the [ROS binaries](http://wiki.ros.org/ifopt):
+```
+sudo apt-get install ros-<distro>-ifopt
+```
 
-  
-## Building with cmake
+## Build from source
+In case you don't use ROS or the binaries don't exist for your distro, you can easily build these
+packages from source. For this, install the required dependencies [Cmake], [Eigen] and [Ipopt] using
+```
+sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev
+```
+If you want to link to a local installation of [Ipopt] or to [Snopt], see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
+
+#### Building with cmake
 * Install
   ```bash
   git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
@@ -76,7 +72,7 @@ If you want to link to a local installation of Ipopt or to Snopt, see the [doxyg
   target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
   ```
         
-## Building with catkin
+#### Building with catkin
 * Install: Download [catkin] or [catkin command line tools], then:
   ```bash
   cd catkin_ws/src
@@ -143,25 +139,19 @@ This was has been carried out at the following institutions:
 
 
 ## Publications
-If you use this work in an academic context, please consider citing the currently released version as shown [here](https://zenodo.org/record/1135085/export/hx#.Wk4NGTCGPmE)
-or the research project within which this code was developed:
+If you use this work, please consider citing as follows:
 
-A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](https://awinkler.github.io/publications), IEEE Robotics and Automation Letters (RA-L), 2018:
+    @misc{ifopt,
+      author       = {Alexander W Winkler},
+      title        = {{Ifopt - A modern, light-weight, Eigen-based C++ interface to 
+                       Nonlinear Programming solvers Ipopt and Snopt.}},
+      year         = 2018,
+      doi          = {10.5281/zenodo.1135046},
+      url          = {https://doi.org/10.5281/zenodo.1135046}
+    }
 
-
-      @article{winkler18,
-        author    = {Winkler, Alexander W and Bellicoso, Dario C and 
-                     Hutter, Marco and Buchli, Jonas},
-        title     = {Gait and Trajectory Optimization for Legged Systems 
-                     through Phase-based End-Effector Parameterization},
-        journal   = {IEEE Robotics and Automation Letters (RA-L)},
-        year      = {2018},
-        month     = {July},
-        pages     = {1560-1567},
-        volume    = {3},
-        doi       = {10.1109/LRA.2018.2798285},
-      }
-
+The research project within which this code was developed:
+* A. W. Winkler, D. Bellicoso, M. Hutter, J. Buchli, [Gait and Trajectory Optimization for Legged Systems through Phase-based End-Effector Parameterization](http://awinkler.me), IEEE Robotics and Automation Letters (RA-L), 2018:
 
 ## Contributing
 We love pull request, whether its interfaces to additional solvers, bug fixes, unit tests or updating the documentation. Please have a look at [CONTRIBUTING.md](CONTRIBUTING.md) for more information. 
