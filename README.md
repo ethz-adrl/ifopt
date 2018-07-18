@@ -26,7 +26,8 @@ An example nonlinear optimization problem to solve is defined as:
 |:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction) | | :heavy_check_mark: highly efficient implementations |       
 |:x: linking and exporting difficult  | | |
 
-**:arrow_right: ifopt**  
+**:arrow_right: Ifopt**
+
 :heavy_check_mark: Solver independent formulation of variables and constraints with Eigen      
 :heavy_check_mark: Automatic index management by formulating similar variables (or constraints) as independent sets   
 :heavy_check_mark: Highly efficient due to Eigen sparse matrix formulations  
@@ -35,22 +36,21 @@ An example nonlinear optimization problem to solve is defined as:
 :heavy_check_mark: light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend    
 
 
-## Dependencies
-Name | Min. Ver. | Description | Install
---- | --- | --- | --- |
-[CMake] | v3.1.0 | C++ build tool | ```sudo apt-get install cmake``` [(upgrade)](https://askubuntu.com/questions/829310/how-to-upgrade-cmake-in-ubuntu#answer-908211)
-[Eigen] | v3.2.0 | Library for linear algebra | ```sudo apt-get install libeigen3-dev```
-[Ipopt] | v3.11.9 | NLP solver (Interior-Point) |```sudo apt-get install coinor-libipopt-dev```
-([Snopt]) |  7.4  |  NLP solver (SQP) | non-free
+## Install
+The easiest way to install is through the [ROS binaries](http://wiki.ros.org/ifopt):
+```
+sudo apt-get install ros-<distro>-ifopt
+```
 
-Quick Install: 
+## Build from source
+In case you don't use ROS or the binaries don't exist for your distro, you can easily build these
+packages from source. For this, install the required dependencies [Cmake], [Eigen] and [Ipopt] using
+```
+sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev
+```
+If you want to link to a local installation of Ipopt or to [Snopt], see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
 
-``` sudo apt-get install cmake libeigen3-dev coinor-libipopt-dev```
-
-If you want to link to a local installation of Ipopt or to Snopt, see the [doxygen documentation](http://docs.ros.org/kinetic/api/ifopt/html/).
-
-  
-## Building with cmake
+#### Building with cmake
 * Install
   ```bash
   git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
@@ -70,7 +70,7 @@ If you want to link to a local installation of Ipopt or to Snopt, see the [doxyg
   target_link_libraries(main PUBLIC ifopt::ifopt_ipopt) 
   ```
         
-## Building with catkin
+#### Building with catkin
 * Install: Download [catkin] or [catkin command line tools], then:
   ```bash
   cd catkin_ws/src
