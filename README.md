@@ -18,7 +18,7 @@ An example nonlinear optimization problem to solve is defined as:
 
 * To see how this problem is formulated, see [*test_vars_constr_cost.h*](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
 * Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).
-* [towr] formulates another example which requires multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
+* Further example: [towr] - multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
 
 | [Ipopt] / [Snopt] | + | [Eigen]  |
 |----------|--------|----| 
