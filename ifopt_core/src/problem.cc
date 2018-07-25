@@ -35,10 +35,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace ifopt {
 
 Problem::Problem ()
-    :constraints_("constraints", false),
-     costs_("costs", true)
+    :constraints_("constraint-sets", false),
+     costs_("cost-terms", true)
 {
-  variables_ = std::make_shared<Composite>("variables", false);
+  variables_ = std::make_shared<Composite>("variable-sets", false);
 }
 
 void
@@ -176,12 +176,10 @@ Problem::SetOptVariablesFinal ()
 void
 Problem::PrintCurrent() const
 {
-  double tol = 0.001; ///< tolerance when printing out constraint/bound violation.
-
   using namespace std;
   cout << "\n"
        << "************************************************************\n"
-       << "    IFOPT - Interface to Nonlinear Optimizers (v2.0.0)\n"
+       << "    IFOPT - Interface to Nonlinear Optimizers (v2.0)\n"
        << "                \u00a9 Alexander W. Winkler\n"
        << "           https://github.com/ethz-adrl/ifopt\n"
        << "************************************************************"
@@ -189,19 +187,19 @@ Problem::PrintCurrent() const
        << "Legend:\n"
        << "c - number of variables, constraints or cost terms" << std::endl
        << "i - indices of this set in overall problem" << std::endl
-       << "v - number of violated variable bounds or constraints (tol=" << tol << ")"
+       << "v - number of [violated variable- or constraint-bounds] or [cost term value]"
        << "\n\n"
        << std::right
        << std::setw(33) << ""
        << std::setw(5)  << "c  "
-       << std::setw(14) << "i    "
-       << std::setw(6)  << "v "
+       << std::setw(16) << "i    "
+       << std::setw(11) << "v "
        << std::left
        << "\n";
 
-  variables_->Print(tol);
-  constraints_.Print(tol);
-  costs_.Print(tol);
+  variables_->PrintAll();
+  constraints_.PrintAll();
+  costs_.PrintAll();
 };
 
 Problem::VectorXd

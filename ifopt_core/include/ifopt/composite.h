@@ -137,8 +137,9 @@ public:
   /**
    * @brief Prints the relevant information (name, rows, values) of this component.
    * @param tolerance  When to flag constraint/bound violation.
+   * @param index_start  Of this specific variables-, constraint- or cost set.
    */
-  virtual void Print(double tolerance) const;
+  virtual void Print(double tolerance, int& index_start) const;
 
   /**
    * @brief Sets the number of rows of this component.
@@ -187,7 +188,7 @@ public:
   Jacobian GetJacobian () const override;
   VecBound GetBounds   () const override;
   void SetVariables(const VectorXd& x) override;
-  void Print(double tolerance) const override;
+  void PrintAll() const;
 
   /**
    * @brief  Access generic component with the specified name.
