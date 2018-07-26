@@ -31,6 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/constraint_set.h>
 #include <ifopt/cost_term.h>
 
+#include <iostream>
+#include <iomanip>
+
 
 namespace ifopt {
 
@@ -98,5 +101,24 @@ CostTerm::GetBounds() const
   return VecBound(GetRows(), NoBound);
 }
 
+void
+CostTerm::Print (double tol, int& index) const
+{
+  // only one scalar cost value
+  double cost = GetValues()(0);
+
+  std::cout.precision(2);
+  std::cout << std::fixed
+            << std::left
+            << std::setw(30) << GetName()
+            << std::right
+            << std::setw(4) << GetRows()
+            << std::setw(9) << index
+            << std::setfill ('.')
+            << std::setw(7) << index+GetRows()-1
+            << std::setfill (' ')
+            << std::setw(12) << cost
+            << std::endl;
+}
 
 } /* namespace opt */

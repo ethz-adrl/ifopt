@@ -50,23 +50,15 @@ namespace ifopt {
 /**
  * @brief Interface representing either Variable, Cost or Constraint.
  *
- * This structure allows a user to define individual and independent variable
- * sets, constraints and costs without having to worry about how to organize
- * them with respect to each other.
- *
- * The high-level idea is that variables, costs and constraints can all be fit
- * into the same interface (Component). For example, each has a "value", which
- * is either the actual value of the variables, the constraint value g or the
- * cost. Additionally, a real-world optimization problem usually doesn't just
- * contain one set of variables, but is comprised of @a multiple variable sets,
- * constraints and cost terms (Composite). This representation provides one
- * common interface ("smallest common denominator") that can be contain either
- * individual variables/costs/constraints or a Composite of these. This pattern
+ * Variables, costs and constraints can all be fit into the same interface
+ * (Component). For example, each has a "value", which is either the actual
+ * value of the variables, the constraint value g or the cost.
+ * This representation provides one common interface
+ * ("smallest common denominator") that can be contain either individual
+ * variables/costs/constraints or a Composite of these. This pattern
  * takes care of stacking variables, ordering Jacobians and providing bounds
- * for the complete problem without duplicating code.
- *
- * For more information on the composite pattern visit
- * https://sourcemaking.com/design_patterns/composite
+ * for the complete problem without duplicating code. For more information on
+ * the composite pattern visit https://sourcemaking.com/design_patterns/composite
  */
 class Component {
 public:
@@ -137,8 +129,9 @@ public:
   /**
    * @brief Prints the relevant information (name, rows, values) of this component.
    * @param tolerance  When to flag constraint/bound violation.
+   * @param index_start  Of this specific variables-, constraint- or cost set.
    */
-  virtual void Print(double tolerance) const;
+  virtual void Print(double tolerance, int& index_start) const;
 
   /**
    * @brief Sets the number of rows of this component.
@@ -187,7 +180,7 @@ public:
   Jacobian GetJacobian () const override;
   VecBound GetBounds   () const override;
   void SetVariables(const VectorXd& x) override;
-  void Print(double tolerance) const override;
+  void PrintAll() const;
 
   /**
    * @brief  Access generic component with the specified name.

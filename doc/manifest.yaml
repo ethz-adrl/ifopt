@@ -1,7 +1,7 @@
 actions: []
 authors: Alexander W. Winkler
 brief: ''
-bugtracker: ''
+bugtracker: http://github.com/ethz-adrl/ifopt/issues
 depends:
 - coinor-libipopt-dev
 - cmake
@@ -13,7 +13,7 @@ description: "An <a href=\"http://eigen.tuxfamily.org\">Eigen-</a>\n    based in
   \ and \n    constraints using Eigen. Easy integration in your projects in catkin\n\
   \    or pure cmake."
 license: BSD
-maintainers: Alexander W. Winkler <winklera@ethz.ch>
+maintainers: Alexander W. Winkler <alexander.w.winkler@gmail.com>
 msgs: []
 package_type: package
 repo_url: ''

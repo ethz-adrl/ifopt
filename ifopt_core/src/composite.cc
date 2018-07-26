@@ -58,6 +58,43 @@ Component::GetName () const
   return name_;
 }
 
+void Component::Print (double tol, int& index) const
+{
+  // calculate squared bound violation
+  VectorXd x = GetValues();
+  VecBound bounds = GetBounds();
+
+  std::vector<int> viol_idx;
+  for (uint i=0; i<bounds.size(); ++i) {
+    double lower = bounds.at(i).lower_;
+    double upper = bounds.at(i).upper_;
+    double val = x(i);
+    if (val < lower-tol || upper+tol < val)
+      viol_idx.push_back(i); // constraint out of bounds
+  }
+
+  std::string black = "\033[0m";
+  std::string red   = "\033[31m";
+  std::string color = viol_idx.empty()? black : red;
+
+  std::cout.precision(2);
+  std::cout << std::fixed
+            << std::left
+            << std::setw(30) << name_
+            << std::right
+            << std::setw(4) << num_rows_
+            << std::setw(9) << index
+            << std::setfill ('.')
+            << std::setw(7) << index+num_rows_-1
+            << std::setfill (' ')
+            << color
+            << std::setw(12) << viol_idx.size()
+            << black
+            << std::endl;
+
+  index += num_rows_;
+}
+
 Composite::Composite (const std::string& name, bool is_cost) :Component(0, name)
 {
   is_cost_ = is_cost;
@@ -166,56 +203,18 @@ Composite::GetComponents () const
   return components_;
 }
 
-// some printouts for convenience
-static int print_counter = 0;
 void
-Composite::Print (double tolerance) const
+Composite::PrintAll () const
 {
-  print_counter = 0;
+  int index = 0;
+  double tol = 0.001; ///< tolerance when printing out constraint/bound violation.
 
   std::cout << GetName() << ":\n";
   for (auto c : components_) {
     std::cout << "   "; // indent components
-    c->Print(tolerance);
+    c->Print(tol, index);
   }
   std::cout << std::endl;
-}
-
-void Component::Print (double tol) const
-{
-  // calculate squared bound violation
-  VectorXd x = GetValues();
-  VecBound bounds = GetBounds();
-
-  std::vector<int> viol_idx;
-  for (uint i=0; i<bounds.size(); ++i) {
-    double lower = bounds.at(i).lower_;
-    double upper = bounds.at(i).upper_;
-    double val = x(i);
-    if (val < lower-tol || upper+tol < val)
-      viol_idx.push_back(i); // constraint out of bounds
-  }
-
-  std::string black = "\033[0m";
-  std::string red   = "\033[31m";
-  std::string color = viol_idx.empty()? black : red;
-
-  std::cout.precision(2);
-  std::cout << std::fixed
-            << std::left
-            << std::setw(30) << name_
-            << std::right
-            << std::setw(4) << num_rows_
-            << std::setw(7) << print_counter
-            << std::setfill ('.')
-            << std::setw(7) << print_counter+num_rows_-1
-            << std::setfill (' ')
-            << color
-            << std::setw(6) << viol_idx.size()
-            << black
-            << std::endl;
-
-  print_counter += num_rows_;
 }
 
 } /* namespace opt */

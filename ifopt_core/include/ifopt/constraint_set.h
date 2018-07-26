@@ -42,6 +42,9 @@ namespace ifopt {
  * @c n rows is given by:
  * lower_bound < g(x) < upper_bound
  *
+ * These constraint sets are later then stitched together to form the overall
+ * problem.
+ *
  * @ingroup ProblemFormulation
  * @sa Component
  */

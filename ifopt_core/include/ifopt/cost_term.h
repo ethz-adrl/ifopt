@@ -64,10 +64,13 @@ public:
    * @brief  Returns infinite bounds (e.g. no bounds).
    */
   VecBound GetBounds() const final;
+
+  /**
+   * Cost term printout slightly different from variables/constraints.
+   */
+  void Print (double tol, int& index) const final;
 };
 
 }
-
-
 
 #endif /* IFOPT_INCLUDE_IFOPT_COST_TERM_H_ */
