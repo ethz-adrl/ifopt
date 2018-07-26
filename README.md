@@ -31,7 +31,7 @@ An example nonlinear optimization problem to solve is defined as:
 |:x: linking and exporting difficult  | | |
 
 * Solver independent formulation of variables and constraints with Eigen      
-* Automatic index management by formulating similar variables (or constraints) as independent sets   
+* Automatic index management by formulating similar variables (or constraints) as [**independent sets**](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html)   
 * Highly efficient due to Eigen sparse matrix formulations  
 * cmake scripts to easily `find_package(ifopt)` in your project    
 * [catkin] / [ROS] integration (optional)       

@@ -38,16 +38,12 @@ namespace ifopt {
  *
  * If you have a newer version of SNOPT installed, use snopt_adapter_76.h.
  *
- * @ingroup solvers
- *
  * Given an optimization Problem with variables, costs and constraints, this
  * class wraps it and makes it conform with the interface defined by SNOPT
  * http://web.stanford.edu/group/SOL/guides/sndoc7.pdf
  *
  * This implements the Adapter pattern. This class should not add any
  * functionality, but merely delegate it to the Adaptee (the Problem object).
- *
- * @ingroup Solvers
  */
 class SnoptAdapter : public snoptProblemA {
 public:

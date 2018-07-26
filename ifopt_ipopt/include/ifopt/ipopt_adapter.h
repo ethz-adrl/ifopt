@@ -38,15 +38,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Sine this adapter wraps all of the Ipopt functions, we define the adapter
  * in this namespace as well.
- *
- * @ingroup Solvers
  */
 namespace Ipopt {
 
 /**
  * @brief Solves the optimization problem using the IPOPT solver.
- *
- * @ingroup solvers
  *
  * Given an optimization Problem with variables, costs and constraints, this
  * class wraps it and makes it conform with the interface defined by IPOPT
@@ -54,8 +50,6 @@ namespace Ipopt {
  *
  * This implements the Adapter pattern. This class should not add any
  * functionality, but merely delegate it to the Adaptee (the Problem object).
- *
- * @ingroup Solvers
  */
 class IpoptAdapter : public TNLP {
 public:
