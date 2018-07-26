@@ -18,11 +18,11 @@ An example nonlinear optimization problem to solve is defined as:
 
 * To see how this problem is formulated, see [*test_vars_constr_cost.h*](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
 * Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).
-* Further example: [towr] - multiple variable- and constraint [sets](https://i.imgur.com/4yhohZF.png) to generate motions for legged robots.
 
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#install">Install</a> •
+  <a href="#examples">Examples</a> •
   <a href="#develop">Develop</a> •
   <a href="#contribute">Contribute</a> •
   <a href="#publications">Publications</a> •
@@ -101,7 +101,8 @@ If you want to link to a local installation of [Ipopt] or to [Snopt], see the [d
   </package>
   ```
   
-## Test 
+## Examples 
+#### Unit tests & toy problem
 Navigate to your build folder in which the `Makefile` resides, which depends
 on how you built the code:
 ```bash
@@ -125,13 +126,14 @@ Output:
 ```bash
 1.0 0.0
 ```
-A more involved problem definition with multiple sets 
-of variables and constraints, taken from [towr] produces the following: 
+
+#### towr
+A more involved problem, taken from [towr], with multiple sets of variables and constraints to generate motions for legged robots produces the following: 
 
 <img align="center" height="500" src="https://i.imgur.com/4yhohZF.png"/>
 
 ## Develop
-Useful information for developers is given in the *:arrow_right: doxygen documentation*.
+Useful information for developers is given in the doxygen documentation:
 
  * For an overview of how to formulate your problem, start [ProblemFormulation](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html).
  * A nice graphical overview as UML can be seen [here](http://docs.ros.org/api/ifopt/html/inherits.html).
