@@ -24,17 +24,15 @@ An example nonlinear optimization problem to solve is defined as:
 ## Features
 *Combines* the advantages of [Ipopt] / [Snopt] and [Eigen]:
 
-| [Ipopt] / [Snopt] | + | [Eigen]  |
-|----------|--------|----| 
-|:heavy_check_mark: high-quality solvers for nonlinear optimization  |  | :heavy_check_mark: modern, intuitive formulations of vectors and matrices |
-|:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction) | | :heavy_check_mark: highly efficient implementations |       
-|:x: linking and exporting difficult  | | |
+[Ipopt] / [Snopt]  | [Eigen] 
+----------|---------
+:heavy_check_mark: high-quality solvers for nonlinear optimization  | :heavy_check_mark: modern, intuitive formulations of vectors and matrices 
+:x: C++ API inconvenient and error-prone (raw pointers, index management, jacobian construction) | :heavy_check_mark: highly efficient implementations   
+:x: linking and exporting difficult  | 
 
-* Solver independent formulation of variables and constraints with Eigen      
-* Automatic index management by formulating similar variables (or constraints) as [**independent sets**](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html)   
-* Highly efficient due to Eigen sparse matrix formulations  
-* cmake scripts to easily `find_package(ifopt)` in your project    
-* [catkin] / [ROS] integration (optional)       
+* Solver independent formulation of variables and constraints with Eigen (highly efficient)     
+* Automatic index management by formulation of [variable- and constraint-sets](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html)  
+* Integration: pure cmake `find_package(ifopt)` or [catkin]/[ROS] (optional)       
 * light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend    
 
 
@@ -161,6 +159,39 @@ See here the list of [contributors](https://github.com/ethz-adrl/ifopt/graphs/co
 ##  Bugs & Feature Requests
 To report bugs, request features or ask questions, please have a look at [CONTRIBUTING.md](CONTRIBUTING.md). 
 
+
+## Additional Information
+#### Linking to custom Ipopt or Snopt
+If you are building from source and want to use a locally installed version of [Ipopt] add the path to your
+Ipopt build folder to your `~/.bashrc`, e.g.
+```bash
+export IPOPT_DIR=/home/your_name/Code/Ipopt-3.12.8/build
+```
+
+In case your OS doesn't provide the precompiled binaries or the required version,
+you can also easily install Ipopt from source as described [here](https://www.coin-or.org/Ipopt/documentation/node14.html). This summary might work for you:
+```bash
+wget https://www.coin-or.org/download/source/Ipopt/Ipopt-3.11.10.zip
+unzip Ipopt-3.11.10.zip
+cd Ipopt-3.11.10/ThirdParty/Mumps
+./get.Mumps  # HSL routines are faster (http://www.hsl.rl.ac.uk/ipopt/)
+cd ../../
+mkdir build && cd build
+../configure --prefix=/usr/local
+make
+make test
+make install
+export IPOPT_DIR=`pwd`
+```
+
+If you need an interface to [Snopt], point cmake to that build folder in your `~/.bashrc` through e.g.
+```bash
+export SNOPT_DIR=/home/your_name/Code/Snopt
+```
+and run cmake as 
+```bash
+cmake -DBUILD_SNOPT=ON ..
+```
 
 
 [CMake]: https://cmake.org/cmake/help/v3.0/
