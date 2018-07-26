@@ -44,7 +44,41 @@ namespace ifopt {
  * @defgroup ProblemFormulation
  * @brief The elements to formulate the solver independent optimization problem.
  *
- * These are defined in @ref ifopt_core.
+ * An optimization problem usually consists of multiple sets of independent
+ * variable- or constraint-sets. Each set represents a common concept, e.g. one
+ * set of variables represents spline coefficients, another footstep positions.
+ * Similarly, each constraint-set groups a set of similar constraints.
+ *
+ * The Nonlinear Optimization Problem to solve is defined as:
+ *
+ *     find x0, x1                              (variable-sets 0 & 1)
+ *     s.t
+ *       x0_lower  <= x0 <= x0_upper            (bounds on variable-set x0 \in R^2)
+ *
+ *       {x0,x1} = arg min c0(x0,x1)+c1(x0,x1)  (cost-terms 0 and 1)
+ *
+ *       g0_lower < g0(x0,x1) < g0_upper        (constraint-set 0 \in R^2)
+ *       g1_lower < g1(x0,x1) < g0_upper        (constraint-set 1 \in R^1)
+ *
+ *
+ * #### GetValues()
+ * This structure allows a user to define each of these sets independently in
+ * separate classes and ifopt takes care of building the overall problem from
+ * these sets. This is implemented by
+ *  * stacking all variable-sets to build the overall variable vector
+ *  * summing all cost-terms to calculate the total cost
+ *  * stacking all constraint-sets to build the overall constraint vector.
+ *
+ * #### GetJacobian()
+ * Supplying derivative information greatly increases solution speed. ifopt
+ * allows to define the derivative of each cost-term/constraint-set with
+ * respect to each variable-set independently. This ensures that when the
+ * order of variable-sets changes in the overall vector, this derivative
+ * information is still valid. These "Jacobian blocks" must be supplied through
+ * ConstraintSet::FillJacobianBlock() and are then used to build the complete Jacobian for
+ * the cost and constraints.
+ *
+ * \image html ifopt.png
  */
 
 /**
@@ -54,18 +88,7 @@ namespace ifopt {
  * problem, which includes the optimization variables, their variable bounds,
  * the cost function, the constraints and their bounds and derivatives of
  * all. With this information the problem can be solved by any specific solver.
- *
- *     find x1, x2                         (variable sets 1 & 2, or defined in variable set)
- *     s.t
- *       x1_lower  <= x1 <= x1_upper       (bounds on variable set x1 \in R^m1)
- *
- *       g1_lower < g1(x1,x2) < g1_upper   (constraint set 1 \in R^n1)
- *       g2_lower < g2(x1,x2) < g2_upper   (constraint set 2 \in R^n2)
- *                                         (or both constraints grouped in one constraint set)
- *
- *       x1,x2 = arg min c1(x1,x2)         (cost terms 1)
- *
- * Notice all the quantities (variables, cost, constraint) are represented
+ * All the quantities (variables, cost, constraint) are represented
  * by the same generic Component class.
  *
  * @ingroup ProblemFormulation

@@ -46,6 +46,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * framework allows to define each set of variables or constraints absolutely
  * independently from another and correctly stitches them together to form the
  * final optimization problem.
+ *
+ * For a helpful graphical overview, see:
+ * http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html
  */
 
 #include <ifopt/variable_set.h>
