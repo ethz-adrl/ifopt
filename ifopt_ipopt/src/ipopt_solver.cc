@@ -52,7 +52,7 @@ IpoptSolver::IpoptSolver()
   SetOption("tol", 0.001);
   SetOption("print_timing_statistics", "no");
   SetOption("print_user_options", "no");
-  SetOption("print_level", 3);
+  SetOption("print_level", 4);
 
   // SetOption("max_iter", 1);
   // SetOption("derivative_test", "first-order");
