@@ -19,6 +19,8 @@ An example nonlinear optimization problem to solve is defined as:
 * To see how this problem is formulated, see [*test_vars_constr_cost.h*](ifopt_core/test/ifopt/test_vars_constr_cost.h).   
 * Afterwards the problem can be solved using e.g. Ipopt as shown in [*ex_test_ipopt.cc*](ifopt_ipopt/test/ex_test_ipopt.cc).
 
+</br>
+
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#install">Install</a> •
@@ -90,6 +92,7 @@ If you want to link to a local installation of [Ipopt] or to [Snopt], see [here]
   
 * Use: Include in your catkin project by adding to your *CMakeLists.txt* 
   ```cmake
+  add_compile_options(-std=c++11)
   find_package(catkin COMPONENTS ifopt) 
   include_directories(${catkin_INCLUDE_DIRS})
   target_link_libraries(foo ${catkin_LIBRARIES})
@@ -135,7 +138,7 @@ A more involved problem, taken from [towr], with multiple sets of variables and 
 ## Develop
 Useful information for developers is given in the doxygen documentation:
 
- * For an overview of how to formulate your problem, start [ProblemFormulation](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html).
+ * For an overview of how to formulate your problem, start [here](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html).
  * A nice graphical overview as UML can be seen [here](http://docs.ros.org/api/ifopt/html/inherits.html).
 
 ## Contribute
