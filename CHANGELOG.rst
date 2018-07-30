@@ -2,6 +2,14 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* set default print level to 4 to show derivative test errors.
+* Improve print-out of cost terms (specifically print cost)
+* Improve docs (`#27 <https://github.com/ethz-adrl/ifopt/issues/27>`_)
+* Implemented more efficient method for building constraint jacobian (`#26 <https://github.com/ethz-adrl/ifopt/issues/26>`_)
+* Contributors: Alexander Winkler, fbiemueller
+
 2.0.4 (2018-07-17)
 ------------------
 * generalize ipopt solver interface, so source never has to be touched.
