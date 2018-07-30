@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.5 (2018-07-30)
+------------------
 * set default print level to 4 to show derivative test errors.
 * Improve print-out of cost terms (specifically print cost)
 * Improve docs (`#27 <https://github.com/ethz-adrl/ifopt/issues/27>`_)
