@@ -71,7 +71,7 @@ IpoptSolver::Solve (Problem& nlp)
   }
 
   // convert the NLP problem to Ipopt
-  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp);
+  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp,ipopt_app_);
   status_ = ipopt_app_->OptimizeTNLP(nlp_ptr);
 
   if (status_ != Solve_Succeeded) {
@@ -96,6 +96,18 @@ void
 IpoptSolver::SetOption (const std::string& name, double value)
 {
   ipopt_app_->Options()->SetNumericValue(name, value);
+}
+
+void
+IpoptSolver::GetStringOption (const std::string& name, std::string& value, const std::string& prefix)
+{
+  ipopt_app_->Options()->GetStringValue(name, value, prefix);
+}
+
+void
+IpoptSolver::GetStringOption (const std::string& name, std::string& value)
+{
+  ipopt_app_->Options()->GetStringValue(name, value, "");
 }
 
 } /* namespace ifopt */

@@ -24,7 +24,9 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
+#include <iostream>
 #include <ifopt/ipopt_adapter.h>
+#include <ifopt/ipopt_solver.h>
 
 namespace Ipopt {
 
@@ -33,13 +35,25 @@ IpoptAdapter::IpoptAdapter(Problem& nlp)
   nlp_ = &nlp;
 }
 
+IpoptAdapter::IpoptAdapter(Problem& nlp, const std::shared_ptr<Ipopt::IpoptApplication>& ipopt_app)
+{
+  nlp_ = &nlp;
+  std::string value = "";
+  ipopt_app->Options()->GetStringValue("jacobian_approximation", value, "");
+  jacobian_method = value;
+}
+
 bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
                                 Index& nnz_h_lag, IndexStyleEnum& index_style)
 {
   n = nlp_->GetNumberOfOptimizationVariables();
   m = nlp_->GetNumberOfConstraints();
 
-  nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
+  if (jacobian_method.compare("finite-difference-values") == 0)
+    nnz_jac_g = m*n;
+  else
+    nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
+
   nnz_h_lag = n*n;
 
   // start index at 0 for row/col entries
@@ -107,17 +121,29 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
                               Index m, Index nele_jac, Index* iRow, Index *jCol,
                               double* values)
 {
-  // defines the positions of the nonzero elements of the jacobian
+  // provides jacobian structure
   if (values == NULL) {
-    auto jac = nlp_->GetJacobianOfConstraints();
-    int nele=0; // nonzero cells in jacobian
-    for (int k=0; k<jac.outerSize(); ++k) {
-      for (Jacobian::InnerIterator it(jac,k); it; ++it) {
-        iRow[nele] = it.row();
-        jCol[nele] = it.col();
-        nele++;
-      }
-    }
+	// If "jacobian_approximation" option is set as "finite-difference-values", the Jacobian is dense!
+	Index nele=0;
+	if (jacobian_method.compare("finite-difference-values") == 0) { // dense jacobian
+	  for (Index row = 0; row < m; row++) {
+	    for (Index col = 0; col < n; col++) {
+	      iRow[nele] = row;
+	      jCol[nele] = col;
+	      nele++;
+	    }
+	  }
+	}
+	else {	// sparse jacobian
+	  auto jac = nlp_->GetJacobianOfConstraints();
+	  for (int k=0; k<jac.outerSize(); ++k) {
+	    for (Jacobian::InnerIterator it(jac,k); it; ++it) {
+	      iRow[nele] = it.row();
+	      jCol[nele] = it.col();
+	      nele++;
+	    }
+	  }
+	}
 
     assert(nele == nele_jac); // initial sparsity structure is never allowed to change
   }

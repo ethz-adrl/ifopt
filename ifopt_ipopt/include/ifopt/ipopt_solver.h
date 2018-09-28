@@ -57,12 +57,17 @@ public:
     */
   void Solve(Problem& nlp) override;
 
-  /** Options for the IPOPT solver. A complete list can be found here:
+  /** Set options for the IPOPT solver. A complete list can be found here:
     * https://www.coin-or.org/Ipopt/documentation/node40.html
     */
   void SetOption(const std::string& name, const std::string& value);
   void SetOption(const std::string& name, int value);
   void SetOption(const std::string& name, double value);
+
+  /** Get options of the IPOPT solver.
+    */
+  void GetStringOption(const std::string& name, std::string& value, const std::string& prefix);
+  void GetStringOption(const std::string& name, std::string& value);
 
 private:
   std::shared_ptr<Ipopt::IpoptApplication> ipopt_app_;
