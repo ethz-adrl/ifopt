@@ -24,6 +24,8 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
+#include <string>
+
 #include <ifopt/ipopt_solver.h>
 #include <ifopt/ipopt_adapter.h>
 
@@ -70,8 +72,15 @@ IpoptSolver::Solve (Problem& nlp)
     throw std::length_error("Ipopt could not initialize correctly");
   }
 
+  // check the jacobian_approximation method
+  bool finite_diff = false;
+  std::string value = "";
+  ipopt_app_->Options()->GetStringValue("jacobian_approximation", value, "");
+  if (value.compare("finite-difference-values") == 0)
+	  finite_diff = true;
+
   // convert the NLP problem to Ipopt
-  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp,ipopt_app_);
+  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp,finite_diff);
   status_ = ipopt_app_->OptimizeTNLP(nlp_ptr);
 
   if (status_ != Solve_Succeeded) {

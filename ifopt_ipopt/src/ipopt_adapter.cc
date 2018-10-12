@@ -25,21 +25,13 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
 #include <ifopt/ipopt_adapter.h>
-#include <ifopt/ipopt_solver.h>
 
 namespace Ipopt {
 
-IpoptAdapter::IpoptAdapter(Problem& nlp)
+IpoptAdapter::IpoptAdapter(Problem& nlp, bool finite_diff)
 {
   nlp_ = &nlp;
-}
-
-IpoptAdapter::IpoptAdapter(Problem& nlp, const std::shared_ptr<Ipopt::IpoptApplication>& ipopt_app)
-{
-  nlp_ = &nlp;
-  std::string value = "";
-  ipopt_app->Options()->GetStringValue("jacobian_approximation", value, "");
-  jacobian_method = value;
+  finite_diff_ = finite_diff;
 }
 
 bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
@@ -48,7 +40,7 @@ bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
   n = nlp_->GetNumberOfOptimizationVariables();
   m = nlp_->GetNumberOfConstraints();
 
-  if (jacobian_method.compare("finite-difference-values") == 0)
+  if (finite_diff_)
     nnz_jac_g = m*n;
   else
     nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
@@ -124,7 +116,7 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
   if (values == NULL) {
 	// If "jacobian_approximation" option is set as "finite-difference-values", the Jacobian is dense!
 	Index nele=0;
-	if (jacobian_method.compare("finite-difference-values") == 0) { // dense jacobian
+	if (finite_diff_) { // dense jacobian
 	  for (Index row = 0; row < m; row++) {
 	    for (Index col = 0; col < n; col++) {
 	      iRow[nele] = row;
