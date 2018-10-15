@@ -64,11 +64,6 @@ public:
   void SetOption(const std::string& name, int value);
   void SetOption(const std::string& name, double value);
 
-  /** Get options of the IPOPT solver.
-    */
-  void GetStringOption(const std::string& name, std::string& value, const std::string& prefix);
-  void GetStringOption(const std::string& name, std::string& value);
-
 private:
   std::shared_ptr<Ipopt::IpoptApplication> ipopt_app_;
 };

@@ -112,7 +112,7 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
                               Index m, Index nele_jac, Index* iRow, Index *jCol,
                               double* values)
 {
-  // provides jacobian structure
+  // defines the positions of the nonzero elements of the jacobian
   if (values == NULL) {
 	// If "jacobian_approximation" option is set as "finite-difference-values", the Jacobian is dense!
 	Index nele=0;

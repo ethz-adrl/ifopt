@@ -44,8 +44,7 @@ int main()
   // 2. choose solver and options
   IpoptSolver ipopt;
   ipopt.SetOption("linear_solver", "mumps");
-  //ipopt.SetOption("jacobian_approximation", "exact");
-  ipopt.SetOption("jacobian_approximation", "finite-difference-values");
+  ipopt.SetOption("jacobian_approximation", "exact");
 
   // 3 . solve
   ipopt.Solve(nlp);
