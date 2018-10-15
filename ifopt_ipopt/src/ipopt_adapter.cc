@@ -28,9 +28,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace Ipopt {
 
-IpoptAdapter::IpoptAdapter(Problem& nlp)
+IpoptAdapter::IpoptAdapter(Problem& nlp, bool finite_diff)
 {
   nlp_ = &nlp;
+  finite_diff_ = finite_diff;
 }
 
 bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
@@ -39,7 +40,11 @@ bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
   n = nlp_->GetNumberOfOptimizationVariables();
   m = nlp_->GetNumberOfConstraints();
 
-  nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
+  if (finite_diff_)
+    nnz_jac_g = m*n;
+  else
+    nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
+
   nnz_h_lag = n*n;
 
   // start index at 0 for row/col entries
@@ -109,15 +114,27 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x,
 {
   // defines the positions of the nonzero elements of the jacobian
   if (values == NULL) {
-    auto jac = nlp_->GetJacobianOfConstraints();
-    int nele=0; // nonzero cells in jacobian
-    for (int k=0; k<jac.outerSize(); ++k) {
-      for (Jacobian::InnerIterator it(jac,k); it; ++it) {
-        iRow[nele] = it.row();
-        jCol[nele] = it.col();
-        nele++;
-      }
-    }
+	// If "jacobian_approximation" option is set as "finite-difference-values", the Jacobian is dense!
+	Index nele=0;
+	if (finite_diff_) { // dense jacobian
+	  for (Index row = 0; row < m; row++) {
+	    for (Index col = 0; col < n; col++) {
+	      iRow[nele] = row;
+	      jCol[nele] = col;
+	      nele++;
+	    }
+	  }
+	}
+	else {	// sparse jacobian
+	  auto jac = nlp_->GetJacobianOfConstraints();
+	  for (int k=0; k<jac.outerSize(); ++k) {
+	    for (Jacobian::InnerIterator it(jac,k); it; ++it) {
+	      iRow[nele] = it.row();
+	      jCol[nele] = it.col();
+	      nele++;
+	    }
+	  }
+	}
 
     assert(nele == nele_jac); // initial sparsity structure is never allowed to change
   }

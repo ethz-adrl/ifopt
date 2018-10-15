@@ -70,8 +70,13 @@ IpoptSolver::Solve (Problem& nlp)
     throw std::length_error("Ipopt could not initialize correctly");
   }
 
+  // check the jacobian_approximation method
+  std::string jac_type = "";
+  ipopt_app_->Options()->GetStringValue("jacobian_approximation", jac_type, "");
+  bool finite_diff = jac_type=="finite-difference-values";
+
   // convert the NLP problem to Ipopt
-  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp);
+  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp,finite_diff);
   status_ = ipopt_app_->OptimizeTNLP(nlp_ptr);
 
   if (status_ != Solve_Succeeded) {

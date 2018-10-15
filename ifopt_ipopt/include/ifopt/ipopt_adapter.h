@@ -63,11 +63,12 @@ public:
    *
    * This constructor holds and modifies the passed nlp.
    */
-  IpoptAdapter(Problem& nlp);
+  IpoptAdapter(Problem& nlp, bool finite_diff = false);
   virtual ~IpoptAdapter() = default;
 
 private:
   Problem* nlp_; ///< The solver independent problem definition
+  bool finite_diff_;  ///< Flag that indicates the "finite-difference-values" option is set
 
   /** Method to return some info about the nlp */
   virtual bool get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
