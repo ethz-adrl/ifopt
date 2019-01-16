@@ -163,8 +163,10 @@ Composite::SetVariables (const VectorXd& x)
 Composite::Jacobian
 Composite::GetJacobian () const
 {
-  int n_var = components_.front()->GetJacobian().cols();
+  int n_var = components_.empty() ? 0 : components_.front()->GetJacobian().cols();
   Jacobian jacobian(GetRows(), n_var);
+
+  if (n_var == 0) return jacobian;
 
   int row = 0;
   std::vector< Eigen::Triplet<double> > triplet_list;
