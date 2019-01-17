@@ -2,6 +2,12 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Enable problems without constraints: Fix issue (`#34 <https://github.com/ethz-adrl/ifopt/issues/34>`_ , `#35 <https://github.com/ethz-adrl/ifopt/issues/35>`_)
+* Fix/segfaults (`#33 <https://github.com/ethz-adrl/ifopt/issues/33>`_)
+* Contributors: Wolfgang Merkt, viviansuzano
+
 2.0.5 (2018-07-30)
 ------------------
 * set default print level to 4 to show derivative test errors.
