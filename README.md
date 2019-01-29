@@ -163,7 +163,7 @@ The research project within which this code was developed:
 
 
 ## Authors 
-[Alexander W. Winkler](https://awinkler.github.io/) - Initial Work/Maintainer
+[Alexander W. Winkler](https://www.alex-winkler.com) - Initial Work/Maintainer
 
 This was has been carried out at the following institutions:
 
