@@ -64,8 +64,17 @@ public:
   void SetOption(const std::string& name, int value);
   void SetOption(const std::string& name, double value);
 
+  /** @brief  Get the total wall clock time for the optimization, including function evaluations.
+    */
+  double GetTotalWallclockTime ();
+
+  /** @brief  Get the return status for the optimization.
+    */
+  int GetReturnStatus ();
+
 private:
   std::shared_ptr<Ipopt::IpoptApplication> ipopt_app_;
+  int status_;
 };
 
 } /* namespace ifopt */
