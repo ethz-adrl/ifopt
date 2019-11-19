@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.7 (2019-11-19)
+------------------
 * Create function to get the time statistics and the return code from the optimization solver. (`#40 <https://github.com/ethz-adrl/ifopt/issues/40>`_)
 * Contributors: viviansuzano
 

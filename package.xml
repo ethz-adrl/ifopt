@@ -2,7 +2,7 @@
 
 <package format="2">
   <name>ifopt</name>
-  <version>2.0.6</version>
+  <version>2.0.7</version>
   <description>
     An <a href="http://eigen.tuxfamily.org">Eigen-</a>
     based interface to Nonlinear Programming solver
