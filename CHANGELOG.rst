@@ -2,6 +2,11 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Create function to get the time statistics and the return code from the optimization solver. (`#40 <https://github.com/ethz-adrl/ifopt/issues/40>`_)
+* Contributors: viviansuzano
+
 2.0.6 (2019-01-17)
 ------------------
 * Enable problems without constraints: Fix issue (`#34 <https://github.com/ethz-adrl/ifopt/issues/34>`_ , `#35 <https://github.com/ethz-adrl/ifopt/issues/35>`_)
