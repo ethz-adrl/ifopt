@@ -149,6 +149,12 @@ Problem::GetJacobianOfConstraints () const
   return constraints_.GetJacobian();
 }
 
+Problem::Jacobian
+Problem::GetJacobianOfCosts () const
+{
+  return costs_.GetJacobian();
+}
+
 void
 Problem::SaveCurrent()
 {
