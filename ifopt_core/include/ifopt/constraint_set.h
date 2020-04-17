@@ -82,15 +82,6 @@ public:
    */
   Jacobian GetJacobian() const final;
 
-protected:
-  /**
-   * @brief Read access to the value of the optimization variables.
-   *
-   * This must be used to formulate the constraint violation and Jacobian.
-   */
-  const VariablesPtr GetVariables() const { return variables_; };
-
-private:
   /**
    * @brief Set individual Jacobians corresponding to each decision variable set.
    * @param var_set  Set of variables the current Jacobian block belongs to.
@@ -107,6 +98,16 @@ private:
    * simply do nothing.
    */
   virtual void FillJacobianBlock(std::string var_set, Jacobian& jac_block) const = 0;
+
+protected:
+  /**
+   * @brief Read access to the value of the optimization variables.
+   *
+   * This must be used to formulate the constraint violation and Jacobian.
+   */
+  const VariablesPtr GetVariables() const { return variables_; };
+
+private:
   VariablesPtr variables_;
 
   /**
