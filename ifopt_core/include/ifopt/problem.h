@@ -244,6 +244,18 @@ public:
    */
   void PrintCurrent() const;
 
+  /**
+   * @brief Read access to the constraints composite
+   * @return A const reference to constraints_
+   */
+  const Composite& GetConstraints() const { return constraints_; };
+
+  /**
+   * @brief Read access to the costs composite
+   * @return A const reference to costs_
+   */
+  const Composite& GetCosts() const { return costs_; };
+
 private:
   Composite::Ptr variables_;
   Composite constraints_;
