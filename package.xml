@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<package format="2">
+<package format="3">
   <name>ifopt</name>
   <version>2.0.7</version>
   <description>
@@ -23,7 +23,8 @@
   <depend>coinor-libipopt-dev</depend> 
   
   <!-- The following tags are recommended by REP-136 -->
-  <exec_depend>catkin</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 1">catkin</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 2">ament_cmake</exec_depend>
   <buildtool_depend>cmake</buildtool_depend>
   <export>
     <build_type>cmake</build_type>
