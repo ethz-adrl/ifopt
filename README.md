@@ -25,7 +25,6 @@ An example nonlinear optimization problem to solve is defined as:
   <a href="#features">Features</a> •
   <a href="#install">Install</a> •
   <a href="#examples">Examples</a> •
-  <a href="#develop">Develop</a> •
   <a href="#contribute">Contribute</a> •
   <a href="#publications">Publications</a> •
   <a href="#authors">Authors</a>
@@ -44,6 +43,35 @@ An example nonlinear optimization problem to solve is defined as:
 * Automatic index management by formulation of [variable- and constraint-sets](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html)  
 * Integration: pure cmake `find_package(ifopt)` or [catkin]/[ROS] (optional)       
 * light-weight (~[2k lines of code](https://i.imgur.com/NCPJsSw.png)) makes it easy to use and extend    
+
+</br>
+
+An optimization problem consists of multiple *independent variable- and constraint-sets*. Each set represents a common concept, e.g. a set of variables might represents spline coefficients, another footstep positions. Similarly, a constraint-set groups similar constraints together.  `ifopt` allows users to define each of these sets independently in separate classes and then builds the overall problem from these sets. (No more worrying adapting indices when adding or removing sets).
+
+</br>
+
+```
+find x0, x1                              (variable-sets 0 & 1)
+s.t
+  x0_lower  <= x0 <= x0_upper            (bounds on variable-set x0 \in R^2)
+
+  {x0,x1} = arg min c0(x0,x1)+c1(x0,x1)  (cost-terms 0 and 1)
+
+  g0_lower < g0(x0,x1) < g0_upper        (constraint-set 0 \in R^2)
+  g1_lower < g1(x0,x1) < g0_upper        (constraint-set 1 \in R^1)
+```
+
+</br>
+
+Supplying derivative information greatly increases solution speed. `ifopt` allows to define the derivative of each cost-term/constraint-set with respect to each variable-set *independently*. This ensures that when the order of variable-sets changes in the overall vector, this derivative information is still valid. These "Jacobian blocks" must be supplied through ``ConstraintSet::FillJacobianBlock()`` and are then used to build the complete Jacobian for the cost and constraints.
+
+</br>
+
+<img src="http://docs.ros.org/api/ifopt/html/ifopt.png" height="400" />
+
+
+ A graphical overview as UML can be seen [here](http://docs.ros.org/api/ifopt/html/inherits.html).
+
 
 
 ## Install
@@ -134,12 +162,6 @@ Output:
 A more involved problem, taken from [towr], with multiple sets of variables and constraints to generate motions for legged robots produces the following: 
 
 <img align="center" height="500" src="https://i.imgur.com/4yhohZF.png"/>
-
-## Develop
-Useful information for developers is given in the doxygen documentation:
-
- * For an overview of how to formulate your problem, start [here](http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html).
- * A nice graphical overview as UML can be seen [here](http://docs.ros.org/api/ifopt/html/inherits.html).
 
 ## Contribute
 We love pull request, whether its interfaces to additional solvers, bug fixes, unit tests or updating the documentation. Please have a look at [CONTRIBUTING.md](CONTRIBUTING.md) for more information. 
