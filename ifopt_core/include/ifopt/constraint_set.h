@@ -93,9 +93,16 @@ public:
    * the Jacobian of the constraints w.r.t. this set (starting at column 0).
    * GetJacobian() then inserts these columns at the correct position in the
    * overall Jacobian.
-   *
+   * 
    * If the constraint doen't depend on a @c var_set, this function should
    * simply do nothing.
+   * 
+   * Attention: @c jac_bock is a sparse matrix, and must always have the same 
+   * sparsity pattern. Therefore, it's better not to build a dense matrix and 
+   * call .sparseView(), because if some entries happen to be zero for some 
+   * iteration, that changes the sparsity pattern. A more robust way is to directly 
+   * set as follows (which can also be set =0.0 without erros):
+   * jac_block.coeffRef(1, 3) = ... 
    */
   virtual void FillJacobianBlock(std::string var_set, Jacobian& jac_block) const = 0;
 
