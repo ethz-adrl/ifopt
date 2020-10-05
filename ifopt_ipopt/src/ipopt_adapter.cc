@@ -96,7 +96,7 @@ bool IpoptAdapter::eval_f(Index n, const double* x, bool new_x, double& obj_valu
 
 bool IpoptAdapter::eval_grad_f(Index n, const double* x, bool new_x, double* grad_f)
 {
-  Eigen::VectorXd grad = nlp_->EvaluateCostFunctionGradient(x);
+  Eigen::VectorXd grad = nlp_->EvaluateCostFunctionGradient(x, finite_diff_);
   Eigen::Map<Eigen::MatrixXd>(grad_f,n,1) = grad;
   return true;
 }

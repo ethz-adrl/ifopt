@@ -172,7 +172,7 @@ public:
   /**
    * @brief The column-vector of derivatives of the cost w.r.t. each variable.
    */
-  VectorXd EvaluateCostFunctionGradient(const double* x);
+  VectorXd EvaluateCostFunctionGradient(const double* x, bool use_finite_difference_approximation);
 
   /**
    * @brief The number of individual constraints.
