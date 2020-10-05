@@ -68,13 +68,8 @@ public:
     */
   double GetTotalWallclockTime ();
 
-  /** @brief  Get the return status for the optimization.
-    */
-  int GetReturnStatus ();
-
 private:
   std::shared_ptr<Ipopt::IpoptApplication> ipopt_app_;
-  int status_;
 };
 
 } /* namespace ifopt */

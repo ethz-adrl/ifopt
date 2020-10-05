@@ -55,6 +55,16 @@ public:
     * @param [in/out]  nlp  The nonlinear programming problem.
     */
   virtual void Solve(Problem& nlp) = 0;
+
+
+  /** @brief  Get the return status for the optimization. 
+    * 
+    * e.g. https://coin-or.github.io/Ipopt/OUTPUT.html
+    */
+  int GetReturnStatus () const { return status_; };
+
+protected:
+  int status_;
 };
 
 } /* namespace ifopt */

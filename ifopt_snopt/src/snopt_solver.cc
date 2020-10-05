@@ -58,7 +58,7 @@ SnoptSolver::Solve (Problem& ref)
   int nInf;   // nInf : number of constraints outside of the bounds
   double sInf;// sInf : sum of infeasibilities
 
-  int INFO  = snopt.solve(Cold, snopt.neF, snopt.n, snopt.ObjAdd,
+  status_  = snopt.solve(Cold, snopt.neF, snopt.n, snopt.ObjAdd,
                      snopt.ObjRow, &SnoptAdapter::ObjectiveAndConstraintFct,
                      snopt.iAfun, snopt.jAvar, snopt.A, snopt.neA,
                      snopt.iGfun, snopt.jGvar, snopt.neG,
@@ -67,13 +67,13 @@ SnoptSolver::Solve (Problem& ref)
                      snopt.F, snopt.Fstate, snopt.Fmul,
                      nS, nInf, sInf);
 #else
-  int INFO = snopt.solve(Cold);
+  status_ = snopt.solve(Cold);
 #endif
 
-  int EXIT = INFO - INFO%10; // change least significant digit to zero
+  int EXIT = status_ - status_%10; // change least significant digit to zero
 
   if (EXIT != 0) {
-    std::string msg = "ERROR: Snopt failed to find a solution. EXIT:" + std::to_string(EXIT) + ", INFO:" + std::to_string(INFO) + "\n";
+    std::string msg = "ERROR: Snopt failed to find a solution. EXIT:" + std::to_string(EXIT) + ", INFO:" + std::to_string(status_) + "\n";
     throw std::runtime_error(msg);
   }
 
