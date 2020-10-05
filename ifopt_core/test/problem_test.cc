@@ -188,7 +188,7 @@ TEST(Problem, EvaluateCostFunctionGradient)
   nlp.AddCostSet(std::make_shared<ExCost>("cost_term2"));
 
   double x[2] = { 2.0, 3.0 };
-  Eigen::VectorXd grad = nlp.EvaluateCostFunctionGradient(x);
+  Eigen::VectorXd grad = nlp.EvaluateCostFunctionGradient(x, false);
 
   EXPECT_EQ(nlp.GetNumberOfOptimizationVariables(), grad.rows());
   EXPECT_DOUBLE_EQ(0.0,             grad(0)); // cost1+cost2 w.r.t x0
