@@ -7,6 +7,13 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/ethz-adrl/ifopt/badge)](https://www.codefactor.io/repository/github/ethz-adrl/ifopt)
 [![License BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://tldrlegal.com/license/bsd-3-clause-license-%28revised%29#fulltext)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1135046.svg)](https://doi.org/10.5281/zenodo.1135046)
+
+Platform             | CI Status
+---------------------|:---------
+Linux (Focal)        | [![Build Status](https://github.com/ethz-adrl/ifopt/workflows/Focal-Build/badge.svg)](https://github.com/ethz-adrl/ifopt/actions)
+Linux (Bionic)       | [![Build Status](https://github.com/ethz-adrl/ifopt/workflows/Bionic-Build/badge.svg)](https://github.com/ethz-adrl/ifopt/actions)
+Linux (Xenial)       | [![Build Status](https://github.com/ethz-adrl/ifopt/workflows/Xenial-Build/badge.svg)](https://github.com/ethz-adrl/ifopt/actions)
+
 <!-- The actual jenkins documentation job can be found here -->
 <!-- http://build.ros.org/view/Ldoc/job/Ldoc__ifopt__ubuntu_xenial_amd64/ -->
 

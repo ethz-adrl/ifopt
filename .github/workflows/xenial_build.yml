@@ -1,0 +1,51 @@
+name: Xenial-Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '0 5 * * *'
+
+jobs:
+  industrial_ci:
+    name: Kinetic
+    runs-on: ubuntu-latest
+    env:
+      CI_NAME: Xenial-Build
+      OS_NAME: ubuntu
+      OS_CODE_NAME: xenial
+      ROS_DISTRO: kinetic
+      ROS_REPO: main
+      CCACHE_DIR: "/home/runner/work/ifopt/ifopt/Xenial-Build/.ccache"
+      TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug"
+      AFTER_SCRIPT: 'catkin build -w $target_ws --make-args test'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Free Disk Space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        shell: cmake -P {0}
+        run: |
+          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+          message("::set-output name=timestamp::${current_date}")
+
+      - name: ccache cache files
+        uses: actions/cache@v1.1.0
+        with:
+          path: ${{ env.CI_NAME }}/.ccache
+          key: ${{ env.CI_NAME }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          restore-keys: |
+            ${{ env.CI_NAME }}-ccache-
+
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{env}}
