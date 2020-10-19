@@ -57,14 +57,14 @@ bool IpoptAdapter::get_bounds_info(Index n, double* x_lower, double* x_upper,
                                    Index m, double* g_l, double* g_u)
 {
   auto bounds_x = nlp_->GetBoundsOnOptimizationVariables();
-  for (uint c=0; c<bounds_x.size(); ++c) {
+  for (std::size_t c=0; c<bounds_x.size(); ++c) {
     x_lower[c] = bounds_x.at(c).lower_;
     x_upper[c] = bounds_x.at(c).upper_;
   }
 
   // specific bounds depending on equality and inequality constraints
   auto bounds_g = nlp_->GetBoundsOnConstraints();
-  for (uint c=0; c<bounds_g.size(); ++c) {
+  for (std::size_t c=0; c<bounds_g.size(); ++c) {
     g_l[c] = bounds_g.at(c).lower_;
     g_u[c] = bounds_g.at(c).upper_;
   }
