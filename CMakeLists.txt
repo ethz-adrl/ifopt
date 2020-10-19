@@ -2,6 +2,9 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(ifopt VERSION 2.0.6)
 
+if(WIN32)
+  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
 ###########
 ## Build ##

@@ -57,7 +57,7 @@ SnoptAdapter::Init ()
   // Set the upper and lower bounds.
   // no bounds on the spline coefficients or footholds
   auto bounds_x = nlp_->GetBoundsOnOptimizationVariables();
-  for (uint _n=0; _n<bounds_x.size(); ++_n) {
+  for (std::size_t _n=0; _n<bounds_x.size(); ++_n) {
     xlow[_n] = bounds_x.at(_n).lower_;
     xupp[_n] = bounds_x.at(_n).upper_;
     xstate[_n] = 0;
