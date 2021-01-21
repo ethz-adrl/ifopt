@@ -162,11 +162,13 @@ Composite::SetVariables (const VectorXd& x)
 
 Composite::Jacobian
 Composite::GetJacobian () const
-{ // static: get number of variables only the first time this function is called,
+{ // set number of variables only the first time this function is called,
   // since number doesn't change during the optimization. Improves efficiency.
-  static int n_var = components_.empty() ? 0 : components_.front()->GetJacobian().cols();
-  Jacobian jacobian(GetRows(), n_var);
+  if (n_var == -1)
+    n_var = components_.empty() ? 0 : components_.front()->GetJacobian().cols();
 
+  Jacobian jacobian(GetRows(), n_var);
+  
   if (n_var == 0) return jacobian;
 
   int row = 0;

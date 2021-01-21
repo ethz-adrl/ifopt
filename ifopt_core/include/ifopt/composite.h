@@ -216,6 +216,9 @@ public:
 private:
   ComponentVec components_;
   bool is_cost_;
+  // The number of variables for costs/constraint composites (not set for variables).
+  // Is initialized the first the GetJacobian() is called.
+  mutable size_t n_var = -1; 
 };
 
 
