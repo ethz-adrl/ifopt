@@ -171,8 +171,12 @@ public:
 
   /**
    * @brief The column-vector of derivatives of the cost w.r.t. each variable.
+   * @details ipopt uses 10e-8 for their derivative check, but setting here to more precise
+   * https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_derivative_test_perturbation
    */
-  VectorXd EvaluateCostFunctionGradient(const double* x, bool use_finite_difference_approximation = false);
+  VectorXd EvaluateCostFunctionGradient(const double* x,
+                                        bool use_finite_difference_approximation = false,
+                                        double epsilon = std::numeric_limits<double>::epsilon());
 
   /**
    * @brief The number of individual constraints.

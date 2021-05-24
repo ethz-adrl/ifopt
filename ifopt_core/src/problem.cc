@@ -97,16 +97,13 @@ Problem::EvaluateCostFunction (const double* x)
 }
 
 Problem::VectorXd
-Problem::EvaluateCostFunctionGradient (const double* x, bool use_finite_difference_approximation)
+Problem::EvaluateCostFunctionGradient (const double* x, bool use_finite_difference_approximation, double epsilon)
 {
   int n = GetNumberOfOptimizationVariables();
   Jacobian jac = Jacobian(1,n);
   if (HasCostTerms()) {
     if(use_finite_difference_approximation) {
-      // ipopt uses 10e-8 for their derivative check.
-      // https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_derivative_test_perturbation
-      // setting here to more precise, but can be adapted
-      double step_size = std::numeric_limits<double>::epsilon();
+      double step_size = epsilon;
       
       // calculate forward difference by disturbing each optimization variable
       double g = EvaluateCostFunction(x);
@@ -115,7 +112,7 @@ Problem::EvaluateCostFunctionGradient (const double* x, bool use_finite_differen
         x_new[i] += step_size; // disturb
         double g_new = EvaluateCostFunction(x_new.data());
         jac.coeffRef(0,i) = (g_new - g)/step_size;
-        x_new[i] -= step_size; // reset for next iteration
+        x_new[i] = x[i]; // reset for next iteration
       }
     } else {
       SetVariables(x);
