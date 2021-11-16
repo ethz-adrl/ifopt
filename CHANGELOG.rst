@@ -2,6 +2,21 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* replace static variable falsely shared between contraints and costs
+* Reduce calls to GetJacobian
+* Changes to support windows build (#65)
+* set default parameter or finite diff for backwards compatibility
+* add return-status getter also to SNOPT
+* calculate finite difference of cost-term for IPOPT if flag set. (#61)
+* add explanation setting jacobian sparsity pattern (#47) (#55)
+* Update README.md
+* Switch  between catkin and ament based on ROS_VERSION (#52)
+* Add GetConstraints and GetCosts to Problem (#51)
+* Add GetJacobianOfCosts to Problem (#50)
+* Make FillJacobianBlock public in ConstraintSet (#49)
+
 2.0.7 (2019-11-19)
 ------------------
 * Create function to get the time statistics and the return code from the optimization solver. (`#40 <https://github.com/ethz-adrl/ifopt/issues/40>`_)
