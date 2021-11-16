@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.1 (2021-11-15)
+------------------
 * replace static variable falsely shared between contraints and costs
 * Reduce calls to GetJacobian
 * Changes to support windows build (#65)
