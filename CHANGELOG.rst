@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.2 (2021-11-29)
+------------------
 * Expose epsilon for cost gradient finite difference approximation
 * Contributors: Levi Armstrong
 
