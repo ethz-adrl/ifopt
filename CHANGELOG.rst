@@ -2,6 +2,11 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Expose epsilon for cost gradient finite difference approximation
+* Contributors: Levi Armstrong
+
 2.1.1 (2021-11-15)
 ------------------
 * replace static variable falsely shared between contraints and costs
