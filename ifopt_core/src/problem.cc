@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/problem.h>
 #include <iostream>
 #include <iomanip>
+#include <set>
 
 
 namespace ifopt {
@@ -221,7 +222,37 @@ Problem::PrintCurrent() const
   variables_->PrintAll();
   constraints_.PrintAll();
   costs_.PrintAll();
-};
+}
+
+std::string
+Problem::FindDuplicateComponentName () const
+{
+  auto check_composite = [](const auto& components, std::string& name) -> bool {
+    std::set<std::string> names;
+    for (const auto& c : components) {
+      if (names.count(c->GetName())) {
+        name = c->GetName();
+        return true;
+      }
+      names.insert(c->GetName());
+    }
+    return false;
+  };
+
+  std::string ret = "";
+
+  if (check_composite(variables_->GetComponents(), ret)) {
+    return ret;
+  }
+  if (check_composite(constraints_.GetComponents(), ret)) {
+    return ret;
+  }
+  if (check_composite(costs_.GetComponents(), ret)) {
+    return ret;
+  }
+
+  return ret;
+}
 
 Problem::VectorXd
 Problem::ConvertToEigen(const double* x) const
