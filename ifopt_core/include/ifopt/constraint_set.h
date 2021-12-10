@@ -125,10 +125,10 @@ private:
    * or shorthands to specific variable sets want to be saved for quicker
    * access later. This function can be overwritten for that.
    */
-  virtual void InitVariableDependedQuantities(const VariablesPtr& x_init) {};
+  virtual void InitVariableDependedQuantities(const VariablesPtr&) {};
 
   // doesn't exist for constraints, generated run-time error when used
-  void SetVariables(const VectorXd& x) final { assert(false); };
+  void SetVariables(const VectorXd&) final { assert(false); };
 };
 
 

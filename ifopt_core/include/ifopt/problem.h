@@ -260,6 +260,12 @@ public:
    */
   const Composite& GetCosts() const { return costs_; };
 
+  /**
+   * @brief Find duplicate component name
+   * @return Duplicate component name if found, otherwise empty
+   */
+  std::string FindDuplicateComponentName() const;
+
 private:
   Composite::Ptr variables_;
   Composite constraints_;
