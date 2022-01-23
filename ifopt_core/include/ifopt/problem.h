@@ -260,6 +260,12 @@ public:
    */
   const Composite& GetCosts() const { return costs_; };
 
+  /**
+   * @brief Read access to the history of iterations
+   * @return A const reference to x_prev
+   */
+  const std::vector<VectorXd> &GetIterations() const { return x_prev; };
+
 private:
   Composite::Ptr variables_;
   Composite constraints_;
