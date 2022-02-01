@@ -33,6 +33,7 @@ install(
   EXPORT  ${LIB_CORE}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 # Copy header files to usr/local/include/ifopt/*
 install(

@@ -47,10 +47,15 @@ add_test(${LIB_SNOPT}-example ${LIB_SNOPT}-example)
 #############
  # Copy library files to usr/local/lib/libifopt_snopt.so
 install(
-  TARGETS ${LIB_SNOPT} ${LIB_SNOPT}-example
+  TARGETS ${LIB_SNOPT}
   EXPORT ${LIB_SNOPT}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+# install sample executable
+install(
+  TARGETS ${LIB_SNOPT}-example
   RUNTIME DESTINATION ${IFOPT_INSTALL_BINDIR}
 )
 # Copy header files to usr/local/include/ifopt/*
