@@ -5,7 +5,7 @@ find_package(Eigen3 REQUIRED)
 ###########
 ## Build ##
 ###########
-add_library(${LIB_CORE} SHARED
+add_library(${LIB_CORE}
     src/problem.cc
     src/composite.cc
     src/leaves.cc

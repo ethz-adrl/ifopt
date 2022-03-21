@@ -19,6 +19,10 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Release)
   message(STATUS "CMAKE_BUILD_TYPE not set to Release -> impacts performance")
 endif()
 
+if(NOT DEFINED BUILD_SHARED_LIBS)
+  set(BUILD_SHARED_LIBS ON)
+endif()
+
 enable_testing()
 set(LIB_CORE ifopt_core)
 add_subdirectory(ifopt_core)

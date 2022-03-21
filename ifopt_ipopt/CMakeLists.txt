@@ -9,7 +9,7 @@ find_package(IPOPT 3.11.9 REQUIRED)
 ###########
 set(LIB_IPOPT ifopt_ipopt)
 # The IPOPT solver interface
-add_library(${LIB_IPOPT} SHARED 
+add_library(${LIB_IPOPT} 
     src/ipopt_adapter.cc
     src/ipopt_solver.cc
 )
