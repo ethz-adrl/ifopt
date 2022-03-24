@@ -2,6 +2,13 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Enable building of static libs
+* (`#77 <https://github.com/ethz-adrl/ifopt/issues/77>`_) Implement Required Method
+* Fix CMake install() rules for Windows DLLs
+* Contributors: Josh Langsfeld, Konstantinos Chatzilygeroudis, Rafael Rojas
+
 2.1.2 (2021-11-29)
 ------------------
 * Expose epsilon for cost gradient finite difference approximation
