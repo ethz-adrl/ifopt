@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.3 (2022-03-24)
+------------------
 * Enable building of static libs
 * (`#77 <https://github.com/ethz-adrl/ifopt/issues/77>`_) Implement Required Method
 * Fix CMake install() rules for Windows DLLs
