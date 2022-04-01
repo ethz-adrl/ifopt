@@ -58,6 +58,9 @@ IpoptSolver::IpoptSolver()
   // SetOption("max_iter", 1);
   // SetOption("derivative_test", "first-order");
   // SetOption("derivative_test_tol", 1e-3);
+
+  // Enable throwing original exceptions for catching errors
+  ipopt_app_->RethrowNonIpoptException(true);
 }
 
 void
