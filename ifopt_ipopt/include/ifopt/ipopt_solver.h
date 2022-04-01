@@ -49,7 +49,7 @@ class IpoptSolver : public Solver {
 public:
   using Ptr = std::shared_ptr<IpoptSolver>;
 
-  IpoptSolver();
+  IpoptSolver(bool rethrow_non_ipopt_exceptions = false);
   virtual ~IpoptSolver() = default;
 
   /** @brief  Creates an IpoptAdapter and solves the NLP.

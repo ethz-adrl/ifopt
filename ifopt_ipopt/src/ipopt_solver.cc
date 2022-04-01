@@ -29,7 +29,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ifopt {
 
-IpoptSolver::IpoptSolver()
+IpoptSolver::IpoptSolver(bool rethrow_non_ipopt_exceptions)
 {
   ipopt_app_ = std::make_shared<Ipopt::IpoptApplication>();
   status_ = Ipopt::Solve_Succeeded;
@@ -58,6 +58,9 @@ IpoptSolver::IpoptSolver()
   // SetOption("max_iter", 1);
   // SetOption("derivative_test", "first-order");
   // SetOption("derivative_test_tol", 1e-3);
+
+  // Enable or Disable throwing original exceptions for catching errors
+  ipopt_app_->RethrowNonIpoptException(rethrow_non_ipopt_exceptions);
 }
 
 void
