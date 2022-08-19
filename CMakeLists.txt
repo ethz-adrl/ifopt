@@ -1,6 +1,7 @@
 # Copyright (c) 2017, Alexander W. Winkler, ETH Zurich. All rights reserved.
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
-project(ifopt VERSION 2.0.6)
+set(VERSION "2.0.6")
+project(ifopt VERSION ${VERSION})
 
 if(WIN32)
   set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -57,3 +58,36 @@ install(
 )
 # Install a Catkin 'package.xml' file. This is required by REP-136.
 install(FILES package.xml DESTINATION share/${PROJECT_NAME})
+
+##########################
+## Build binary package ##
+##########################
+if(BUILD_PACKAGE)
+  set(DESCRIPTION "An Eigen-based, light-weight C++ Interface to Nonlinear Programming Solvers (Ipopt, Snopt)")
+  set(LINUX_DEPENDS "libeigen3-dev")
+  if(BUILD_IPOPT)
+    list(APPEND LINUX_DEPENDS "coinor-libipopt-dev")
+  endif()
+
+  set(CPACK_PACKAGE_VENDOR "ETHZ-ADRL")
+  set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_LIST_DIR}/LICENSE)
+  set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/README.md)
+  if(UNIX)
+    set(CPACK_GENERATOR "DEB;TXZ")
+
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+      set(DEB_ARCH "amd64")
+    else()
+      set(DEB_ARCH ${CMAKE_SYSTEM_PROCESSOR})
+    endif()
+
+    set(CPACK_PACKAGE_FILE_NAME "${ARG_PACKAGE_PREFIX}${PROJECT_NAME}_${DEB_ARCH}_linux_${VERSION}")
+    set(CPACK_DEBIAN_PACKAGE_NAME "${ARG_PACKAGE_PREFIX}${PROJECT_NAME}")
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${DEB_ARCH})
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER <https://github.com/ethz-adrl/ifopt>)
+    set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${DESCRIPTION})
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS=ON)
+    string(REPLACE ";" "," CPACK_DEBIAN_PACKAGE_DEPENDS "${LINUX_DEPENDS}")
+  include(CPack)
+  endif()
+endif()
