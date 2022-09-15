@@ -1,7 +1,6 @@
 # Copyright (c) 2017, Alexander W. Winkler, ETH Zurich. All rights reserved.
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
-set(VERSION "2.0.6")
-project(ifopt VERSION ${VERSION})
+project(ifopt VERSION 2.0.6)
 
 if(WIN32)
   set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -81,7 +80,7 @@ if(BUILD_PACKAGE)
       set(DEB_ARCH ${CMAKE_SYSTEM_PROCESSOR})
     endif()
 
-    set(CPACK_PACKAGE_FILE_NAME "${ARG_PACKAGE_PREFIX}${PROJECT_NAME}_${DEB_ARCH}_linux_${VERSION}")
+    set(CPACK_PACKAGE_FILE_NAME "${ARG_PACKAGE_PREFIX}${PROJECT_NAME}_${DEB_ARCH}_linux_${CMAKE_PROJECT_VERSION}")
     set(CPACK_DEBIAN_PACKAGE_NAME "${ARG_PACKAGE_PREFIX}${PROJECT_NAME}")
     set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${DEB_ARCH})
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER <https://github.com/ethz-adrl/ifopt>)
