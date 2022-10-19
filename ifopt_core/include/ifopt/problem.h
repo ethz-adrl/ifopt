@@ -176,7 +176,7 @@ public:
    */
   VectorXd EvaluateCostFunctionGradient(const double* x,
                                         bool use_finite_difference_approximation = false,
-                                        double epsilon = std::numeric_limits<double>::epsilon());
+                                        double epsilon = 1e-8); // epsilon = std::numeric_limits<double>::epsilon()
 
   /**
    * @brief The number of individual constraints.
