@@ -44,7 +44,7 @@ namespace ifopt {
  * @sa Component
  */
 class VariableSet : public Component {
-public:
+ public:
   /**
    * @brief Creates a set of variables representing a single concept.
    * @param n_var  Number of variables.
@@ -60,8 +60,6 @@ public:
   };
 };
 
-} // namespace ifopt
-
-
+}  // namespace ifopt
 
 #endif /* IFOPT_INCLUDE_IFOPT_VARIABLE_SET_H_ */

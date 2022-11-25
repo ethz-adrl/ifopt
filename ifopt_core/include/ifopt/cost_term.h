@@ -44,17 +44,17 @@ namespace ifopt {
  * @sa Component
  */
 class CostTerm : public ConstraintSet {
-public:
+ public:
   CostTerm(const std::string& name);
   virtual ~CostTerm() = default;
 
-private:
+ private:
   /**
    * @brief  Returns the scalar cost term calculated from the @c variables.
    */
   virtual double GetCost() const = 0;
 
-public:
+ public:
   /**
    * @brief  Wrapper function that converts double to Eigen::VectorXd.
    */
@@ -68,9 +68,9 @@ public:
   /**
    * Cost term printout slightly different from variables/constraints.
    */
-  void Print (double tol, int& index) const final;
+  void Print(double tol, int& index) const final;
 };
 
-}
+}  // namespace ifopt
 
 #endif /* IFOPT_INCLUDE_IFOPT_COST_TERM_H_ */
