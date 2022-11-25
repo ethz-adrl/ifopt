@@ -38,14 +38,14 @@ namespace ifopt {
  * @ingroup Solvers
  */
 class SnoptSolver : public Solver {
-public:
+ public:
   using Ptr = std::shared_ptr<SnoptSolver>;
 
   /**
    * @brief Creates a snoptProblemA from @a nlp and solves it.
    * @param [in/out]  nlp  The specific problem to be used and modified.
    */
-  void Solve(Problem& nlp) override ;
+  void Solve(Problem& nlp) override;
 };
 
 } /* namespace ifopt */

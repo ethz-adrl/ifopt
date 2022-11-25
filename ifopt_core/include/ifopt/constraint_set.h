@@ -49,7 +49,7 @@ namespace ifopt {
  * @sa Component
  */
 class ConstraintSet : public Component {
-public:
+ public:
   using Ptr          = std::shared_ptr<ConstraintSet>;
   using VariablesPtr = Composite::Ptr;
 
@@ -104,9 +104,10 @@ public:
    * set as follows (which can also be set =0.0 without erros):
    * jac_block.coeffRef(1, 3) = ... 
    */
-  virtual void FillJacobianBlock(std::string var_set, Jacobian& jac_block) const = 0;
+  virtual void FillJacobianBlock(std::string var_set,
+                                 Jacobian& jac_block) const = 0;
 
-protected:
+ protected:
   /**
    * @brief Read access to the value of the optimization variables.
    *
@@ -114,7 +115,7 @@ protected:
    */
   const VariablesPtr GetVariables() const { return variables_; };
 
-private:
+ private:
   VariablesPtr variables_;
 
   /**
@@ -125,14 +126,12 @@ private:
    * or shorthands to specific variable sets want to be saved for quicker
    * access later. This function can be overwritten for that.
    */
-  virtual void InitVariableDependedQuantities(const VariablesPtr& x_init) {};
+  virtual void InitVariableDependedQuantities(const VariablesPtr& x_init){};
 
   // doesn't exist for constraints, generated run-time error when used
   void SetVariables(const VectorXd& x) final { assert(false); };
 };
 
-
-} // namespace ifopt
-
+}  // namespace ifopt
 
 #endif /* IFOPT_INCLUDE_IFOPT_CONSTRAINT_SET_H_ */

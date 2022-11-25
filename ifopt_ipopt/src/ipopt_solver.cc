@@ -24,15 +24,15 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-#include <ifopt/ipopt_solver.h>
 #include <ifopt/ipopt_adapter.h>
+#include <ifopt/ipopt_solver.h>
 
 namespace ifopt {
 
 IpoptSolver::IpoptSolver(bool rethrow_non_ipopt_exceptions)
 {
   ipopt_app_ = std::make_shared<Ipopt::IpoptApplication>();
-  status_ = Ipopt::Solve_Succeeded;
+  status_    = Ipopt::Solve_Succeeded;
 
   /* Which linear solver to use. Mumps is default because it comes with the
    * precompiled ubuntu binaries. However, the coin-hsl solvers can be
@@ -63,52 +63,50 @@ IpoptSolver::IpoptSolver(bool rethrow_non_ipopt_exceptions)
   ipopt_app_->RethrowNonIpoptException(rethrow_non_ipopt_exceptions);
 }
 
-void
-IpoptSolver::Solve (Problem& nlp)
+void IpoptSolver::Solve(Problem& nlp)
 {
   using namespace Ipopt;
 
   status_ = ipopt_app_->Initialize();
   if (status_ != Solve_Succeeded) {
-    std::cout << std::endl << std::endl << "*** Error during initialization!" << std::endl;
+    std::cout << std::endl
+              << std::endl
+              << "*** Error during initialization!" << std::endl;
     throw std::length_error("Ipopt could not initialize correctly");
   }
 
   // check the jacobian_approximation method
   std::string jac_type = "";
   ipopt_app_->Options()->GetStringValue("jacobian_approximation", jac_type, "");
-  bool finite_diff = jac_type=="finite-difference-values";
+  bool finite_diff = jac_type == "finite-difference-values";
 
   // convert the NLP problem to Ipopt
-  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp,finite_diff);
-  status_ = ipopt_app_->OptimizeTNLP(nlp_ptr);
+  SmartPtr<TNLP> nlp_ptr = new IpoptAdapter(nlp, finite_diff);
+  status_                = ipopt_app_->OptimizeTNLP(nlp_ptr);
 
   if (status_ != Solve_Succeeded) {
-    std::string msg = "ERROR: Ipopt failed to find a solution. Return Code: " + std::to_string(status_) + "\n";
+    std::string msg = "ERROR: Ipopt failed to find a solution. Return Code: " +
+                      std::to_string(status_) + "\n";
     std::cerr << msg;
   }
 }
 
-void
-IpoptSolver::SetOption (const std::string& name, const std::string& value)
+void IpoptSolver::SetOption(const std::string& name, const std::string& value)
 {
   ipopt_app_->Options()->SetStringValue(name, value);
 }
 
-void
-IpoptSolver::SetOption (const std::string& name, int value)
+void IpoptSolver::SetOption(const std::string& name, int value)
 {
   ipopt_app_->Options()->SetIntegerValue(name, value);
 }
 
-void
-IpoptSolver::SetOption (const std::string& name, double value)
+void IpoptSolver::SetOption(const std::string& name, double value)
 {
   ipopt_app_->Options()->SetNumericValue(name, value);
 }
 
-double
-IpoptSolver::GetTotalWallclockTime ()
+double IpoptSolver::GetTotalWallclockTime()
 {
   return ipopt_app_->Statistics()->TotalWallclockTime();
 }

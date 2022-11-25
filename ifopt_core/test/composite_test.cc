@@ -30,21 +30,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gtest/gtest.h>
 #include <ifopt/composite.h>
 
-
 namespace ifopt {
 
 class ExComponent : public Component {
-public:
-  ExComponent(int n_var, const std::string& name) : Component(n_var, name) {};
+ public:
+  ExComponent(int n_var, const std::string& name) : Component(n_var, name){};
 
-  virtual VectorXd GetValues()   const { throw std::runtime_error("not implemented");};
-  virtual VecBound GetBounds()   const { throw std::runtime_error("not implemented");};
-  virtual Jacobian GetJacobian() const { throw std::runtime_error("not implemented");};
-  virtual void SetVariables(const VectorXd& x) {};
+  virtual VectorXd GetValues() const
+  {
+    throw std::runtime_error("not implemented");
+  };
+  virtual VecBound GetBounds() const
+  {
+    throw std::runtime_error("not implemented");
+  };
+  virtual Jacobian GetJacobian() const
+  {
+    throw std::runtime_error("not implemented");
+  };
+  virtual void SetVariables(const VectorXd& x){};
 };
 
-} // namespace opt
-
+}  // namespace ifopt
 
 using namespace ifopt;
 
@@ -57,13 +64,11 @@ TEST(Component, GetRows)
   EXPECT_EQ(4, c.GetRows());
 }
 
-
 TEST(Component, GetName)
 {
   ExComponent c(2, "ex_component");
   EXPECT_STREQ("ex_component", c.GetName().c_str());
 }
-
 
 TEST(Composite, GetRowsCost)
 {
@@ -78,7 +83,6 @@ TEST(Composite, GetRowsCost)
   EXPECT_EQ(1, cost.GetRows());
 }
 
-
 TEST(Composite, GetRowsConstraint)
 {
   auto c1 = std::make_shared<ExComponent>(0, "component1");
@@ -89,9 +93,8 @@ TEST(Composite, GetRowsConstraint)
   constraint.AddComponent(c1);
   constraint.AddComponent(c2);
   constraint.AddComponent(c3);
-  EXPECT_EQ(0+1+2, constraint.GetRows());
+  EXPECT_EQ(0 + 1 + 2, constraint.GetRows());
 }
-
 
 TEST(Composite, GetComponent)
 {
@@ -114,7 +117,6 @@ TEST(Composite, GetComponent)
   EXPECT_NE(c1->GetRows(), c3_new->GetRows());
 }
 
-
 TEST(Composite, ClearComponents)
 {
   auto c1 = std::make_shared<ExComponent>(0, "component1");
@@ -126,7 +128,7 @@ TEST(Composite, ClearComponents)
   comp.AddComponent(c2);
   comp.AddComponent(c3);
 
-  EXPECT_EQ(0+1+2, comp.GetRows());
+  EXPECT_EQ(0 + 1 + 2, comp.GetRows());
 
   comp.ClearComponents();
   EXPECT_EQ(0, comp.GetRows());

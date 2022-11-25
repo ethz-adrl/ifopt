@@ -61,8 +61,8 @@ namespace ifopt {
  * the composite pattern visit https://sourcemaking.com/design_patterns/composite
  */
 class Component {
-public:
-  using Ptr  = std::shared_ptr<Component>;
+ public:
+  using Ptr = std::shared_ptr<Component>;
 
   using Jacobian = Eigen::SparseMatrix<double, Eigen::RowMajor>;
   using VectorXd = Eigen::VectorXd;
@@ -142,12 +142,10 @@ public:
   void SetRows(int num_rows);
   static const int kSpecifyLater = -1;
 
-private:
+ private:
   int num_rows_ = kSpecifyLater;
   std::string name_;
 };
-
-
 
 /**
  * @brief A collection of components which is treated as another Component.
@@ -160,8 +158,8 @@ private:
  * See Component and Composite Pattern for more information.
  */
 class Composite : public Component {
-public:
-  using Ptr = std::shared_ptr<Composite>;
+ public:
+  using Ptr          = std::shared_ptr<Composite>;
   using ComponentVec = std::vector<Component::Ptr>;
 
   /**
@@ -176,9 +174,9 @@ public:
   virtual ~Composite() = default;
 
   // see Component for documentation
-  VectorXd GetValues   () const override;
-  Jacobian GetJacobian () const override;
-  VecBound GetBounds   () const override;
+  VectorXd GetValues() const override;
+  Jacobian GetJacobian() const override;
+  VecBound GetBounds() const override;
   void SetVariables(const VectorXd& x) override;
   void PrintAll() const;
 
@@ -195,13 +193,13 @@ public:
    * @tparam T  Type of component.
    * @return A type-casted pointer possibly providing addtional functionality.
    */
-  template<typename T> std::shared_ptr<T>
-  GetComponent(const std::string& name) const;
+  template <typename T>
+  std::shared_ptr<T> GetComponent(const std::string& name) const;
 
   /**
    * @brief Adds a component to this composite.
    */
-  void AddComponent (const Component::Ptr&);
+  void AddComponent(const Component::Ptr&);
 
   /**
    * @brief Removes all component from this composite.
@@ -213,24 +211,22 @@ public:
    */
   const ComponentVec GetComponents() const;
 
-private:
+ private:
   ComponentVec components_;
   bool is_cost_;
   // The number of variables for costs/constraint composites (not set for variables).
   // Is initialized the first the GetJacobian() is called.
-  mutable size_t n_var = -1; 
+  mutable size_t n_var = -1;
 };
 
-
 // implementation of template functions
-template<typename T>
+template <typename T>
 std::shared_ptr<T> Composite::GetComponent(const std::string& name) const
 {
   Component::Ptr c = GetComponent(name);
   return std::dynamic_pointer_cast<T>(c);
 }
 
-
-} /* namespace opt */
+}  // namespace ifopt
 
 #endif /* IFOPT_INCLUDE_OPT_COMPOSITE_H_ */

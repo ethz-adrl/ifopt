@@ -51,19 +51,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * http://docs.ros.org/api/ifopt/html/group__ProblemFormulation.html
  */
 
-#include <ifopt/variable_set.h>
 #include <ifopt/constraint_set.h>
 #include <ifopt/cost_term.h>
+#include <ifopt/variable_set.h>
 
 namespace ifopt {
 using Eigen::Vector2d;
 
-
 class ExVariables : public VariableSet {
-public:
+ public:
   // Every variable set has a name, here "var_set1". this allows the constraints
   // and costs to define values and Jacobians specifically w.r.t this variable set.
-  ExVariables() : ExVariables("var_set1") {};
+  ExVariables() : ExVariables("var_set1"){};
   ExVariables(const std::string& name) : VariableSet(2, name)
   {
     // the initial values where the NLP starts iterating from
@@ -82,10 +81,7 @@ public:
 
   // Here is the reverse transformation from the internal representation to
   // to the Eigen::Vector
-  VectorXd GetValues() const override
-  {
-    return Vector2d(x0_, x1_);
-  };
+  VectorXd GetValues() const override { return Vector2d(x0_, x1_); };
 
   // Each variable has an upper and lower bound set here
   VecBound GetBounds() const override
@@ -96,13 +92,12 @@ public:
     return bounds;
   }
 
-private:
+ private:
   double x0_, x1_;
 };
 
-
 class ExConstraint : public ConstraintSet {
-public:
+ public:
   ExConstraint() : ExConstraint("constraint1") {}
 
   // This constraint set just contains 1 constraint, however generally
@@ -114,7 +109,7 @@ public:
   {
     VectorXd g(GetRows());
     Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
-    g(0) = std::pow(x(0),2) + x(1);
+    g(0)       = std::pow(x(0), 2) + x(1);
     return g;
   };
 
@@ -133,7 +128,8 @@ public:
   // approximate the derivatives by finite differences and not overwrite this
   // function, e.g. in ipopt.cc::use_jacobian_approximation_ = true
   // Attention: see the parent class function for important information on sparsity pattern.
-  void FillJacobianBlock (std::string var_set, Jacobian& jac_block) const override
+  void FillJacobianBlock(std::string var_set,
+                         Jacobian& jac_block) const override
   {
     // must fill only that submatrix of the overall Jacobian that relates
     // to this constraint and "var_set1". even if more constraints or variables
@@ -142,34 +138,34 @@ public:
     if (var_set == "var_set1") {
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
 
-      jac_block.coeffRef(0, 0) = 2.0*x(0); // derivative of first constraint w.r.t x0
-      jac_block.coeffRef(0, 1) = 1.0;      // derivative of first constraint w.r.t x1
+      jac_block.coeffRef(0, 0) =
+          2.0 * x(0);  // derivative of first constraint w.r.t x0
+      jac_block.coeffRef(0, 1) =
+          1.0;  // derivative of first constraint w.r.t x1
     }
   }
 };
 
-
-class ExCost: public CostTerm {
-public:
+class ExCost : public CostTerm {
+ public:
   ExCost() : ExCost("cost_term1") {}
   ExCost(const std::string& name) : CostTerm(name) {}
 
   double GetCost() const override
   {
     Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
-    return -std::pow(x(1)-2,2);
+    return -std::pow(x(1) - 2, 2);
   };
 
-  void FillJacobianBlock (std::string var_set, Jacobian& jac) const override
+  void FillJacobianBlock(std::string var_set, Jacobian& jac) const override
   {
     if (var_set == "var_set1") {
       Vector2d x = GetVariables()->GetComponent("var_set1")->GetValues();
 
-      jac.coeffRef(0, 0) = 0.0;             // derivative of cost w.r.t x0
-      jac.coeffRef(0, 1) = -2.0*(x(1)-2.0); // derivative of cost w.r.t x1
+      jac.coeffRef(0, 0) = 0.0;                  // derivative of cost w.r.t x0
+      jac.coeffRef(0, 1) = -2.0 * (x(1) - 2.0);  // derivative of cost w.r.t x1
     }
   }
 };
 
-} // namespace opt
-
+}  // namespace ifopt

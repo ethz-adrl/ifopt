@@ -46,8 +46,8 @@ namespace ifopt {
  * functionality, but merely delegate it to the Adaptee (the Problem object).
  */
 class SnoptAdapter : public snoptProblemA {
-public:
-  using NLPPtr  = Problem*;
+ public:
+  using NLPPtr   = Problem*;
   using VectorXd = Problem::VectorXd;
   using Jacobian = Problem::Jacobian;
 
@@ -55,44 +55,43 @@ public:
    * @brief  Creates an Adapter Object around the problem to conform to the
    * Snopt interface.
    */
-  SnoptAdapter (Problem& nlp);
-  virtual ~SnoptAdapter () = default;
+  SnoptAdapter(Problem& nlp);
+  virtual ~SnoptAdapter() = default;
 
   void Init();
   void SetVariables();
 
-  static void ObjectiveAndConstraintFct(int   *Status, int *n,    double x[],
-                                        int   *needF,  int *neF,  double F[],
-                                        int   *needG,  int *neG,  double G[],
-                                        char     *cu,  int *lencu,
-                                        int     iu[],  int *leniu,
-                                        double  ru[],  int *lenru);
+  static void ObjectiveAndConstraintFct(int* Status, int* n, double x[],
+                                        int* needF, int* neF, double F[],
+                                        int* needG, int* neG, double G[],
+                                        char* cu, int* lencu, int iu[],
+                                        int* leniu, double ru[], int* lenru);
 
-private:
-  static NLPPtr nlp_; // use raw pointer as SnoptAdapter doesn't own the nlp.
+ private:
+  static NLPPtr nlp_;  // use raw pointer as SnoptAdapter doesn't own the nlp.
 
 // additional variables as Snopt76 base class doesn't have them, not really
 // necessary but to keep the same structure of the original SnoptAdapter
 #ifdef SNOPT76
 
-public:
-  int     jacComputed = 0;
-  int     n = 0;
-  int     neF = 0;
-  int     ObjRow;
-  double  ObjAdd;
+ public:
+  int jacComputed = 0;
+  int n           = 0;
+  int neF         = 0;
+  int ObjRow;
+  double ObjAdd;
 
   double *x, *xlow, *xupp, *xmul;
   double *F, *Flow, *Fupp, *Fmul;
 
-  int    *xstate, *Fstate;
+  int *xstate, *Fstate;
 
-  int     lenA, lenG, neA, neG;
-  int    *iAfun, *jAvar, *iGfun, *jGvar;
-  double *A;
+  int lenA, lenG, neA, neG;
+  int *iAfun, *jAvar, *iGfun, *jGvar;
+  double* A;
 #endif
 };
 
-} /* namespace opt */
+}  // namespace ifopt
 
 #endif /* IFOPT_INCLUDE_OPT_SNOPT_ADAPTER_H_ */

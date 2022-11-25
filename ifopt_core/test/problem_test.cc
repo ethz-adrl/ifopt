@@ -40,9 +40,8 @@ TEST(Problem, GetNumberOfOptimizationVariables)
   nlp.AddVariableSet(std::make_shared<ExVariables>("var_set0"));
   nlp.AddVariableSet(std::make_shared<ExVariables>("var_set1"));
 
-  EXPECT_EQ(2+2, nlp.GetNumberOfOptimizationVariables());
+  EXPECT_EQ(2 + 2, nlp.GetNumberOfOptimizationVariables());
 }
-
 
 TEST(Problem, GetBoundsOnOptimizationVariables)
 {
@@ -51,7 +50,7 @@ TEST(Problem, GetBoundsOnOptimizationVariables)
   nlp.AddVariableSet(std::make_shared<ExVariables>("var_set1"));
 
   auto bounds = nlp.GetBoundsOnOptimizationVariables();
-  EXPECT_EQ(2+2, bounds.size());
+  EXPECT_EQ(2 + 2, bounds.size());
 
   // var_set0
   EXPECT_DOUBLE_EQ(-1.0, bounds.at(0).lower_);
@@ -65,7 +64,6 @@ TEST(Problem, GetBoundsOnOptimizationVariables)
   EXPECT_DOUBLE_EQ(-inf, bounds.at(3).lower_);
   EXPECT_DOUBLE_EQ(+inf, bounds.at(3).upper_);
 }
-
 
 TEST(Problem, GetVariableValues)
 {
@@ -86,7 +84,6 @@ TEST(Problem, GetVariableValues)
   EXPECT_EQ(0.4, x(3));
 }
 
-
 TEST(Problem, GetNumberOfConstraints)
 {
   Problem nlp;
@@ -97,9 +94,8 @@ TEST(Problem, GetNumberOfConstraints)
   //same - the full Jacobian is stitched together accordingly.
   nlp.AddConstraintSet(std::make_shared<ExConstraint>("constraint2"));
 
-  EXPECT_EQ(1+1, nlp.GetNumberOfConstraints());
+  EXPECT_EQ(1 + 1, nlp.GetNumberOfConstraints());
 }
-
 
 TEST(Problem, GetBoundsOnConstraints)
 {
@@ -115,7 +111,6 @@ TEST(Problem, GetBoundsOnConstraints)
   EXPECT_DOUBLE_EQ(1.0, bounds.at(1).upper_);
 }
 
-
 TEST(Problem, EvaluateConstraints)
 {
   Problem nlp;
@@ -123,12 +118,11 @@ TEST(Problem, EvaluateConstraints)
   nlp.AddConstraintSet(std::make_shared<ExConstraint>("constraint1"));
   nlp.AddConstraintSet(std::make_shared<ExConstraint>("constraint2"));
 
-  double x[2] = { 2.0, 3.0 };
+  double x[2]       = {2.0, 3.0};
   Eigen::VectorXd g = nlp.EvaluateConstraints(x);
-  EXPECT_DOUBLE_EQ(2*2.0+3.0, g(0)); // constant -1 moved to bounds
-  EXPECT_DOUBLE_EQ(2*2.0+3.0, g(1)); // constant -1 moved to bounds
+  EXPECT_DOUBLE_EQ(2 * 2.0 + 3.0, g(0));  // constant -1 moved to bounds
+  EXPECT_DOUBLE_EQ(2 * 2.0 + 3.0, g(1));  // constant -1 moved to bounds
 }
-
 
 TEST(Problem, GetJacobianOfConstraints)
 {
@@ -137,18 +131,17 @@ TEST(Problem, GetJacobianOfConstraints)
   nlp.AddConstraintSet(std::make_shared<ExConstraint>("constraint1"));
   nlp.AddConstraintSet(std::make_shared<ExConstraint>("constraint2"));
 
-  double x[2] = { 2.0, 3.0 };
+  double x[2] = {2.0, 3.0};
   nlp.SetVariables(x);
   auto jac = nlp.GetJacobianOfConstraints();
   EXPECT_EQ(nlp.GetNumberOfConstraints(), jac.rows());
   EXPECT_EQ(nlp.GetNumberOfOptimizationVariables(), jac.cols());
 
-  EXPECT_DOUBLE_EQ(2*x[0], jac.coeffRef(0,0)); // constraint 1 w.r.t x0
-  EXPECT_DOUBLE_EQ(1.0,    jac.coeffRef(0,1)); // constraint 1 w.r.t x1
-  EXPECT_DOUBLE_EQ(2*x[0], jac.coeffRef(1,0)); // constraint 2 w.r.t x0
-  EXPECT_DOUBLE_EQ(1.0,    jac.coeffRef(1,1)); // constraint 2 w.r.t x1
+  EXPECT_DOUBLE_EQ(2 * x[0], jac.coeffRef(0, 0));  // constraint 1 w.r.t x0
+  EXPECT_DOUBLE_EQ(1.0, jac.coeffRef(0, 1));       // constraint 1 w.r.t x1
+  EXPECT_DOUBLE_EQ(2 * x[0], jac.coeffRef(1, 0));  // constraint 2 w.r.t x0
+  EXPECT_DOUBLE_EQ(1.0, jac.coeffRef(1, 1));       // constraint 2 w.r.t x1
 }
-
 
 TEST(Problem, EvaluateCostFunction)
 {
@@ -159,10 +152,10 @@ TEST(Problem, EvaluateCostFunction)
 
   EXPECT_TRUE(nlp.HasCostTerms());
 
-  double x[2] = { 2.0, 3.0 };
-  EXPECT_DOUBLE_EQ(2*(-std::pow(x[1]-2.0,2)), nlp.EvaluateCostFunction(x)); // constant -1 moved to bounds
+  double x[2] = {2.0, 3.0};
+  EXPECT_DOUBLE_EQ(2 * (-std::pow(x[1] - 2.0, 2)),
+                   nlp.EvaluateCostFunction(x));  // constant -1 moved to bounds
 }
-
 
 TEST(Problem, HasCostTerms)
 {
@@ -179,7 +172,6 @@ TEST(Problem, HasCostTerms)
   EXPECT_TRUE(nlp.HasCostTerms());
 }
 
-
 TEST(Problem, EvaluateCostFunctionGradient)
 {
   Problem nlp;
@@ -187,12 +179,10 @@ TEST(Problem, EvaluateCostFunctionGradient)
   nlp.AddCostSet(std::make_shared<ExCost>("cost_term1"));
   nlp.AddCostSet(std::make_shared<ExCost>("cost_term2"));
 
-  double x[2] = { 2.0, 3.0 };
+  double x[2]          = {2.0, 3.0};
   Eigen::VectorXd grad = nlp.EvaluateCostFunctionGradient(x);
 
   EXPECT_EQ(nlp.GetNumberOfOptimizationVariables(), grad.rows());
-  EXPECT_DOUBLE_EQ(0.0,             grad(0)); // cost1+cost2 w.r.t x0
-  EXPECT_DOUBLE_EQ(2*(-2*(x[1]-2)), grad(1)); // cost1+cost2 w.r.t x1
+  EXPECT_DOUBLE_EQ(0.0, grad(0));                    // cost1+cost2 w.r.t x0
+  EXPECT_DOUBLE_EQ(2 * (-2 * (x[1] - 2)), grad(1));  // cost1+cost2 w.r.t x1
 }
-
-

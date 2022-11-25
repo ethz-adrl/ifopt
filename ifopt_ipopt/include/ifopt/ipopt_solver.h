@@ -30,7 +30,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/problem.h>
 #include <ifopt/solver.h>
 
-
 namespace Ipopt {
 class IpoptApplication;
 }
@@ -46,7 +45,7 @@ namespace ifopt {
  * @ingroup Solvers
  */
 class IpoptSolver : public Solver {
-public:
+ public:
   using Ptr = std::shared_ptr<IpoptSolver>;
 
   IpoptSolver(bool rethrow_non_ipopt_exceptions = false);
@@ -66,9 +65,9 @@ public:
 
   /** @brief  Get the total wall clock time for the optimization, including function evaluations.
     */
-  double GetTotalWallclockTime ();
+  double GetTotalWallclockTime();
 
-private:
+ private:
   std::shared_ptr<Ipopt::IpoptApplication> ipopt_app_;
 };
 

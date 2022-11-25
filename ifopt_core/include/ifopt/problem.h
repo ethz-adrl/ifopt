@@ -30,15 +30,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef IFOPT_INCLUDE_OPT_PROBLEM_H_
 #define IFOPT_INCLUDE_OPT_PROBLEM_H_
 
-#include "variable_set.h"
 #include "constraint_set.h"
 #include "cost_term.h"
+#include "variable_set.h"
 
 /**
  * @brief common namespace for all elements in this library.
  */
 namespace ifopt {
-
 
 /**
  * @defgroup ProblemFormulation
@@ -95,7 +94,7 @@ namespace ifopt {
  * See @ref Solvers for currently implemented solvers.
  */
 class Problem {
-public:
+ public:
   using VecBound = Component::VecBound;
   using Jacobian = Component::Jacobian;
   using VectorXd = Component::VectorXd;
@@ -103,8 +102,8 @@ public:
   /**
    * @brief  Creates a optimization problem with no variables, costs or constraints.
    */
-  Problem ();
-  virtual ~Problem () = default;
+  Problem();
+  virtual ~Problem() = default;
 
   /**
    * @brief Add one individual set of variables to the optimization problem.
@@ -174,9 +173,9 @@ public:
    * @details ipopt uses 10e-8 for their derivative check, but setting here to more precise
    * https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_derivative_test_perturbation
    */
-  VectorXd EvaluateCostFunctionGradient(const double* x,
-                                        bool use_finite_difference_approximation = false,
-                                        double epsilon = std::numeric_limits<double>::epsilon());
+  VectorXd EvaluateCostFunctionGradient(
+      const double* x, bool use_finite_difference_approximation = false,
+      double epsilon = std::numeric_limits<double>::epsilon());
 
   /**
    * @brief The number of individual constraints.
@@ -214,7 +213,7 @@ public:
    * Returns one row corresponding to the costs and each column corresponding
    * to an optimizaton variable.
    */
-  Jacobian GetJacobianOfCosts () const;
+  Jacobian GetJacobianOfCosts() const;
 
   /**
    * @brief Saves the current values of the optimization variables in x_prev.
@@ -264,18 +263,18 @@ public:
    * @brief Read access to the history of iterations
    * @return A const reference to x_prev
    */
-  const std::vector<VectorXd> &GetIterations() const { return x_prev; };
+  const std::vector<VectorXd>& GetIterations() const { return x_prev; };
 
-private:
+ private:
   Composite::Ptr variables_;
   Composite constraints_;
   Composite costs_;
 
-  std::vector<VectorXd> x_prev; ///< the pure variables for every iteration.
+  std::vector<VectorXd> x_prev;  ///< the pure variables for every iteration.
 
   VectorXd ConvertToEigen(const double* x) const;
 };
 
-} /* namespace opt */
+}  // namespace ifopt
 
 #endif /* IFOPT_INCLUDE_OPT_PROBLEM_H_ */
