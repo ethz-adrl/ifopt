@@ -34,32 +34,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ifopt {
 
-/**
- * @brief  A container holding a set of related optimization variables.
- *
- * This is a single set of variables representing a single concept, e.g
- * "spline coefficients" or "step durations".
- *
- * @ingroup ProblemFormulation
- * @sa Component
- */
-class VariableSet : public Component {
- public:
-  /**
-   * @brief Creates a set of variables representing a single concept.
-   * @param n_var  Number of variables.
-   * @param name   What the variables represent to (e.g. "spline coefficients").
-   */
-  VariableSet(int n_var, const std::string& name);
-  virtual ~VariableSet() = default;
+    /**
+     * @brief  A container holding a set of related optimization variables.
+     *
+     * This is a single set of variables representing a single concept, e.g
+     * "spline coefficients" or "step durations".
+     *
+     * @ingroup ProblemFormulation
+     * @sa Component
+     */
+    class VariableSet : public Component {
+    public:
+        /**
+         * @brief Creates a set of variables representing a single concept.
+         * @param n_var  Number of variables.
+         * @param name   What the variables represent to (e.g. "spline coefficients").
+         */
+        VariableSet(int n_var, const std::string& name);
+        virtual ~VariableSet() = default;
 
-  // doesn't exist for variables, generated run-time error when used.
-  Jacobian GetJacobian() const final
-  {
-    throw std::runtime_error("not implemented for variables");
-  };
-};
+        // doesn't exist for variables, generated run-time error when used.
+        Jacobian GetJacobian() const final
+        {
+            throw std::runtime_error("not implemented for variables");
+        };
+        /**
+        * @brief  in case this function get called in VariableSet
+        */
+        Jacobian GetHession(double obj_factor, const double* lambuda) const
+        {
+            throw std::runtime_error("not implemented for variables");
+        };
+        /**
+        * @brief  in case this function get called in VariableSet
+        */
+        Jacobian GetSingleHession(int irow) const
+        {
+            throw std::runtime_error("not implemented for variables");
+        };
+    };
 
-}  // namespace ifopt
+} // namespace ifopt
+
+
 
 #endif /* IFOPT_INCLUDE_IFOPT_VARIABLE_SET_H_ */

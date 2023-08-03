@@ -27,82 +27,145 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
+#include <ifopt/variable_set.h>
 #include <ifopt/constraint_set.h>
 #include <ifopt/cost_term.h>
-#include <ifopt/variable_set.h>
 
-#include <iomanip>
 #include <iostream>
+#include <iomanip>
+
 
 namespace ifopt {
 
-VariableSet::VariableSet(int n_var, const std::string& name)
-    : Component(n_var, name)
-{}
+    VariableSet::VariableSet(int n_var, const std::string& name)
+        : Component(n_var, name)
+    {
+    }
 
-ConstraintSet::ConstraintSet(int row_count, const std::string& name)
-    : Component(row_count, name)
-{}
+    ConstraintSet::ConstraintSet(int row_count, const std::string& name)
+        : Component(row_count, name)
+    {
+    }
 
-ConstraintSet::Jacobian ConstraintSet::GetJacobian() const
-{
-  Jacobian jacobian(GetRows(), variables_->GetRows());
+    ConstraintSet::Jacobian
+        ConstraintSet::GetJacobian() const
+    {
+        Jacobian jacobian(GetRows(), variables_->GetRows());
 
-  int col = 0;
-  Jacobian jac;
-  std::vector<Eigen::Triplet<double>> triplet_list;
+        int col = 0;
+        Jacobian jac;
+        std::vector< Eigen::Triplet<double> > triplet_list;
 
-  for (const auto& vars : variables_->GetComponents()) {
-    int n = vars->GetRows();
-    jac.resize(GetRows(), n);
+        for (const auto& vars : variables_->GetComponents()) {
+            int n = vars->GetRows();
+            jac.resize(GetRows(), n);
 
-    FillJacobianBlock(vars->GetName(), jac);
-    // reserve space for the new elements to reduce memory allocation
-    triplet_list.reserve(triplet_list.size() + jac.nonZeros());
+            FillJacobianBlock(vars->GetName(), jac);
+            // reserve space for the new elements to reduce memory allocation
+            triplet_list.reserve(triplet_list.size() + jac.nonZeros());
 
-    // create triplets for the derivative at the correct position in the overall Jacobian
-    for (int k = 0; k < jac.outerSize(); ++k)
-      for (Jacobian::InnerIterator it(jac, k); it; ++it)
-        triplet_list.push_back(
-            Eigen::Triplet<double>(it.row(), col + it.col(), it.value()));
-    col += n;
-  }
+            // create triplets for the derivative at the correct position in the overall Jacobian
+            for (int k = 0; k < jac.outerSize(); ++k)
+                for (Jacobian::InnerIterator it(jac, k); it; ++it)
+                    triplet_list.push_back(Eigen::Triplet<double>(it.row(), col + it.col(), it.value()));
+            col += n;
+        }
 
-  // transform triplet vector into sparse matrix
-  jacobian.setFromTriplets(triplet_list.begin(), triplet_list.end());
-  return jacobian;
-}
+        // transform triplet vector into sparse matrix
+        jacobian.setFromTriplets(triplet_list.begin(), triplet_list.end());
+        return jacobian;
+    }
 
-void ConstraintSet::LinkWithVariables(const VariablesPtr& x)
-{
-  variables_ = x;
-  InitVariableDependedQuantities(x);
-}
+    Component::Jacobian ConstraintSet::GetSingleHession(int irow) const
+    {
+        Jacobian Hes(variables_->GetRows(), variables_->GetRows());
+        Jacobian Hes_Transition_vessel(10 + variables_->GetRows(), 10 + variables_->GetRows());
+        int maximum_element = variables_->GetRows() * variables_->GetRows();
+        int col = 0;
+        Jacobian Heslocal;
+        std::vector< Eigen::Triplet<double> > triplet_list;
+        int elementcounter = 0;
+        for (const auto& vars : variables_->GetComponents())
+        {
+            int n = vars->GetRows();
+            Heslocal.resize(n, n);
 
-CostTerm::CostTerm(const std::string& name) : ConstraintSet(1, name) {}
+            FillHessionBlock(vars->GetName(), Heslocal, irow);
+            triplet_list.reserve(triplet_list.size() + Heslocal.nonZeros());
 
-CostTerm::VectorXd CostTerm::GetValues() const
-{
-  VectorXd cost(1);
-  cost(0) = GetCost();
-  return cost;
-}
+            for (int k = 0; k < Heslocal.outerSize(); ++k)
+            {
+                for (Jacobian::InnerIterator it(Heslocal, k); it; ++it)
+                {
+                    triplet_list.push_back(Eigen::Triplet<double>(it.row(), col + it.col(), it.value()));
+                    elementcounter += 1;
+                    if (elementcounter == maximum_element)
+                    {
+                        Hes_Transition_vessel.setFromTriplets(triplet_list.begin(), triplet_list.end());
+                        triplet_list.clear();
+                        elementcounter = 0;
+                        for (int kin = 0; kin < Hes_Transition_vessel.outerSize(); ++kin)
+                        {
+                            for (Jacobian::InnerIterator itin(Hes_Transition_vessel, kin); itin; ++itin)
+                            {
+                                triplet_list.push_back(Eigen::Triplet<double>(itin.row(), itin.col(), itin.value()));
+                                elementcounter += 1;
+                            }
+                        }
+                        Hes_Transition_vessel.setZero();
+                    }
+                }
+            }
+            col += n;
+        }
 
-CostTerm::VecBound CostTerm::GetBounds() const
-{
-  return VecBound(GetRows(), NoBound);
-}
+        Hes.setFromTriplets(triplet_list.begin(), triplet_list.end());
+        return Hes;
+    }
 
-void CostTerm::Print(double tol, int& index) const
-{
-  // only one scalar cost value
-  double cost = GetValues()(0);
+    void
+        ConstraintSet::LinkWithVariables(const VariablesPtr& x)
+    {
+        variables_ = x;
+        InitVariableDependedQuantities(x);
+    }
 
-  std::cout.precision(2);
-  std::cout << std::fixed << std::left << std::setw(30) << GetName()
-            << std::right << std::setw(4) << GetRows() << std::setw(9) << index
-            << std::setfill('.') << std::setw(7) << index + GetRows() - 1
-            << std::setfill(' ') << std::setw(12) << cost << std::endl;
-}
+    CostTerm::CostTerm(const std::string& name) :ConstraintSet(1, name)
+    {
+    }
 
-}  // namespace ifopt
+    CostTerm::VectorXd
+        CostTerm::GetValues() const
+    {
+        VectorXd cost(1);
+        cost(0) = GetCost();
+        return cost;
+    }
+
+    CostTerm::VecBound
+        CostTerm::GetBounds() const
+    {
+        return VecBound(GetRows(), NoBound);
+    }
+
+    void
+        CostTerm::Print(double tol, int& index) const
+    {
+        // only one scalar cost value
+        double cost = GetValues()(0);
+
+        std::cout.precision(2);
+        std::cout << std::fixed
+            << std::left
+            << std::setw(30) << GetName()
+            << std::right
+            << std::setw(4) << GetRows()
+            << std::setw(9) << index
+            << std::setfill('.')
+            << std::setw(7) << index + GetRows() - 1
+            << std::setfill(' ')
+            << std::setw(12) << cost
+            << std::endl;
+    }
+
+} /* namespace opt */
