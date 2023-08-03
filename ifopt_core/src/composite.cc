@@ -205,7 +205,6 @@ namespace ifopt {
         {
             return Hes;
         }
-
         int row = 0;
         std::vector< Eigen::Triplet<double> > triplet_list;
         double intermidiate;
@@ -222,9 +221,7 @@ namespace ifopt {
                 {
                     intermidiate = obj_factor;
                 }
-
                 const Jacobian& jac = intermidiate * c->GetSingleHession(i);
-
                 triplet_list.reserve(triplet_list.size() + jac.nonZeros());
                 for (int k = 0; k < jac.outerSize(); ++k)
                 {
@@ -249,7 +246,6 @@ namespace ifopt {
                             Hes_Transition_vessel.setZero();
                             //If the triplet has more elements than the final matrix,
                             //use an intermediate matrix to transition
-
                         }
                     }
                 }
@@ -261,15 +257,8 @@ namespace ifopt {
             {
                 row += c->GetRows();
             }
-            else
-            {
-
-            }
         }
-
         Hes.setFromTriplets(triplet_list.begin(), triplet_list.end());
-
-
         return Hes;
     }
 

@@ -72,7 +72,6 @@ namespace ifopt {
         {
             throw std::runtime_error("not implemented for variables");
         };
-
     };
 
 } // namespace ifopt

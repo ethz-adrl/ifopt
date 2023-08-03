@@ -125,9 +125,9 @@ namespace ifopt {
         * Assuming @c n constraints and @c m variables, The returned Hessian matrix is
         * the Hessian matrix of the constraint or objective function of the row,which
         * has dimensions m x m.
-
         */
         virtual void FillHessionBlock(std::string var_set, Jacobian& jac_block, int irow) const = 0;
+
     protected:
         /**
        * @brief Read access to the value of the optimization variables.

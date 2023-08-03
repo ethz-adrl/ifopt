@@ -114,7 +114,6 @@ namespace ifopt {
                         }
                         Hes_Transition_vessel.setZero();
                     }
-
                 }
             }
             col += n;

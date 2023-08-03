@@ -176,7 +176,6 @@ namespace ifopt {
 
     Problem::Jacobian Problem::GetHessionOfCosts(double obj_factor, const  double* lambda)
     {
-
         //Compute the Hessian matrix of the objective function and the constraint respectively
         Jacobian part_1 = constraints_.GetHession(obj_factor, lambda);
         Jacobian part_2 = costs_.GetHession(obj_factor, lambda);
