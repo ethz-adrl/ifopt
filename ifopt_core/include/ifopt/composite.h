@@ -227,7 +227,6 @@ namespace ifopt {
 		// Is initialized the first the GetJacobian() is called.
 		mutable size_t n_var = -1;
 		mutable size_t m_var = -1;
-
 	};
 
 
