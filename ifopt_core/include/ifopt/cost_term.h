@@ -34,43 +34,51 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ifopt {
 
-/**
- * @brief A container holding a single cost term.
- *
- * This container builds a scalar cost term from the values of the variables.
- * This can be seen as a constraint with only one row and no bounds.
- *
- * @ingroup ProblemFormulation
- * @sa Component
- */
-class CostTerm : public ConstraintSet {
- public:
-  CostTerm(const std::string& name);
-  virtual ~CostTerm() = default;
+    /**
+     * @brief A container holding a single cost term.
+     *
+     * This container builds a scalar cost term from the values of the variables.
+     * This can be seen as a constraint with only one row and no bounds.
+     *
+     * @ingroup ProblemFormulation
+     * @sa Component
+     */
+    class CostTerm : public ConstraintSet {
+    public:
+        CostTerm(const std::string& name);
+        virtual ~CostTerm() = default;
 
- private:
-  /**
-   * @brief  Returns the scalar cost term calculated from the @c variables.
-   */
-  virtual double GetCost() const = 0;
+    private:
+        /**
+       * @brief  Returns the scalar cost term calculated from the @c variables.
+       */
+        virtual double GetCost() const = 0;
 
- public:
-  /**
-   * @brief  Wrapper function that converts double to Eigen::VectorXd.
-   */
-  VectorXd GetValues() const final;
+    public:
+        /**
+       * @brief  Wrapper function that converts double to Eigen::VectorXd.
+       */
+        VectorXd GetValues() const final;
 
-  /**
-   * @brief  Returns infinite bounds (e.g. no bounds).
-   */
-  VecBound GetBounds() const final;
+        /**
+        * @brief  in case this function get called in costterm
+        */
+        Jacobian GetHession(double obj_factor, double* lambuda) const
+        {
+            throw std::runtime_error("not implemented for CostTerm");
+        };
 
-  /**
-   * Cost term printout slightly different from variables/constraints.
-   */
-  void Print(double tol, int& index) const final;
-};
+        /**
+       * @brief  Returns infinite bounds (e.g. no bounds).
+       */
+        VecBound GetBounds() const final;
 
-}  // namespace ifopt
+        /**
+       * Cost term printout slightly different from variables/constraints.
+       */
+        void Print(double tol, int& index) const final;
+    };
+
+}
 
 #endif /* IFOPT_INCLUDE_IFOPT_COST_TERM_H_ */

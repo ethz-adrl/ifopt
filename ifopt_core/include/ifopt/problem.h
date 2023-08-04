@@ -30,251 +30,265 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef IFOPT_INCLUDE_OPT_PROBLEM_H_
 #define IFOPT_INCLUDE_OPT_PROBLEM_H_
 
+#include "variable_set.h"
 #include "constraint_set.h"
 #include "cost_term.h"
-#include "variable_set.h"
 
 /**
  * @brief common namespace for all elements in this library.
  */
 namespace ifopt {
 
-/**
- * @defgroup ProblemFormulation
- * @brief The elements to formulate the solver independent optimization problem.
- *
- * An optimization problem usually consists of multiple sets of independent
- * variable- or constraint-sets. Each set represents a common concept, e.g. one
- * set of variables represents spline coefficients, another footstep positions.
- * Similarly, each constraint-set groups a set of similar constraints.
- *
- * The Nonlinear Optimization Problem to solve is defined as:
- *
- *     find x0, x1                              (variable-sets 0 & 1)
- *     s.t
- *       x0_lower  <= x0 <= x0_upper            (bounds on variable-set x0 \in R^2)
- *
- *       {x0,x1} = arg min c0(x0,x1)+c1(x0,x1)  (cost-terms 0 and 1)
- *
- *       g0_lower < g0(x0,x1) < g0_upper        (constraint-set 0 \in R^2)
- *       g1_lower < g1(x0,x1) < g0_upper        (constraint-set 1 \in R^1)
- *
- *
- * #### GetValues()
- * This structure allows a user to define each of these sets independently in
- * separate classes and ifopt takes care of building the overall problem from
- * these sets. This is implemented by
- *  * stacking all variable-sets to build the overall variable vector
- *  * summing all cost-terms to calculate the total cost
- *  * stacking all constraint-sets to build the overall constraint vector.
- *
- * #### GetJacobian()
- * Supplying derivative information greatly increases solution speed. ifopt
- * allows to define the derivative of each cost-term/constraint-set with
- * respect to each variable-set independently. This ensures that when the
- * order of variable-sets changes in the overall vector, this derivative
- * information is still valid. These "Jacobian blocks" must be supplied through
- * ConstraintSet::FillJacobianBlock() and are then used to build the complete Jacobian for
- * the cost and constraints.
- *
- * \image html ifopt.png
- */
 
-/**
- * @brief A generic optimization problem with variables, costs and constraints.
- *
- * This class is responsible for holding all the information of an optimization
- * problem, which includes the optimization variables, their variable bounds,
- * the cost function, the constraints and their bounds and derivatives of
- * all. With this information the problem can be solved by any specific solver.
- * All the quantities (variables, cost, constraint) are represented
- * by the same generic Component class.
- *
- * @ingroup ProblemFormulation
- * See @ref Solvers for currently implemented solvers.
- */
-class Problem {
- public:
-  using VecBound = Component::VecBound;
-  using Jacobian = Component::Jacobian;
-  using VectorXd = Component::VectorXd;
+    /**
+     * @defgroup ProblemFormulation
+     * @brief The elements to formulate the solver independent optimization problem.
+     *
+     * An optimization problem usually consists of multiple sets of independent
+     * variable- or constraint-sets. Each set represents a common concept, e.g. one
+     * set of variables represents spline coefficients, another footstep positions.
+     * Similarly, each constraint-set groups a set of similar constraints.
+     *
+     * The Nonlinear Optimization Problem to solve is defined as:
+     *
+     *     find x0, x1                              (variable-sets 0 & 1)
+     *     s.t
+     *       x0_lower  <= x0 <= x0_upper            (bounds on variable-set x0 \in R^2)
+     *
+     *       {x0,x1} = arg min c0(x0,x1)+c1(x0,x1)  (cost-terms 0 and 1)
+     *
+     *       g0_lower < g0(x0,x1) < g0_upper        (constraint-set 0 \in R^2)
+     *       g1_lower < g1(x0,x1) < g0_upper        (constraint-set 1 \in R^1)
+     *
+     *
+     * #### GetValues()
+     * This structure allows a user to define each of these sets independently in
+     * separate classes and ifopt takes care of building the overall problem from
+     * these sets. This is implemented by
+     *  * stacking all variable-sets to build the overall variable vector
+     *  * summing all cost-terms to calculate the total cost
+     *  * stacking all constraint-sets to build the overall constraint vector.
+     *
+     * #### GetJacobian()
+     * Supplying derivative information greatly increases solution speed. ifopt
+     * allows to define the derivative of each cost-term/constraint-set with
+     * respect to each variable-set independently. This ensures that when the
+     * order of variable-sets changes in the overall vector, this derivative
+     * information is still valid. These "Jacobian blocks" must be supplied through
+     * ConstraintSet::FillJacobianBlock() and are then used to build the complete Jacobian for
+     * the cost and constraints.
+     *
+     * \image html ifopt.png
+     */
 
-  /**
-   * @brief  Creates a optimization problem with no variables, costs or constraints.
-   */
-  Problem();
-  virtual ~Problem() = default;
+     /**
+      * @brief A generic optimization problem with variables, costs and constraints.
+      *
+      * This class is responsible for holding all the information of an optimization
+      * problem, which includes the optimization variables, their variable bounds,
+      * the cost function, the constraints and their bounds and derivatives of
+      * all. With this information the problem can be solved by any specific solver.
+      * All the quantities (variables, cost, constraint) are represented
+      * by the same generic Component class.
+      *
+      * @ingroup ProblemFormulation
+      * See @ref Solvers for currently implemented solvers.
+      */
+    class Problem {
+    public:
+        using VecBound = Component::VecBound;
+        using Jacobian = Component::Jacobian;
+        using VectorXd = Component::VectorXd;
 
-  /**
-   * @brief Add one individual set of variables to the optimization problem.
-   * @param variable_set  The selection of optimization variables.
-   *
-   * This function can be called multiple times, with multiple sets, e.g.
-   * one set that parameterizes a body trajectory, the other that resembles
-   * the optimal timing values. This function correctly appends the
-   * individual variables sets and ensures correct order of Jacobian columns.
-   */
-  void AddVariableSet(VariableSet::Ptr variable_set);
+        /**
+       * @brief  Creates a optimization problem with no variables, costs or constraints.
+       */
+        Problem();
+        virtual ~Problem() = default;
 
-  /**
-   * @brief Add a set of multiple constraints to the optimization problem.
-   * @param constraint_set  This can be 1 to infinity number of constraints.
-   *
-   * This function can be called multiple times for different sets of
-   * constraints. It makes sure the overall constraint and Jacobian correctly
-   * considers all individual constraint sets.
-   */
-  void AddConstraintSet(ConstraintSet::Ptr constraint_set);
+        /**
+       * @brief Add one individual set of variables to the optimization problem.
+       * @param variable_set  The selection of optimization variables.
+       *
+       * This function can be called multiple times, with multiple sets, e.g.
+       * one set that parameterizes a body trajectory, the other that resembles
+       * the optimal timing values. This function correctly appends the
+       * individual variables sets and ensures correct order of Jacobian columns.
+       */
+        void AddVariableSet(VariableSet::Ptr variable_set);
 
-  /**
-   * @brief Add a cost term to the optimization problem.
-   * @param cost_set  The calculation of the cost from the variables.
-   *
-   * This function can be called multiple times if the cost function is
-   * composed of different cost terms. It makes sure the overall value and
-   * gradient is considering each individual cost.
-   */
-  void AddCostSet(CostTerm::Ptr cost_set);
+        /**
+       * @brief Add a set of multiple constraints to the optimization problem.
+       * @param constraint_set  This can be 1 to infinity number of constraints.
+       *
+       * This function can be called multiple times for different sets of
+       * constraints. It makes sure the overall constraint and Jacobian correctly
+       * considers all individual constraint sets.
+       */
+        void AddConstraintSet(ConstraintSet::Ptr constraint_set);
 
-  /**
-   * @brief  Updates the variables with the values of the raw pointer @c x.
-   */
-  void SetVariables(const double* x);
+        /**
+       * @brief Add a cost term to the optimization problem.
+       * @param cost_set  The calculation of the cost from the variables.
+       *
+       * This function can be called multiple times if the cost function is
+       * composed of different cost terms. It makes sure the overall value and
+       * gradient is considering each individual cost.
+       */
+        void AddCostSet(CostTerm::Ptr cost_set);
 
-  /**
-   * @brief The number of optimization variables.
-   */
-  int GetNumberOfOptimizationVariables() const;
+        /**
+       * @brief  Updates the variables with the values of the raw pointer @c x.
+       */
+        void SetVariables(const double* x);
 
-  /**
-   * @brief True if the optimization problem includes a cost, false if
-   * merely a feasibility problem is defined.
-   */
-  bool HasCostTerms() const;
+        /**
+       * @brief The number of optimization variables.
+       */
+        int GetNumberOfOptimizationVariables() const;
 
-  /**
-   * @brief The maximum and minimum value each optimization variable
-   * is allowed to have.
-   */
-  VecBound GetBoundsOnOptimizationVariables() const;
+        /**
+       * @brief True if the optimization problem includes a cost, false if
+       * merely a feasibility problem is defined.
+       */
+        bool HasCostTerms() const;
 
-  /**
-   * @brief The current value of the optimization variables.
-   */
-  VectorXd GetVariableValues() const;
+        /**
+       * @brief The maximum and minimum value each optimization variable
+       * is allowed to have.
+       */
+        VecBound GetBoundsOnOptimizationVariables() const;
 
-  /**
-   * @brief The scalar cost for current optimization variables @c x.
-   */
-  double EvaluateCostFunction(const double* x);
+        /**
+       * @brief The current value of the optimization variables.
+       */
+        VectorXd GetVariableValues() const;
 
-  /**
-   * @brief The column-vector of derivatives of the cost w.r.t. each variable.
-   * @details ipopt uses 10e-8 for their derivative check, but setting here to more precise
-   * https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_derivative_test_perturbation
-   */
-  VectorXd EvaluateCostFunctionGradient(
-      const double* x, bool use_finite_difference_approximation = false,
-      double epsilon = std::numeric_limits<double>::epsilon());
+        /**
+       * @brief The scalar cost for current optimization variables @c x.
+       */
+        double EvaluateCostFunction(const double* x);
 
-  /**
-   * @brief The number of individual constraints.
-   */
-  int GetNumberOfConstraints() const;
+        /**
+       * @brief The column-vector of derivatives of the cost w.r.t. each variable.
+       * @details ipopt uses 10e-8 for their derivative check, but setting here to more precise
+       * https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_derivative_test_perturbation
+       */
+        VectorXd EvaluateCostFunctionGradient(const double* x,
+            bool use_finite_difference_approximation = false,
+            double epsilon = std::numeric_limits<double>::epsilon());
 
-  /**
-   * @brief The upper and lower bound of each individual constraint.
-   */
-  VecBound GetBoundsOnConstraints() const;
+        /**
+       * @brief The number of individual constraints.
+       */
+        int GetNumberOfConstraints() const;
 
-  /**
-   * @brief Each constraint value g(x) for current optimization variables @c x.
-   */
-  VectorXd EvaluateConstraints(const double* x);
+        /**
+       * @brief The upper and lower bound of each individual constraint.
+       */
+        VecBound GetBoundsOnConstraints() const;
 
-  /**
-   * @brief Extracts those entries from constraint Jacobian that are not zero.
-   * @param [in]  x  The current values of the optimization variables.
-   * @param [out] values  The nonzero derivatives ordered by Eigen::RowMajor.
-   */
-  void EvalNonzerosOfJacobian(const double* x, double* values);
+        /**
+       * @brief Each constraint value g(x) for current optimization variables @c x.
+       */
+        VectorXd EvaluateConstraints(const double* x);
 
-  /**
-   * @brief The sparse-matrix representation of Jacobian of the constraints.
-   *
-   * Each row corresponds to a constraint and each column to an optimizaton
-   * variable.
-   */
-  Jacobian GetJacobianOfConstraints() const;
+        /**
+       * @brief Extracts those entries from constraint Jacobian that are not zero.
+       * @param [in]  x  The current values of the optimization variables.
+       * @param [out] values  The nonzero derivatives ordered by Eigen::RowMajor.
+       */
+        void EvalNonzerosOfJacobian(const double* x, double* values);
+        /**
+        * @brief Extracts those entries from Hessian that are not zero.
+        * @param [in]  x  The current values of the optimization variables.
+        * @param [out] values  The nonzero 2nd order derivatives ordered by Eigen::RowMajor.
+        */
+        void EvalNonzerosOfHession(const double* x, double* values, double obj_factor, const double* lambda);
+        /**
+       * @brief The sparse-matrix representation of Jacobian of the constraints.
+       *
+       * Each row corresponds to a constraint and each column to an optimizaton
+       * variable.
+       */
+        Jacobian GetJacobianOfConstraints() const;
 
-  /**
-   * @brief The sparse-matrix representation of Jacobian of the costs.
-   *
-   * Returns one row corresponding to the costs and each column corresponding
-   * to an optimizaton variable.
-   */
-  Jacobian GetJacobianOfCosts() const;
+        /**
+        * @brief The sparse-matrix representation of Hessian .
+        *
+        * Calculate the weighted sum of the Hessian matrix of the 
+        * objective function and the constraint function
+        */
 
-  /**
-   * @brief Saves the current values of the optimization variables in x_prev.
-   *
-   * This is used to keep a history of the values for each NLP iterations.
-   */
-  void SaveCurrent();
+        Jacobian GetHessionOfCosts(double obj_factor, const double* lambda);
+        /**
+       * @brief The sparse-matrix representation of Jacobian of the costs.
+       *
+       * Returns one row corresponding to the costs and each column corresponding
+       * to an optimizaton variable.
+       */
+        Jacobian GetJacobianOfCosts() const;
 
-  /**
-   * @brief Read/write access to the current optimization variables.
-   */
-  Composite::Ptr GetOptVariables() const;
+        /**
+       * @brief Saves the current values of the optimization variables in x_prev.
+       *
+       * This is used to keep a history of the values for each NLP iterations.
+       */
+        void SaveCurrent();
 
-  /**
-   * @brief Sets the optimization variables to those at iteration iter.
-   */
-  void SetOptVariables(int iter);
+        /**
+       * @brief Read/write access to the current optimization variables.
+       */
+        Composite::Ptr GetOptVariables() const;
 
-  /**
-   * @brief Sets the optimization variables to those of the final iteration.
-   */
-  void SetOptVariablesFinal();
+        /**
+       * @brief Sets the optimization variables to those at iteration iter.
+       */
+        void SetOptVariables(int iter);
 
-  /**
-   * @brief The number of iterations it took to solve the problem.
-   */
-  int GetIterationCount() const { return x_prev.size(); };
+        /**
+       * @brief Sets the optimization variables to those of the final iteration.
+       */
+        void SetOptVariablesFinal();
 
-  /**
-   * @brief Prints the variables, costs and constraints.
-   */
-  void PrintCurrent() const;
+        /**
+       * @brief The number of iterations it took to solve the problem.
+       */
+        int GetIterationCount() const { return x_prev.size(); };
 
-  /**
-   * @brief Read access to the constraints composite
-   * @return A const reference to constraints_
-   */
-  const Composite& GetConstraints() const { return constraints_; };
+        /**
+       * @brief Prints the variables, costs and constraints.
+       */
+        void PrintCurrent() const;
 
-  /**
-   * @brief Read access to the costs composite
-   * @return A const reference to costs_
-   */
-  const Composite& GetCosts() const { return costs_; };
+        /**
+       * @brief Read access to the constraints composite
+       * @return A const reference to constraints_
+       */
+        const Composite& GetConstraints() const { return constraints_; };
 
-  /**
-   * @brief Read access to the history of iterations
-   * @return A const reference to x_prev
-   */
-  const std::vector<VectorXd>& GetIterations() const { return x_prev; };
+        /**
+       * @brief Read access to the costs composite
+       * @return A const reference to costs_
+       */
+        const Composite& GetCosts() const { return costs_; };
 
- private:
-  Composite::Ptr variables_;
-  Composite constraints_;
-  Composite costs_;
+        /**
+       * @brief Read access to the history of iterations
+       * @return A const reference to x_prev
+       */
+        const std::vector<VectorXd>& GetIterations() const { return x_prev; };
 
-  std::vector<VectorXd> x_prev;  ///< the pure variables for every iteration.
+    private:
+        Composite::Ptr variables_;
+        Composite constraints_;
+        Composite costs_;
 
-  VectorXd ConvertToEigen(const double* x) const;
-};
+        std::vector<VectorXd> x_prev; ///< the pure variables for every iteration.
 
-}  // namespace ifopt
+        VectorXd ConvertToEigen(const double* x) const;
+    };
+
+} /* namespace opt */
 
 #endif /* IFOPT_INCLUDE_OPT_PROBLEM_H_ */
