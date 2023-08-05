@@ -143,9 +143,51 @@ void Problem::EvalNonzerosOfJacobian(const double* x, double* values)
   std::copy(jac.valuePtr(), jac.valuePtr() + jac.nonZeros(), values);
 }
 
+void Problem::EvalNonzerosOfHession(const double* x, double* values,
+                                    double obj_factor, const double* lambda)
+{
+  SetVariables(x);
+  Jacobian Hes = GetHessionOfCosts(obj_factor, lambda);
+
+  Hes.makeCompressed();  // so the valuePtr() is dense and accurate
+  std::copy(Hes.valuePtr(), Hes.valuePtr() + Hes.nonZeros(), values);
+}
+
 Problem::Jacobian Problem::GetJacobianOfConstraints() const
 {
   return constraints_.GetJacobian();
+}
+
+Problem::Jacobian Problem::GetHessionOfCosts(double obj_factor,
+                                             const double* lambda)
+{
+  //Compute the Hessian matrix of the objective function and the constraint respectively
+  Jacobian part_1 = constraints_.GetHession(obj_factor, lambda);
+  Jacobian part_2 = costs_.GetHession(obj_factor, lambda);
+  int num1        = constraints_.GetMvar();
+  int num2        = costs_.GetMvar();
+  size_t Hessize  = (num1 > num2) ? num1 : num2;
+  Jacobian Hes(Hessize, Hessize);
+
+  std::vector<Eigen::Triplet<double>> triplet_list;
+  triplet_list.reserve(triplet_list.size() + part_1.nonZeros());
+  for (int k = 0; k < part_1.outerSize(); ++k) {
+    for (Jacobian::InnerIterator it(part_1, k); it; ++it) {
+      triplet_list.push_back(
+          Eigen::Triplet<double>(it.row(), it.col(), it.value()));
+    }
+  }
+  //
+  triplet_list.reserve(triplet_list.size() + part_2.nonZeros());
+  for (int k = 0; k < part_2.outerSize(); ++k) {
+    for (Jacobian::InnerIterator it(part_2, k); it; ++it) {
+      triplet_list.push_back(
+          Eigen::Triplet<double>(it.row(), it.col(), it.value()));
+    }
+  }
+
+  Hes.setFromTriplets(triplet_list.begin(), triplet_list.end());
+  return Hes;
 }
 
 Problem::Jacobian Problem::GetJacobianOfCosts() const

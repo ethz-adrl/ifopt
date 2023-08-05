@@ -175,6 +175,76 @@ Composite::Jacobian Composite::GetJacobian() const
   return jacobian;
 }
 
+Component::Jacobian Composite::GetHession(double obj_factor,
+                                          const double* lambuda) const
+{
+  if (m_var == -1) {
+    m_var = components_.empty()
+                ? 0
+                : components_.front()->GetSingleHession(0).cols();
+  }
+  Jacobian Hes(m_var, m_var);
+  Jacobian Hes_Transition_vessel(m_var * 2, m_var * 2);
+  //Prevents triples from exceeding the maximum range of the matrix
+  int maximum_element = m_var * m_var;
+  int elementcounter  = 0;
+  if (m_var == 0) {
+    return Hes;
+  }
+  int row = 0;
+  std::vector<Eigen::Triplet<double>> triplet_list;
+  double intermidiate;
+  for (const auto& c : components_) {
+    int SIZE = c->GetRows();
+    for (int i = 0; i < SIZE; i++) {
+      if (!is_cost_) {
+        intermidiate = lambuda[i + row];
+      } else {
+        intermidiate = obj_factor;
+      }
+      const Jacobian& jac = intermidiate * c->GetSingleHession(i);
+      triplet_list.reserve(triplet_list.size() + jac.nonZeros());
+      for (int k = 0; k < jac.outerSize(); ++k) {
+        for (Jacobian::InnerIterator it(jac, k); it; ++it) {
+          triplet_list.push_back(
+              Eigen::Triplet<double>(it.row(), it.col(), it.value()));
+          elementcounter += 1;
+          if (elementcounter == maximum_element) {
+            Hes_Transition_vessel.setFromTriplets(triplet_list.begin(),
+                                                  triplet_list.end());
+            triplet_list.clear();
+            elementcounter = 0;
+            //Prevents triples from exceeding the maximum range of the matrix
+            for (int kin = 0; kin < Hes_Transition_vessel.outerSize(); ++kin) {
+              for (Jacobian::InnerIterator itin(Hes_Transition_vessel, kin);
+                   itin; ++itin) {
+                triplet_list.push_back(Eigen::Triplet<double>(
+                    itin.row(), itin.col(), itin.value()));
+                elementcounter += 1;
+              }
+            }
+            Hes_Transition_vessel.setZero();
+            //If the triplet has more elements than the final matrix,
+            //use an intermediate matrix to transition
+          }
+        }
+      }
+    }
+
+    if (!is_cost_) {
+      row += c->GetRows();
+    }
+  }
+  Hes.setFromTriplets(triplet_list.begin(), triplet_list.end());
+  return Hes;
+}
+
+Component::Jacobian Composite::GetSingleHession(int irow) const
+{
+  throw std::runtime_error("GetSingleHession not implemented for Composite");
+  //this will not be valid
+}
+
 Composite::VecBound Composite::GetBounds() const
 {
   VecBound bounds_;
@@ -189,6 +259,11 @@ Composite::VecBound Composite::GetBounds() const
 const Composite::ComponentVec Composite::GetComponents() const
 {
   return components_;
+}
+
+size_t Composite::GetMvar() const
+{
+  return m_var;
 }
 
 void Composite::PrintAll() const

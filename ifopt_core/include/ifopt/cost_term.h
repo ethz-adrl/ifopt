@@ -35,14 +35,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace ifopt {
 
 /**
- * @brief A container holding a single cost term.
- *
- * This container builds a scalar cost term from the values of the variables.
- * This can be seen as a constraint with only one row and no bounds.
- *
- * @ingroup ProblemFormulation
- * @sa Component
- */
+     * @brief A container holding a single cost term.
+     *
+     * This container builds a scalar cost term from the values of the variables.
+     * This can be seen as a constraint with only one row and no bounds.
+     *
+     * @ingroup ProblemFormulation
+     * @sa Component
+     */
 class CostTerm : public ConstraintSet {
  public:
   CostTerm(const std::string& name);
@@ -50,24 +50,32 @@ class CostTerm : public ConstraintSet {
 
  private:
   /**
-   * @brief  Returns the scalar cost term calculated from the @c variables.
-   */
+       * @brief  Returns the scalar cost term calculated from the @c variables.
+       */
   virtual double GetCost() const = 0;
 
  public:
   /**
-   * @brief  Wrapper function that converts double to Eigen::VectorXd.
-   */
+       * @brief  Wrapper function that converts double to Eigen::VectorXd.
+       */
   VectorXd GetValues() const final;
 
   /**
-   * @brief  Returns infinite bounds (e.g. no bounds).
-   */
+        * @brief  in case this function get called in costterm
+        */
+  Jacobian GetHession(double obj_factor, double* lambuda) const
+  {
+    throw std::runtime_error("not implemented for CostTerm");
+  };
+
+  /**
+       * @brief  Returns infinite bounds (e.g. no bounds).
+       */
   VecBound GetBounds() const final;
 
   /**
-   * Cost term printout slightly different from variables/constraints.
-   */
+       * Cost term printout slightly different from variables/constraints.
+       */
   void Print(double tol, int& index) const final;
 };
 
