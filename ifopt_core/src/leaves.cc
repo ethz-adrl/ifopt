@@ -73,6 +73,52 @@ ConstraintSet::Jacobian ConstraintSet::GetJacobian() const
   return jacobian;
 }
 
+Component::Jacobian ConstraintSet::GetSingleHession(int irow) const
+{
+  Jacobian Hes(variables_->GetRows(), variables_->GetRows());
+  Jacobian Hes_Transition_vessel(10 + variables_->GetRows(),
+                                 10 + variables_->GetRows());
+  int maximum_element = variables_->GetRows() * variables_->GetRows();
+  int col             = 0;
+  Jacobian Heslocal;
+  std::vector<Eigen::Triplet<double>> triplet_list;
+  int elementcounter = 0;
+  for (const auto& vars : variables_->GetComponents()) {
+    int n = vars->GetRows();
+    Heslocal.resize(n, n);
+
+    FillHessionBlock(vars->GetName(), Heslocal, irow);
+    triplet_list.reserve(triplet_list.size() + Heslocal.nonZeros());
+
+    for (int k = 0; k < Heslocal.outerSize(); ++k) {
+      for (Jacobian::InnerIterator it(Heslocal, k); it; ++it) {
+        triplet_list.push_back(
+            Eigen::Triplet<double>(it.row(), col + it.col(), it.value()));
+        elementcounter += 1;
+        if (elementcounter == maximum_element) {
+          Hes_Transition_vessel.setFromTriplets(triplet_list.begin(),
+                                                triplet_list.end());
+          triplet_list.clear();
+          elementcounter = 0;
+          for (int kin = 0; kin < Hes_Transition_vessel.outerSize(); ++kin) {
+            for (Jacobian::InnerIterator itin(Hes_Transition_vessel, kin); itin;
+                 ++itin) {
+              triplet_list.push_back(
+                  Eigen::Triplet<double>(itin.row(), itin.col(), itin.value()));
+              elementcounter += 1;
+            }
+          }
+          Hes_Transition_vessel.setZero();
+        }
+      }
+    }
+    col += n;
+  }
+
+  Hes.setFromTriplets(triplet_list.begin(), triplet_list.end());
+  return Hes;
+}
+
 void ConstraintSet::LinkWithVariables(const VariablesPtr& x)
 {
   variables_ = x;

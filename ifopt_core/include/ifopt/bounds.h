@@ -33,12 +33,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace ifopt {
 
 /**
- * @brief Upper and lower bound for optimization variables and constraints.
- */
+     * @brief Upper and lower bound for optimization variables and constraints.
+     */
 struct Bounds {
   /**
-   * @brief Creates a bound between @a lower and @a upper.
-   */
+         * @brief Creates a bound between @a lower and @a upper.
+         */
   Bounds(double lower = 0.0, double upper = 0.0)
   {
     lower_ = lower;
