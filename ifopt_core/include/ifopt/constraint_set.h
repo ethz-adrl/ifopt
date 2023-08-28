@@ -126,10 +126,10 @@ class ConstraintSet : public Component {
    * or shorthands to specific variable sets want to be saved for quicker
    * access later. This function can be overwritten for that.
    */
-  virtual void InitVariableDependedQuantities(const VariablesPtr& x_init){};
+  virtual void InitVariableDependedQuantities(const VariablesPtr& x_init){(void) x_init;};
 
   // doesn't exist for constraints, generated run-time error when used
-  void SetVariables(const VectorXd& x) final { assert(false); };
+  void SetVariables(const VectorXd& x) final { (void) x; assert(false); };
 };
 
 }  // namespace ifopt
