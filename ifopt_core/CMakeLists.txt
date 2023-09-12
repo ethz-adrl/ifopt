@@ -1,4 +1,3 @@
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(Eigen3 REQUIRED)
 
 
@@ -15,7 +14,10 @@ target_include_directories(${LIB_CORE}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/test>
     $<INSTALL_INTERFACE:include>
-    ${EIGEN3_INCLUDE_DIR}
+)
+target_link_libraries(${LIB_CORE} 
+  PUBLIC
+    Eigen3::Eigen
 )
 # better specify features you need, not c++ version
 target_compile_features(${LIB_CORE} 
