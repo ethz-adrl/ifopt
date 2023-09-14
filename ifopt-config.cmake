@@ -35,6 +35,7 @@
 #
 #=============================================================================
 
+find_dependency(Eigen3)
 
 # these are autogenerate by cmake
 include("${CMAKE_CURRENT_LIST_DIR}/ifopt_core-targets.cmake")
