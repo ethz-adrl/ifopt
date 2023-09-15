@@ -35,6 +35,7 @@
 #
 #=============================================================================
 
+include(CMakeFindDependencyMacro)
 find_dependency(Eigen3)
 
 # these are autogenerate by cmake
