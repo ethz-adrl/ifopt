@@ -2,8 +2,8 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.4 (2025-01-17)
+------------------
 * Fix cpack and add pipeline
 * Add missing cmake include to ifopt-config.cmake
 * Use system Eigen3 CMake Config and Eigen target when linking (`#99 <https://github.com/ethz-adrl/ifopt/issues/99>`_)
