@@ -1,6 +1,15 @@
 # Copyright (c) 2017, Alexander W. Winkler, ETH Zurich. All rights reserved.
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
-project(ifopt VERSION 2.0.6)
+
+# Extract project version.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/package.xml" package_xml_str)
+if(NOT package_xml_str MATCHES "<version>([0-9]+.[0-9]+.[0-9]+)</version>")
+  message(FATAL_ERROR "Could not parse project version from package manifest (aborting)")
+else()
+  set(extracted_version ${CMAKE_MATCH_1})
+endif()
+
+project(ifopt VERSION ${extracted_version})
 
 if(WIN32)
   set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -61,7 +70,7 @@ install(FILES package.xml DESTINATION share/${PROJECT_NAME})
 ##########################
 ## Build binary package ##
 ##########################
-if(BUILD_PACKAGE)
+if(IFOPT_PACKAGE)
   set(DESCRIPTION "An Eigen-based, light-weight C++ Interface to Nonlinear Programming Solvers (Ipopt, Snopt)")
   set(LINUX_DEPENDS "libeigen3-dev")
   if(BUILD_IPOPT)
@@ -80,8 +89,8 @@ if(BUILD_PACKAGE)
       set(DEB_ARCH ${CMAKE_SYSTEM_PROCESSOR})
     endif()
 
-    set(CPACK_PACKAGE_FILE_NAME "${ARG_PACKAGE_PREFIX}${PROJECT_NAME}_${DEB_ARCH}_linux_${CMAKE_PROJECT_VERSION}")
-    set(CPACK_DEBIAN_PACKAGE_NAME "${ARG_PACKAGE_PREFIX}${PROJECT_NAME}")
+    set(CPACK_PACKAGE_FILE_NAME "${IFOPT_PACKAGE_PREFIX}${PROJECT_NAME}_${DEB_ARCH}_linux_${CMAKE_PROJECT_VERSION}")
+    set(CPACK_DEBIAN_PACKAGE_NAME "${IFOPT_PACKAGE_PREFIX}${PROJECT_NAME}")
     set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${DEB_ARCH})
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER <https://github.com/ethz-adrl/ifopt>)
     set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${DESCRIPTION})

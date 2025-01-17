@@ -1,0 +1,37 @@
+name: Ubuntu [Focal, Jammy, Noble]
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '0 5 * * *'
+
+jobs:
+  ci:
+    name: ${{ matrix.distro }}
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:${{ matrix.distro }}
+      env:
+        DEBIAN_FRONTEND: noninteractive
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [focal, jammy, noble]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: target_ws/src
+
+      - name: Build and test
+        uses: tesseract-robotics/colcon-action@v9
+        with:
+          ccache-enabled: false
+          add-ros-ppa: true
+          rosdep-enabled: true
+          target-path: target_ws/src
+          target-args: --cmake-args -DCMAKE_BUILD_TYPE=Debug -DIFOPT_PACKAGE=ON
+          run-tests: true

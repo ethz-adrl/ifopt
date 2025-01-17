@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Get default extension based on OS
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     default_ext=deb;;
+    Darwin*)    default_ext=osx;;
+    CYGWIN*)    default_ext=nupkg;;
+    MINGW*)     default_ext=nupkg;;
+    *)          default_ext=deb
+esac
+
+# The defaults assume this was ran from the package directory
+artifact_dir=${CPACK_ARTIFACTS_DIR:-`pwd`}
+build_dir=${CPACK_WORKING_DIR:-$(dirname $0)/../../build}
+artifact_ext=${CPACK_ARTIFACTS_EXT:-$default_ext}
+
+echo "Input Parameters:"
+echo "   artifact_dir: $artifact_dir"
+echo "   artifact_ext: $artifact_ext"
+echo "   build_dir: $build_dir"
+
+declare -a StringArray=("ifopt")
+
+# Iterate the packages using for loop
+for val in ${StringArray[@]}; do
+  if [ -d "$build_dir/$val" ] && [ -f "$build_dir/$val/CPackConfig.cmake" ]; then
+    cd $build_dir/$val
+    cpack --config CPackConfig.cmake
+    cp ./*.$artifact_ext $artifact_dir
+    cp ./*.tar.xz $artifact_dir
+  fi
+done
