@@ -2,6 +2,19 @@
 Changelog for package ifopt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix cpack and add pipeline
+* Add missing cmake include to ifopt-config.cmake
+* Use system Eigen3 CMake Config and Eigen target when linking (`#99 <https://github.com/ethz-adrl/ifopt/issues/99>`_)
+* Fix unused parameter error (`#98 <https://github.com/ethz-adrl/ifopt/issues/98>`_)
+* Add .clang-format and .run-clang-format files
+* Apply Google Style
+* Use CMake version variable
+* Added CPack for debian binary packaging
+* Rethrow nonIpopt exceptions (`#81 <https://github.com/ethz-adrl/ifopt/issues/81>`_)
+* Contributors: Konstantinos Chatzilygeroudis, Krzysztof Wojciechowski, Levi Armstrong, Michael Ripperger, brian soe
+
 2.1.3 (2022-03-24)
 ------------------
 * Enable building of static libs
