@@ -1,0 +1,22 @@
+name: Clang-Format
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  clang_format:
+    name: Clang-Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Run clang format
+        run: |
+          sudo apt update
+          sudo apt install -y git clang-format
+          ./.run-clang-format
+          output=$(git diff)
+          if [ -n "$output" ]; then exit 1; else exit 0; fi
