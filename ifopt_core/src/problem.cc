@@ -153,6 +153,10 @@ Problem::Jacobian Problem::GetJacobianOfCosts() const
   return costs_.GetJacobian();
 }
 
+void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values)
+{
+}
+
 void Problem::SaveCurrent()
 {
   x_prev.push_back(variables_->GetValues());

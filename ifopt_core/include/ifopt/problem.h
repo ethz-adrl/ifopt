@@ -216,6 +216,15 @@ class Problem {
   Jacobian GetJacobianOfCosts() const;
 
   /**
+   * @brief Extracts those entries from total hessian (combination of hessian from cost and constraints) that are not zero.
+   * @param [in]  x  The current values of the optimization variables.
+   * @param [in]  obj_factor  The scaling multiplier for the hessian of the objective function(cost).
+   * @param [in]  lambda  Lagrange Multipliers of constraints.
+   * @param [out] values  The nonzero derivatives ordered by Eigen::RowMajor.
+   */
+  void EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values);
+
+  /**
    * @brief Saves the current values of the optimization variables in x_prev.
    *
    * This is used to keep a history of the values for each NLP iterations.

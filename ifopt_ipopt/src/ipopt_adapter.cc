@@ -147,6 +147,31 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x, Index m,
   return true;
 }
 
+bool IpoptAdapter::eval_h(Index n, const double* x, bool new_x, double obj_factor,
+                          Index m, const double* lambda, bool new_lambda,
+                          Index nele_hess, Index* iRow, Index* jCol,
+                          double* values)
+{
+  // defines the positions of the nonzero elements of the hessian
+  if (values == NULL) {
+    Index nele = 0;
+    for (Index row = 0; row < n; row++) {
+      for (Index col = row; col < n; col++) {  // only need upper triangular part because hessian is symmetry matrix
+        iRow[nele] = row;
+        jCol[nele] = col;
+        nele++;
+      }
+    }
+
+    assert(nele ==
+           nele_hess);  // initial sparsity structure is never allowed to change
+  } else {
+    // only gets used if "hessian_approximation" option is "exact"
+    nlp_->EvalNonzerosOfHessian(x, obj_factor, lambda, values);
+  }
+  return true;
+}
+
 bool IpoptAdapter::intermediate_callback(
     AlgorithmMode mode, Index iter, double obj_value, double inf_pr,
     double inf_du, double mu, double d_norm, double regularization_size,
