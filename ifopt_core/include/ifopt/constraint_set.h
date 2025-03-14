@@ -107,6 +107,13 @@ class ConstraintSet : public Component {
   virtual void FillJacobianBlock(std::string var_set,
                                  Jacobian& jac_block) const = 0;
 
+
+  std::vector<Hessian> GetHessians() const final;
+  virtual void FillHessianTriplets(std::vector<std::string> var_set_list,
+                                   std::vector<HessianTriplet>& triplets_list) const
+  {
+  }
+
  protected:
   /**
    * @brief Read access to the value of the optimization variables.

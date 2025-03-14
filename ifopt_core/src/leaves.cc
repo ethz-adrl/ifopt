@@ -73,6 +73,30 @@ ConstraintSet::Jacobian ConstraintSet::GetJacobian() const
   return jacobian;
 }
 
+std::vector<ConstraintSet::Hessian> ConstraintSet::GetHessians() const
+{
+  std::vector<HessianTriplet> triplets_list;
+
+  int nrows;
+  std::vector<std::string> variable_names;
+  for (const auto& vars : variables_->GetComponents()) {
+    nrows += vars->GetRows();
+    variable_names.push_back(vars->GetName());
+  }
+
+  FillHessianTriplets(variable_names, triplets_list);
+
+  std::vector<Hessian> hessians;
+  hessians.reserve(GetRows());  // reserve space in the vector to avoid reallocations
+
+  for (const auto& triplets : triplets_list) {
+      Eigen::SparseMatrix<double> H(nrows, nrows);
+      H.setFromTriplets(triplets.begin(), triplets.end()); // efficiently construct sparse matrix
+      hessians.push_back(H);
+  }
+  return hessians;
+}
+
 void ConstraintSet::LinkWithVariables(const VariablesPtr& x)
 {
   variables_ = x;

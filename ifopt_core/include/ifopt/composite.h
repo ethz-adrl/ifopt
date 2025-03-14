@@ -67,6 +67,8 @@ class Component {
   using Jacobian = Eigen::SparseMatrix<double, Eigen::RowMajor>;
   using VectorXd = Eigen::VectorXd;
   using VecBound = std::vector<Bounds>;
+  using Hessian = Eigen::SparseMatrix<double, Eigen::RowMajor>;
+  using HessianTriplet = std::vector<Eigen::Triplet<double>>;
 
   /**
    * @brief  Creates a component.
@@ -115,6 +117,8 @@ class Component {
    * @li Not sensible for Variable.
    */
   virtual Jacobian GetJacobian() const = 0;
+
+  virtual std::vector<Hessian> GetHessians() const = 0;
 
   /**
    * @brief Returns the number of rows of this component.
@@ -176,6 +180,7 @@ class Composite : public Component {
   // see Component for documentation
   VectorXd GetValues() const override;
   Jacobian GetJacobian() const override;
+  std::vector<Hessian> GetHessians() const override;
   VecBound GetBounds() const override;
   void SetVariables(const VectorXd& x) override;
   void PrintAll() const;

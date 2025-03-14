@@ -98,6 +98,7 @@ class Problem {
   using VecBound = Component::VecBound;
   using Jacobian = Component::Jacobian;
   using VectorXd = Component::VectorXd;
+  using Hessian = Component::Hessian;
 
   /**
    * @brief  Creates a optimization problem with no variables, costs or constraints.
@@ -219,10 +220,13 @@ class Problem {
    * @brief Extracts those entries from total hessian (combination of hessian from cost and constraints) that are not zero.
    * @param [in]  x  The current values of the optimization variables.
    * @param [in]  obj_factor  The scaling multiplier for the hessian of the objective function(cost).
-   * @param [in]  lambda  Lagrange Multipliers of constraints.
+   * @param [in]  lambda  Lagrange Multipliers of the constraints.
    * @param [out] values  The nonzero derivatives ordered by Eigen::RowMajor.
    */
   void EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values);
+
+  std::vector<Hessian> GetHessianOfConstraints() const;
+  std::vector<Hessian> GetHessianOfCosts() const;
 
   /**
    * @brief Saves the current values of the optimization variables in x_prev.

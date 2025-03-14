@@ -175,6 +175,25 @@ Composite::Jacobian Composite::GetJacobian() const
   return jacobian;
 }
 
+std::vector<Composite::Hessian> Composite::GetHessians() const
+{
+  if (n_var == -1)
+    n_var = components_.empty() ? 0 : components_.front()->GetHessians().front().cols();
+
+  std::vector<Hessian> hessians;
+  hessians.reserve(GetRows());  // reserve space in the vector to avoid reallocations
+
+  if (n_var == 0)
+    return hessians;
+
+  for (const auto& c : components_) {
+      const std::vector<Hessian>& hess = c->GetHessians();
+      hessians.insert(hessians.end(), hess.begin(), hess.end());
+  }
+
+  return hessians;
+}
+
 Composite::VecBound Composite::GetBounds() const
 {
   VecBound bounds_;

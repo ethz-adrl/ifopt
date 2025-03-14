@@ -157,6 +157,17 @@ void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const do
 {
 }
 
+std::vector<Problem::Hessian> Problem::GetHessianOfConstraints() const
+{
+  return constraints_.GetHessians();
+}
+
+std::vector<Problem::Hessian> Problem::GetHessianOfCosts() const
+{
+  return costs_.GetHessians();
+}
+
+
 void Problem::SaveCurrent()
 {
   x_prev.push_back(variables_->GetValues());
