@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/problem.h>
 #include <iomanip>
 #include <iostream>
+#include <numeric>
 
 namespace ifopt {
 
@@ -155,6 +156,35 @@ Problem::Jacobian Problem::GetJacobianOfCosts() const
 
 void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values)
 {
+  SetVariables(x);
+  std::vector<Hessian> hessian_of_costs = GetHessianOfCosts();
+  std::vector<Hessian> hessian_of_constraints = GetHessianOfConstraints();
+
+  int dim = GetNumberOfOptimizationVariables();
+
+  // dimension of hessian matrix should be n by n where n is the number of optimization variables
+  assert(hessian_of_costs.empty() | hessian_of_costs[0].rows() == hessian_of_costs[0].cols() == dim);
+  assert(hessian_of_constraints.empty() | hessian_of_constraints[0].rows() == hessian_of_constraints[0].cols() == dim);
+
+  if (hessian_of_costs.empty() && hessian_of_constraints.empty())
+      return;
+
+  // hessian from costs
+  Hessian total_hessian = obj_factor * std::accumulate(hessian_of_costs.begin(), hessian_of_costs.end(), Hessian(dim, dim));
+  // hessian from constraints
+  for (int i = 0; i < (int)hessian_of_constraints.size(); ++i) {
+    total_hessian += lambda[i] * hessian_of_constraints[i];
+  }
+
+  // only need upper triangular values because hessian matrix is a symmetry matrix
+  for (int k = 0; k < total_hessian.outerSize(); ++k) {
+    for (Hessian::InnerIterator it(total_hessian, k); it; ++it) {
+      if (it.row() <= it.col()) {  // check if it is upper triangular
+          int flat_index = it.row() * dim + it.col();
+          values[flat_index] = it.value();
+      }
+    }
+  }
 }
 
 std::vector<Problem::Hessian> Problem::GetHessianOfConstraints() const
