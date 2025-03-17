@@ -188,7 +188,9 @@ std::vector<Composite::Hessian> Composite::GetHessians() const
 
   for (const auto& c : components_) {
       const std::vector<Hessian>& hess = c->GetHessians();
-      hessians.insert(hessians.end(), hess.begin(), hess.end());
+      if (!hess.empty()) {
+          hessians.insert(hessians.end(), hess.begin(), hess.end());
+      }
   }
 
   return hessians;

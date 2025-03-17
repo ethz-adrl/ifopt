@@ -225,6 +225,7 @@ class Problem {
    */
   void EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values);
 
+  Hessian GetTotalHessian() const;
   std::vector<Hessian> GetHessianOfConstraints() const;
   std::vector<Hessian> GetHessianOfCosts() const;
 

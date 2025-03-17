@@ -163,8 +163,8 @@ void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const do
   int dim = GetNumberOfOptimizationVariables();
 
   // dimension of hessian matrix should be n by n where n is the number of optimization variables
-  assert(hessian_of_costs.empty() | hessian_of_costs[0].rows() == hessian_of_costs[0].cols() == dim);
-  assert(hessian_of_constraints.empty() | hessian_of_constraints[0].rows() == hessian_of_constraints[0].cols() == dim);
+  assert(hessian_of_costs.empty() || (hessian_of_costs[0].rows() == dim && hessian_of_costs[0].cols() == dim));
+  assert(hessian_of_constraints.empty() || (hessian_of_constraints[0].rows() == dim && hessian_of_constraints[0].cols() == dim));
 
   if (hessian_of_costs.empty() && hessian_of_constraints.empty())
       return;
@@ -177,14 +177,35 @@ void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const do
   }
 
   // only need upper triangular values because hessian matrix is a symmetry matrix
+  int index = 0;
   for (int k = 0; k < total_hessian.outerSize(); ++k) {
     for (Hessian::InnerIterator it(total_hessian, k); it; ++it) {
-      if (it.row() <= it.col()) {  // check if it is upper triangular
-          int flat_index = it.row() * dim + it.col();
-          values[flat_index] = it.value();
+      if (it.col() < it.row()) {
+        continue;
       }
+      values[index] = it.value();
+      index++;
     }
   }
+}
+
+Problem::Hessian Problem::GetTotalHessian() const
+{
+  std::vector<Hessian> hessian_of_costs = GetHessianOfCosts();
+  std::vector<Hessian> hessian_of_constraints = GetHessianOfConstraints();
+
+  int dim = GetNumberOfOptimizationVariables();
+
+  // dimension of hessian matrix should be n by n where n is the number of optimization variables
+  assert(hessian_of_costs.empty() || (hessian_of_costs[0].rows() == dim && hessian_of_costs[0].cols() == dim));
+  assert(hessian_of_constraints.empty() || (hessian_of_constraints[0].rows() == dim && hessian_of_constraints[0].cols() == dim));
+
+  // hessian from costs
+  Hessian total_hessian = std::accumulate(hessian_of_costs.begin(), hessian_of_costs.end(), Hessian(dim, dim));
+  // hessian from constraints
+  total_hessian = std::accumulate(hessian_of_constraints.begin(), hessian_of_constraints.end(), total_hessian);
+
+  return total_hessian;
 }
 
 std::vector<Problem::Hessian> Problem::GetHessianOfConstraints() const

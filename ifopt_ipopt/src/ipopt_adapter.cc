@@ -45,7 +45,10 @@ bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
   else
     nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
 
-  nnz_h_lag = n * n;
+  if (finite_diff_)
+    nnz_h_lag = n * n;
+  else
+    nnz_h_lag = (nlp_->GetTotalHessian().nonZeros() - n) / 2 + n; // only need the upper triangular values because hessian is a symmetry matrix
 
   // start index at 0 for row/col entries
   index_style = C_STYLE;
@@ -155,10 +158,15 @@ bool IpoptAdapter::eval_h(Index n, const double* x, bool new_x, double obj_facto
   // defines the positions of the nonzero elements of the hessian
   if (values == NULL) {
     Index nele = 0;
-    for (Index row = 0; row < n; row++) {
-      for (Index col = row; col < n; col++) {  // only need upper triangular part because hessian is symmetry matrix
-        iRow[nele] = row;
-        jCol[nele] = col;
+    auto hess = nlp_->GetTotalHessian();
+    for (int k = 0; k < hess.outerSize(); ++k) {
+      for (Jacobian::InnerIterator it(hess, k); it; ++it) {
+        if (it.col() < it.row()) {
+            // only need the upper triangular values because hessian is a symmetry matrix
+            continue;
+        }
+        iRow[nele] = it.row();
+        jCol[nele] = it.col();
         nele++;
       }
     }
