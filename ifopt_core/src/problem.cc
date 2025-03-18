@@ -157,8 +157,10 @@ Problem::Jacobian Problem::GetJacobianOfCosts() const
 void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values)
 {
   SetVariables(x);
-  std::vector<Hessian> hessian_of_costs = GetHessianOfCosts();
-  std::vector<Hessian> hessian_of_constraints = GetHessianOfConstraints();
+  const std::vector<Hessian>& hessian_of_costs = GetHessianOfCosts().second;
+  const RowIndicesHessiansPair& row_indices_hessians_pair_of_constraints = GetHessianOfConstraints();
+  const std::vector<int>& row_indices_of_constraints = row_indices_hessians_pair_of_constraints.first;
+  const std::vector<Hessian>& hessian_of_constraints = row_indices_hessians_pair_of_constraints.second;
 
   int dim = GetNumberOfOptimizationVariables();
 
@@ -172,8 +174,10 @@ void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const do
   // hessian from costs
   Hessian total_hessian = obj_factor * std::accumulate(hessian_of_costs.begin(), hessian_of_costs.end(), Hessian(dim, dim));
   // hessian from constraints
-  for (int i = 0; i < (int)hessian_of_constraints.size(); ++i) {
-    total_hessian += lambda[i] * hessian_of_constraints[i];
+  for (int i = 0; i < (int)row_indices_of_constraints.size(); ++i) {
+    int row_index = row_indices_of_constraints[i];
+    const Hessian& hess = hessian_of_constraints[i];
+    total_hessian += lambda[row_index] * hess;
   }
 
   // only need upper triangular values because hessian matrix is a symmetry matrix
@@ -191,8 +195,8 @@ void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const do
 
 Problem::Hessian Problem::GetTotalHessian() const
 {
-  std::vector<Hessian> hessian_of_costs = GetHessianOfCosts();
-  std::vector<Hessian> hessian_of_constraints = GetHessianOfConstraints();
+  const std::vector<Hessian>& hessian_of_costs = GetHessianOfCosts().second;
+  const std::vector<Hessian>& hessian_of_constraints = GetHessianOfConstraints().second;
 
   int dim = GetNumberOfOptimizationVariables();
 
@@ -208,12 +212,12 @@ Problem::Hessian Problem::GetTotalHessian() const
   return total_hessian;
 }
 
-std::vector<Problem::Hessian> Problem::GetHessianOfConstraints() const
+Problem::RowIndicesHessiansPair Problem::GetHessianOfConstraints() const
 {
   return constraints_.GetHessians();
 }
 
-std::vector<Problem::Hessian> Problem::GetHessianOfCosts() const
+Problem::RowIndicesHessiansPair Problem::GetHessianOfCosts() const
 {
   return costs_.GetHessians();
 }

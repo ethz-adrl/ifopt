@@ -73,31 +73,38 @@ ConstraintSet::Jacobian ConstraintSet::GetJacobian() const
   return jacobian;
 }
 
-std::vector<ConstraintSet::Hessian> ConstraintSet::GetHessians() const
+ConstraintSet::RowIndicesHessiansPair ConstraintSet::GetHessians() const
 {
   std::vector<HessianTriplet> triplets_list;
   triplets_list.reserve(GetRows());
+
+  // hessians and their corresponding row index
+  RowIndicesHessiansPair row_indices_hessians_pair;
+  std::vector<int>& hessian_row_indices = row_indices_hessians_pair.first;
+  hessian_row_indices.reserve(GetRows());
 
   std::vector<std::string> variable_names;
   for (const auto& vars : variables_->GetComponents()) {
     variable_names.push_back(vars->GetName());
   }
 
-  FillHessianTriplets(variable_names, triplets_list);
+  FillHessianTriplets(variable_names, hessian_row_indices, triplets_list);
+  assert(hessian_row_indices.size() == triplets_list.size());
 
-  std::vector<Hessian> hessians;
-  if (triplets_list.empty()) {
-    return hessians;
-  }
-  hessians.reserve(GetRows());  // reserve space in the vector to avoid reallocations
+  if (triplets_list.empty())
+    return {};
+
+  std::vector<Hessian>& hessians = row_indices_hessians_pair.second;
+  hessians.reserve(hessian_row_indices.size());
 
   int nrows = variables_->GetRows();
-  for (const auto& triplets : triplets_list) {
-      Eigen::SparseMatrix<double> H(nrows, nrows);
-      H.setFromTriplets(triplets.begin(), triplets.end()); // efficiently construct sparse matrix
-      hessians.push_back(H);
+  for (int i = 0; i < hessian_row_indices.size(); ++i) {
+    Eigen::SparseMatrix<double> H(nrows, nrows);
+    H.setFromTriplets(triplets_list[i].begin(), triplets_list[i].end()); // efficiently construct sparse matrix
+    hessians.push_back(std::move(H));
   }
-  return hessians;
+
+  return row_indices_hessians_pair;
 }
 
 void ConstraintSet::LinkWithVariables(const VariablesPtr& x)

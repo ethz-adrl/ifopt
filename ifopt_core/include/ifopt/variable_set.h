@@ -58,7 +58,7 @@ class VariableSet : public Component {
   {
     throw std::runtime_error("not implemented for variables");
   };
-  std::vector<Hessian> GetHessians() const final
+  RowIndicesHessiansPair GetHessians() const final
   {
     throw std::runtime_error("not implemented for variables");
   }

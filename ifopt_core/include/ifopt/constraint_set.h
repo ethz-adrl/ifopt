@@ -108,8 +108,9 @@ class ConstraintSet : public Component {
                                  Jacobian& jac_block) const = 0;
 
 
-  std::vector<Hessian> GetHessians() const final;
+  RowIndicesHessiansPair GetHessians() const final;
   virtual void FillHessianTriplets(std::vector<std::string> var_set_list,
+                                   std::vector<int>& hessian_row_index_list,
                                    std::vector<HessianTriplet>& triplets_list) const
   {
   }

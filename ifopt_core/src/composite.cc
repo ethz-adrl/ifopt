@@ -175,25 +175,41 @@ Composite::Jacobian Composite::GetJacobian() const
   return jacobian;
 }
 
-std::vector<Composite::Hessian> Composite::GetHessians() const
+Composite::RowIndicesHessiansPair Composite::GetHessians() const
 {
-  if (n_var == -1)
-    n_var = components_.empty() ? 0 : components_.front()->GetHessians().front().cols();
+  if (n_var == -1 && components_.empty())
+    n_var = 0;
 
-  std::vector<Hessian> hessians;
+  RowIndicesHessiansPair row_indices_hessians_pair;
+  if (n_var == 0)
+    return row_indices_hessians_pair;
+
+  std::vector<int>& hessian_row_indices = row_indices_hessians_pair.first;
+  hessian_row_indices.reserve(GetRows());
+
+  std::vector<Hessian>& hessians = row_indices_hessians_pair.second;
   hessians.reserve(GetRows());  // reserve space in the vector to avoid reallocations
 
-  if (n_var == 0)
-    return hessians;
-
+  int offset; // offset for row indices in different component
   for (const auto& c : components_) {
-      const std::vector<Hessian>& hess = c->GetHessians();
-      if (!hess.empty()) {
-          hessians.insert(hessians.end(), hess.begin(), hess.end());
-      }
-  }
+    const RowIndicesHessiansPair& local_row_indices_hessians = c->GetHessians();
+    const std::vector<int>& row_indices = local_row_indices_hessians.first;
+    const std::vector<Hessian>& hess = local_row_indices_hessians.second;
+    assert(row_indices.size() == hess.size());
 
-  return hessians;
+    for(int i = 0; i < row_indices.size(); ++i) {
+      hessian_row_indices.push_back(row_indices[i] + offset);
+    }
+    if (!hess.empty()) {
+      if (n_var == -1)
+        n_var = hess.front().cols();
+
+      hessians.insert(hessians.end(), hess.begin(), hess.end());
+    }
+
+    offset += c->GetRows();
+  }
+  return row_indices_hessians_pair;
 }
 
 Composite::VecBound Composite::GetBounds() const

@@ -144,6 +144,23 @@ class ExConstraint : public ConstraintSet {
           1.0;  // derivative of first constraint w.r.t x1
     }
   }
+
+  void FillHessianTriplets(std::vector<std::string> var_set_list,
+                           std::vector<int>& hessian_row_index_list,
+                           std::vector<HessianTriplet>& triplets_list) const override
+  {
+    // only 1 constraint in this problem
+    HessianTriplet constraint1_triplets;
+    for (int i = 0; i < (int)var_set_list.size(); ++i) {
+      const std::string& var_set = var_set_list[i];
+      if (var_set == "var_set1") {
+        constraint1_triplets.emplace_back(i, i, 2.0); // H(0, 0) = 2.0, dx0^2
+      }
+    }
+    // hessian info for the first constraint
+    hessian_row_index_list.push_back(0);
+    triplets_list.push_back(std::move(constraint1_triplets));
+  }
 };
 
 class ExCost : public CostTerm {
@@ -165,6 +182,22 @@ class ExCost : public CostTerm {
       jac.coeffRef(0, 0) = 0.0;                  // derivative of cost w.r.t x0
       jac.coeffRef(0, 1) = -2.0 * (x(1) - 2.0);  // derivative of cost w.r.t x1
     }
+  }
+
+  void FillHessianTriplets(std::vector<std::string> var_set_list,
+                           std::vector<int>& hessian_row_index_list,
+                           std::vector<HessianTriplet>& triplets_list) const override
+  {
+    HessianTriplet cost_triplets;
+    for (int i = 0; i < (int)var_set_list.size(); ++i) {
+      const std::string& var_set = var_set_list[i];
+      if (var_set == "var_set1") {
+        cost_triplets.emplace_back(i, i, -2.0); // H(0, 0) = -2.0, dx0^2
+      }
+    }
+    // hessian info for the only 1 cost
+    hessian_row_index_list.push_back(0);
+    triplets_list.push_back(std::move(cost_triplets));
   }
 };
 

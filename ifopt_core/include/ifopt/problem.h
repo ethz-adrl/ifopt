@@ -99,6 +99,7 @@ class Problem {
   using Jacobian = Component::Jacobian;
   using VectorXd = Component::VectorXd;
   using Hessian = Component::Hessian;
+  using RowIndicesHessiansPair = Component::RowIndicesHessiansPair;
 
   /**
    * @brief  Creates a optimization problem with no variables, costs or constraints.
@@ -226,8 +227,8 @@ class Problem {
   void EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values);
 
   Hessian GetTotalHessian() const;
-  std::vector<Hessian> GetHessianOfConstraints() const;
-  std::vector<Hessian> GetHessianOfCosts() const;
+  RowIndicesHessiansPair GetHessianOfConstraints() const;
+  RowIndicesHessiansPair GetHessianOfCosts() const;
 
   /**
    * @brief Saves the current values of the optimization variables in x_prev.
