@@ -45,10 +45,24 @@ bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
   else
     nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
 
-  if (finite_diff_)
+  auto hess = nlp_->GetTotalHessian();
+  if (hess.nonZeros() == 0) {
+    // not using custom hessian
     nnz_h_lag = n * n;
-  else
-    nnz_h_lag = (nlp_->GetTotalHessian().nonZeros() - n) / 2 + n; // only need the upper triangular values because hessian is a symmetry matrix
+  }
+  else {
+    Index nele = 0;
+    for (int k = 0; k < hess.outerSize(); ++k) {
+      for (Jacobian::InnerIterator it(hess, k); it; ++it) {
+        if (it.col() < it.row()) {
+            // only need the upper triangular values because hessian is a symmetry matrix
+            continue;
+        }
+        nele++;
+      }
+    }
+    nnz_h_lag = nele;
+  }
 
   // start index at 0 for row/col entries
   index_style = C_STYLE;
