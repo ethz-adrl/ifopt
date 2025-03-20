@@ -218,16 +218,61 @@ class Problem {
   Jacobian GetJacobianOfCosts() const;
 
   /**
-   * @brief Extracts those entries from total hessian (combination of hessian from cost and constraints) that are not zero.
+   * @brief Computes the nonzero entries of the total Hessian after applying scaling factors.
+   *
+   * This function extracts the nonzero elements from the total Hessian, which is
+   * the combination of the Hessians from both cost functions and constraints, and
+   * applies the appropriate scaling factors.
+   *
+   * The Hessian of the cost function is multiplied by @c obj_factor, while the
+   * Hessians of the constraints are weighted by their corresponding Lagrange
+   * multipliers in @c lambda.
+   *
    * @param [in]  x  The current values of the optimization variables.
-   * @param [in]  obj_factor  The scaling multiplier for the hessian of the objective function(cost).
-   * @param [in]  lambda  Lagrange Multipliers of the constraints.
-   * @param [out] values  The nonzero derivatives ordered by Eigen::RowMajor.
+   * @param [in]  obj_factor  The scaling multiplier for the Hessian of the objective function (cost).
+   * @param [in]  lambda  The Lagrange multipliers for the constraints.
+   * @param [out] values  The nonzero second-order derivatives, ordered in @c Eigen::RowMajor format.
    */
   void EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values);
 
+  /**
+   * @brief Computes the full Hessian by summing the Hessians of costs and constraints.
+   *
+   * This function returns the total Hessian, which combines the second-order
+   * derivatives of both cost functions and constraints with respect to the
+   * optimization variables.
+   *
+   * The primary purpose of this function is to determine the structure of the
+   * overall Hessian, including the number and positions of nonzero elements.
+   * The resulting matrix is stored in sparse format for efficiency.
+   */
   Hessian GetTotalHessian() const;
+
+  /**
+   * @brief The sparse-matrix representation of the Hessians of the constraints.
+   *
+   * This function returns a pair of vectors, where the first vector contains
+   * the indices of the corresponding constraints, and the second vector holds
+   * the Hessian matrices in sparse format.
+   *
+   * Each Hessian matrix represents the second-order derivatives of a constraint
+   * with respect to the optimization variables. The Hessians are stored sparsely
+   * to optimize memory usage, as they are typically very sparse.
+   */
   RowIndicesHessiansPair GetHessianOfConstraints() const;
+
+
+  /**
+   * @brief The sparse-matrix representation of the Hessians of the cost functions.
+   *
+   * This function returns a pair of vectors, where the first vector contains
+   * the indices of the corresponding cost functions, and the second vector holds
+   * the Hessian matrices in sparse format.
+   *
+   * Each Hessian matrix represents the second-order derivatives of a cost function
+   * with respect to the optimization variables. The Hessians are stored sparsely
+   * to optimize memory usage, as they are typically very sparse.
+   */
   RowIndicesHessiansPair GetHessianOfCosts() const;
 
   /**

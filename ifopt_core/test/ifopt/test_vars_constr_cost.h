@@ -149,6 +149,9 @@ class ExConstraint : public ConstraintSet {
                            std::vector<int>& hessian_row_index_list,
                            std::vector<HessianTriplet>& triplets_list) const override
   {
+    // only the upper triangular elements need to be provided, as the Hessian
+    // is symmetric and internally only these values are used.
+
     // only 1 constraint in this problem
     HessianTriplet constraint1_triplets;
     for (int i = 0; i < (int)var_set_list.size(); ++i) {
@@ -188,6 +191,8 @@ class ExCost : public CostTerm {
                            std::vector<int>& hessian_row_index_list,
                            std::vector<HessianTriplet>& triplets_list) const override
   {
+    // only the upper triangular elements need to be provided, as the Hessian
+    // is symmetric and internally only these values are used.
     HessianTriplet cost_triplets;
     for (int i = 0; i < (int)var_set_list.size(); ++i) {
       const std::string& var_set = var_set_list[i];

@@ -107,8 +107,43 @@ class ConstraintSet : public Component {
   virtual void FillJacobianBlock(std::string var_set,
                                  Jacobian& jac_block) const = 0;
 
-
+  /**
+   * @brief  The second-order derivatives (Hessians) for these constraints and variables.
+   *
+   * This function returns a pair containing two vectors. The first vector holds
+   * the indices of the corresponding constraints or costs, while the second vector
+   * contains the Hessian matrices as sparse representations.
+   *
+   * Assuming @c n constraints or costs and @c m variables, each Hessian matrix
+   * in the second vector has dimensions m x m, representing the second-order
+   * derivatives of a specific constraint or cost function with respect to the
+   * optimization variables.
+   *
+   * This function only combines the user-defined Hessians from
+   * FillHessianTriplets().
+   */
   RowIndicesHessiansPair GetHessians() const final;
+
+  /**
+   * @brief Set individual Hessians corresponding to each constraint or cost function.
+   * @param var_set_list  The full set of variables involved in Hessian computation.
+   * @param hessian_row_index_list  Indices of the corresponding constraints or costs.
+   * @param triplets_list  Nonzero elements of each Hessian, stored as triplets.
+   *
+   * This function provides the second-order derivatives (Hessians) of constraints
+   * or costs with respect to the optimization variables. Unlike the Jacobian, Hessians
+   * involve cross-derivatives between different variable sets, so the full variable
+   * set is provided.
+   *
+   * The Hessians are stored efficiently in triplet form to minimize memory usage,
+   * as Hessian matrices are typically much sparser than Jacobians. Each entry in
+   * @c triplets_list corresponds to a specific constraint or cost function, with
+   * its nonzero elements stored as Eigen triplets.
+   *
+   * If a constraint or cost does not require a Hessian, it should simply be omitted
+   * from @c hessian_row_index_list and @c triplets_list. The missing entries will
+   * be treated as empty Hessians.
+   */
   virtual void FillHessianTriplets(std::vector<std::string> var_set_list,
                                    std::vector<int>& hessian_row_index_list,
                                    std::vector<HessianTriplet>& triplets_list) const
