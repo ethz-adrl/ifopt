@@ -190,7 +190,7 @@ Composite::RowIndicesHessiansPair Composite::GetHessians() const
   std::vector<Hessian>& hessians = row_indices_hessians_pair.second;
   hessians.reserve(GetRows());  // reserve space in the vector to avoid reallocations
 
-  int offset; // offset for row indices in different component
+  int offset = 0; // offset for row indices in different component
   for (const auto& c : components_) {
     const RowIndicesHessiansPair& local_row_indices_hessians = c->GetHessians();
     const std::vector<int>& row_indices = local_row_indices_hessians.first;
