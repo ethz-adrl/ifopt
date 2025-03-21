@@ -27,7 +27,7 @@ jobs:
           path: target_ws/src
 
       - name: Build and test
-        uses: tesseract-robotics/colcon-action@v9
+        uses: tesseract-robotics/colcon-action@v11
         with:
           ccache-enabled: false
           add-ros-ppa: true
