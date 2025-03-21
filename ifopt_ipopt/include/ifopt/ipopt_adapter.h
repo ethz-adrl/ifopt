@@ -102,6 +102,15 @@ class IpoptAdapter : public TNLP {
                           Index nele_jac, Index* iRow, Index* jCol,
                           double* values);
 
+  /** Method to return:
+    *   1) The structure of the Hessian of the Lagrangian (if "values" is NULL)
+    *   2) The values of the Hessian of the Lagrangian (if "values" is not NULL)
+    */
+  virtual bool eval_h(Index n, const double* x, bool new_x, double obj_factor,
+                      Index m, const double* lambda, bool new_lambda,
+                      Index nele_hess, Index* iRow, Index* jCol,
+                      double* values);
+
   /** This is called after every iteration and is used to save intermediate
     *  solutions in the nlp */
   virtual bool intermediate_callback(AlgorithmMode mode, Index iter,

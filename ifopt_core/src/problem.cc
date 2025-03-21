@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/problem.h>
 #include <iomanip>
 #include <iostream>
+#include <numeric>
 
 namespace ifopt {
 
@@ -152,6 +153,75 @@ Problem::Jacobian Problem::GetJacobianOfCosts() const
 {
   return costs_.GetJacobian();
 }
+
+void Problem::EvalNonzerosOfHessian(const double* x, double obj_factor, const double* lambda, double* values)
+{
+  SetVariables(x);
+  const std::vector<Hessian>& hessian_of_costs = GetHessianOfCosts().second;
+  const RowIndicesHessiansPair& row_indices_hessians_pair_of_constraints = GetHessianOfConstraints();
+  const std::vector<int>& row_indices_of_constraints = row_indices_hessians_pair_of_constraints.first;
+  const std::vector<Hessian>& hessian_of_constraints = row_indices_hessians_pair_of_constraints.second;
+
+  int dim = GetNumberOfOptimizationVariables();
+
+  // dimension of hessian matrix should be n by n where n is the number of optimization variables
+  assert(hessian_of_costs.empty() || (hessian_of_costs[0].rows() == dim && hessian_of_costs[0].cols() == dim));
+  assert(hessian_of_constraints.empty() || (hessian_of_constraints[0].rows() == dim && hessian_of_constraints[0].cols() == dim));
+
+  if (hessian_of_costs.empty() && hessian_of_constraints.empty())
+      return;
+
+  // hessian from costs
+  Hessian total_hessian = obj_factor * std::accumulate(hessian_of_costs.begin(), hessian_of_costs.end(), Hessian(dim, dim));
+  // hessian from constraints
+  for (int i = 0; i < (int)row_indices_of_constraints.size(); ++i) {
+    int row_index = row_indices_of_constraints[i];
+    const Hessian& hess = hessian_of_constraints[i];
+    total_hessian += lambda[row_index] * hess;
+  }
+
+  // only need upper triangular values because hessian matrix is a symmetry matrix
+  int index = 0;
+  for (int k = 0; k < total_hessian.outerSize(); ++k) {
+    for (Hessian::InnerIterator it(total_hessian, k); it; ++it) {
+      if (it.col() < it.row()) {
+        continue;
+      }
+      values[index] = it.value();
+      index++;
+    }
+  }
+}
+
+Problem::Hessian Problem::GetTotalHessian() const
+{
+  const std::vector<Hessian>& hessian_of_costs = GetHessianOfCosts().second;
+  const std::vector<Hessian>& hessian_of_constraints = GetHessianOfConstraints().second;
+
+  int dim = GetNumberOfOptimizationVariables();
+
+  // dimension of hessian matrix should be n by n where n is the number of optimization variables
+  assert(hessian_of_costs.empty() || (hessian_of_costs[0].rows() == dim && hessian_of_costs[0].cols() == dim));
+  assert(hessian_of_constraints.empty() || (hessian_of_constraints[0].rows() == dim && hessian_of_constraints[0].cols() == dim));
+
+  // hessian from costs
+  Hessian total_hessian = std::accumulate(hessian_of_costs.begin(), hessian_of_costs.end(), Hessian(dim, dim));
+  // hessian from constraints
+  total_hessian = std::accumulate(hessian_of_constraints.begin(), hessian_of_constraints.end(), total_hessian);
+
+  return total_hessian;
+}
+
+Problem::RowIndicesHessiansPair Problem::GetHessianOfConstraints() const
+{
+  return constraints_.GetHessians();
+}
+
+Problem::RowIndicesHessiansPair Problem::GetHessianOfCosts() const
+{
+  return costs_.GetHessians();
+}
+
 
 void Problem::SaveCurrent()
 {

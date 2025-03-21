@@ -48,6 +48,10 @@ class ExComponent : public Component {
   {
     throw std::runtime_error("not implemented");
   };
+  virtual RowIndicesHessiansPair GetHessians() const
+  {
+    throw std::runtime_error("not implemented");
+  };
   virtual void SetVariables(const VectorXd& x){};
 };
 

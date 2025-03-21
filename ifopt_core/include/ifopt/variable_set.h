@@ -58,6 +58,10 @@ class VariableSet : public Component {
   {
     throw std::runtime_error("not implemented for variables");
   };
+  RowIndicesHessiansPair GetHessians() const final
+  {
+    throw std::runtime_error("not implemented for variables");
+  }
 };
 
 }  // namespace ifopt
