@@ -30,6 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef IFOPT_INCLUDE_IFOPT_CONSTRAINT_SET_H_
 #define IFOPT_INCLUDE_IFOPT_CONSTRAINT_SET_H_
 
+#include <cassert>
+
 #include "composite.h"
 
 namespace ifopt {
