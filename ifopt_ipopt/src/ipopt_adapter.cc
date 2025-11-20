@@ -45,7 +45,24 @@ bool IpoptAdapter::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
   else
     nnz_jac_g = nlp_->GetJacobianOfConstraints().nonZeros();
 
-  nnz_h_lag = n * n;
+  auto hess = nlp_->GetTotalHessian();
+  if (hess.nonZeros() == 0) {
+    // not using custom hessian
+    nnz_h_lag = n * n;
+  }
+  else {
+    Index nele = 0;
+    for (int k = 0; k < hess.outerSize(); ++k) {
+      for (Jacobian::InnerIterator it(hess, k); it; ++it) {
+        if (it.col() < it.row()) {
+            // only need the upper triangular values because hessian is a symmetry matrix
+            continue;
+        }
+        nele++;
+      }
+    }
+    nnz_h_lag = nele;
+  }
 
   // start index at 0 for row/col entries
   index_style = C_STYLE;
@@ -144,6 +161,36 @@ bool IpoptAdapter::eval_jac_g(Index n, const double* x, bool new_x, Index m,
     nlp_->EvalNonzerosOfJacobian(x, values);
   }
 
+  return true;
+}
+
+bool IpoptAdapter::eval_h(Index n, const double* x, bool new_x, double obj_factor,
+                          Index m, const double* lambda, bool new_lambda,
+                          Index nele_hess, Index* iRow, Index* jCol,
+                          double* values)
+{
+  // defines the positions of the nonzero elements of the hessian
+  if (values == NULL) {
+    Index nele = 0;
+    auto hess = nlp_->GetTotalHessian();
+    for (int k = 0; k < hess.outerSize(); ++k) {
+      for (Jacobian::InnerIterator it(hess, k); it; ++it) {
+        if (it.col() < it.row()) {
+            // only need the upper triangular values because hessian is a symmetry matrix
+            continue;
+        }
+        iRow[nele] = it.row();
+        jCol[nele] = it.col();
+        nele++;
+      }
+    }
+
+    assert(nele ==
+           nele_hess);  // initial sparsity structure is never allowed to change
+  } else {
+    // only gets used if "hessian_approximation" option is "exact"
+    nlp_->EvalNonzerosOfHessian(x, obj_factor, lambda, values);
+  }
   return true;
 }
 
