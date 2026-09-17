@@ -27,6 +27,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ifopt/ipopt_adapter.h>
 #include <ifopt/ipopt_solver.h>
 
+#include <iostream>
+
 namespace ifopt {
 
 IpoptSolver::IpoptSolver(bool rethrow_non_ipopt_exceptions)
